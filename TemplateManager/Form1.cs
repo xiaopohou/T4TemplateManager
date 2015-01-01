@@ -20,6 +20,7 @@ namespace Codenesium.TemplateGenerator
     {
         delegate void SetStatusCallback();
         List<string> Messages;
+        Classes.Generation.TemplateContainer TemplateContainer;
         public Form1()
         {
             InitializeComponent();
@@ -27,10 +28,10 @@ namespace Codenesium.TemplateGenerator
 
         private void comboBoxMenu_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxMenu.SelectedIndex > -1)
+            if (comboBoxTemplate.SelectedIndex > -1)
             {
                 textBoxParameters.Clear();
-                string path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Templates", comboBoxMenu.Text);
+                string path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Templates", comboBoxTemplate.Text);
                 string contents = File.ReadAllText(path);
 
                 Dictionary<string, string> parameters = Classes.Generation.Parameter.ParseParametersFromTemplate(contents);
@@ -45,9 +46,9 @@ namespace Codenesium.TemplateGenerator
 
         private void buttonProcess_Click(object sender, EventArgs e)
         {
-            string path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Templates", comboBoxMenu.Text);
+            Classes.Generation.Template template = (Classes.Generation.Template)comboBoxTemplate.SelectedItem;
             Classes.Generation.Generator generator = new Classes.Generation.Generator();
-            Classes.Generation.TemplateExecutionResult result = generator.ExecuteTemplateCustomHost(path, textBoxParameters.Text, comboBoxDatabaseInterface.Text, ConfigurationManager.AppSettings["connectionString"]);
+            Classes.Generation.TemplateExecutionResult result = generator.ExecuteTemplateCustomHost(template.TemplateText, textBoxParameters.Text, comboBoxDatabaseInterface.Text, ConfigurationManager.AppSettings["connectionString"]);
             textBoxOutput.Text = result.TransformedText;
             textBoxErrorsAndWarnings.Text = result.ErrorMessage;
         }
@@ -55,37 +56,31 @@ namespace Codenesium.TemplateGenerator
         private void Form1_Load(object sender, EventArgs e)
         {
             this.Messages = new List<string>();
+            textBoxFilename.Text = ConfigurationManager.AppSettings["outputDirectory"];
+            this.TemplateContainer = new Classes.Generation.TemplateContainer();
             LoadTemplates();
+            SetComboboxes();  
+        }
+
+        private void SetComboboxes()
+        {
             if (comboBoxDatabaseInterface.Items.Count > 0)
             {
                 comboBoxDatabaseInterface.SelectedIndex = 0;
             }
-            if (comboBoxMenu.Items.Count > 0)
+            if (comboBoxTemplate.Items.Count > 0)
             {
-                comboBoxMenu.SelectedIndex = 0;
+                comboBoxTemplate.SelectedIndex = 0;
             }
         }
 
+
         private void LoadTemplates()
         {
-            comboBoxMenu.Items.Clear();
-            string path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Templates");
-            try
-            {
-                string[] files = Directory.GetFiles(path);
-                foreach (string file in files)
-                {
-                    if (Path.GetExtension(file) == ".tt")
-                    {
-                        comboBoxMenu.Items.Add(Path.GetFileName(file));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("There was a problem loading the template directory. It should be in the same directory as the executable. The error returned was" + ex.ToString());
-            }
-
+            comboBoxTemplate.Items.Clear();
+            this.TemplateContainer = Classes.Generation.TemplateContainer.Factory(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "templates.xml"));
+            comboBoxTemplate.DataSource = this.TemplateContainer.TemplateList;
+            comboBoxTemplate.DisplayMember = "Name";
         }
 
         private void buttonTestConnection_Click(object sender, EventArgs e)
@@ -125,7 +120,13 @@ namespace Codenesium.TemplateGenerator
 
         #endregion
 
+        private void buttonSaveToDisk_Click(object sender, EventArgs e)
+        {
+            File.WriteAllText(textBoxFilename.Text, textBoxOutput.Text);
+        }
+
     }
 }
+
 
     

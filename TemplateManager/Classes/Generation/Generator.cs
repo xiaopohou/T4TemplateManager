@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TextTemplating;
 using Microsoft.VisualStudio.TextTemplating.VSHost;
 using System.CodeDom.Compiler;
 using System.IO;
-
+using System.Windows.Forms;
 namespace Codenesium.TemplateGenerator.Classes.Generation
 {
     public class Generator
@@ -157,17 +157,18 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             return response; 
         }
 
-        public TemplateExecutionResult ExecuteTemplateCustomHost(string path, string parametersString, string databaseInterface, string connectionString)
+        public TemplateExecutionResult ExecuteTemplateCustomHost(string contents, string parametersString, string databaseInterface, string connectionString)
         {
-
             TemplateExecutionResult result = new TemplateExecutionResult();
             Engine engine = new Engine();
-            string contents = File.ReadAllText(path);
             Classes.Generation.CustomGenerationHost host = new Classes.Generation.CustomGenerationHost();
-            host.TemplateFileValue = path;
             TextTemplatingSession session = new TextTemplatingSession();
             Dictionary<string, string> parameters = Classes.Generation.Parameter.ParseParameters(parametersString);
-
+            
+            string tempPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "temp.tt");
+            File.WriteAllText(tempPath, contents.Trim());
+            host.TemplateFileValue = tempPath;
+            
             if (databaseInterface == "MSSQL")
             {
                 //We're going to load fields and tables by default if it's possible
@@ -188,13 +189,14 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             }
 
             host.Session = session;
-            result.TransformedText = engine.ProcessTemplate(contents, host);
+            result.TransformedText = engine.ProcessTemplate(contents, host).Trim();
            
             foreach (CompilerError item in host.Errors)
             {
                 result.ErrorMessage += item.ToString() + Environment.NewLine;
             }
             result.Success = true;
+            File.Delete(tempPath);
             return result;
         }
     }

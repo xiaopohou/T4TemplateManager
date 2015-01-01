@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBoxOutput = new System.Windows.Forms.TextBox();
             this.buttonProcess = new System.Windows.Forms.Button();
-            this.comboBoxMenu = new System.Windows.Forms.ComboBox();
+            this.comboBoxTemplate = new System.Windows.Forms.ComboBox();
             this.panelCanvas = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxParameters = new System.Windows.Forms.TextBox();
@@ -41,17 +40,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.buttonTestConnection = new System.Windows.Forms.Button();
+            this.buttonSaveToDisk = new System.Windows.Forms.Button();
+            this.labelFilenamePlaceHolder = new System.Windows.Forms.Label();
+            this.textBoxFilename = new System.Windows.Forms.TextBox();
+            this.textBoxOutput = new System.Windows.Forms.RichTextBox();
             this.panelCanvas.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // textBoxOutput
-            // 
-            this.textBoxOutput.Location = new System.Drawing.Point(575, 64);
-            this.textBoxOutput.Multiline = true;
-            this.textBoxOutput.Name = "textBoxOutput";
-            this.textBoxOutput.Size = new System.Drawing.Size(530, 165);
-            this.textBoxOutput.TabIndex = 1;
-            this.textBoxOutput.WordWrap = false;
             // 
             // buttonProcess
             // 
@@ -63,19 +57,15 @@
             this.buttonProcess.UseVisualStyleBackColor = true;
             this.buttonProcess.Click += new System.EventHandler(this.buttonProcess_Click);
             // 
-            // comboBoxMenu
+            // comboBoxTemplate
             // 
-            this.comboBoxMenu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxMenu.FormattingEnabled = true;
-            this.comboBoxMenu.Items.AddRange(new object[] {
-            "Business Object",
-            "Interface",
-            "MSSQL Select Query"});
-            this.comboBoxMenu.Location = new System.Drawing.Point(13, 40);
-            this.comboBoxMenu.Name = "comboBoxMenu";
-            this.comboBoxMenu.Size = new System.Drawing.Size(534, 21);
-            this.comboBoxMenu.TabIndex = 3;
-            this.comboBoxMenu.SelectedIndexChanged += new System.EventHandler(this.comboBoxMenu_SelectedIndexChanged);
+            this.comboBoxTemplate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxTemplate.FormattingEnabled = true;
+            this.comboBoxTemplate.Location = new System.Drawing.Point(13, 40);
+            this.comboBoxTemplate.Name = "comboBoxTemplate";
+            this.comboBoxTemplate.Size = new System.Drawing.Size(534, 21);
+            this.comboBoxTemplate.TabIndex = 3;
+            this.comboBoxTemplate.SelectedIndexChanged += new System.EventHandler(this.comboBoxMenu_SelectedIndexChanged);
             // 
             // panelCanvas
             // 
@@ -116,7 +106,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(576, 259);
+            this.label3.Location = new System.Drawing.Point(576, 343);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(103, 13);
             this.label3.TabIndex = 6;
@@ -124,10 +114,10 @@
             // 
             // textBoxErrorsAndWarnings
             // 
-            this.textBoxErrorsAndWarnings.Location = new System.Drawing.Point(579, 275);
+            this.textBoxErrorsAndWarnings.Location = new System.Drawing.Point(579, 359);
             this.textBoxErrorsAndWarnings.Multiline = true;
             this.textBoxErrorsAndWarnings.Name = "textBoxErrorsAndWarnings";
-            this.textBoxErrorsAndWarnings.Size = new System.Drawing.Size(530, 165);
+            this.textBoxErrorsAndWarnings.Size = new System.Drawing.Size(530, 81);
             this.textBoxErrorsAndWarnings.TabIndex = 5;
             this.textBoxErrorsAndWarnings.WordWrap = false;
             // 
@@ -171,11 +161,49 @@
             this.buttonTestConnection.UseVisualStyleBackColor = true;
             this.buttonTestConnection.Click += new System.EventHandler(this.buttonTestConnection_Click);
             // 
+            // buttonSaveToDisk
+            // 
+            this.buttonSaveToDisk.Location = new System.Drawing.Point(1006, 283);
+            this.buttonSaveToDisk.Name = "buttonSaveToDisk";
+            this.buttonSaveToDisk.Size = new System.Drawing.Size(99, 23);
+            this.buttonSaveToDisk.TabIndex = 11;
+            this.buttonSaveToDisk.Text = "Save to Disk";
+            this.buttonSaveToDisk.UseVisualStyleBackColor = true;
+            this.buttonSaveToDisk.Click += new System.EventHandler(this.buttonSaveToDisk_Click);
+            // 
+            // labelFilenamePlaceHolder
+            // 
+            this.labelFilenamePlaceHolder.AutoSize = true;
+            this.labelFilenamePlaceHolder.Location = new System.Drawing.Point(576, 235);
+            this.labelFilenamePlaceHolder.Name = "labelFilenamePlaceHolder";
+            this.labelFilenamePlaceHolder.Size = new System.Drawing.Size(49, 13);
+            this.labelFilenamePlaceHolder.TabIndex = 12;
+            this.labelFilenamePlaceHolder.Text = "Filename";
+            // 
+            // textBoxFilename
+            // 
+            this.textBoxFilename.Location = new System.Drawing.Point(579, 252);
+            this.textBoxFilename.Name = "textBoxFilename";
+            this.textBoxFilename.Size = new System.Drawing.Size(526, 20);
+            this.textBoxFilename.TabIndex = 13;
+            // 
+            // textBoxOutput
+            // 
+            this.textBoxOutput.Location = new System.Drawing.Point(579, 64);
+            this.textBoxOutput.Name = "textBoxOutput";
+            this.textBoxOutput.Size = new System.Drawing.Size(526, 168);
+            this.textBoxOutput.TabIndex = 14;
+            this.textBoxOutput.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1120, 510);
+            this.Controls.Add(this.textBoxOutput);
+            this.Controls.Add(this.textBoxFilename);
+            this.Controls.Add(this.labelFilenamePlaceHolder);
+            this.Controls.Add(this.buttonSaveToDisk);
             this.Controls.Add(this.buttonTestConnection);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -184,9 +212,8 @@
             this.Controls.Add(this.textBoxErrorsAndWarnings);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panelCanvas);
-            this.Controls.Add(this.comboBoxMenu);
+            this.Controls.Add(this.comboBoxTemplate);
             this.Controls.Add(this.buttonProcess);
-            this.Controls.Add(this.textBoxOutput);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
@@ -200,9 +227,8 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBoxOutput;
         private System.Windows.Forms.Button buttonProcess;
-        private System.Windows.Forms.ComboBox comboBoxMenu;
+        private System.Windows.Forms.ComboBox comboBoxTemplate;
         private System.Windows.Forms.Panel panelCanvas;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxParameters;
@@ -213,6 +239,10 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button buttonTestConnection;
+        private System.Windows.Forms.Button buttonSaveToDisk;
+        private System.Windows.Forms.Label labelFilenamePlaceHolder;
+        private System.Windows.Forms.TextBox textBoxFilename;
+        private System.Windows.Forms.RichTextBox textBoxOutput;
     }
 }
 
