@@ -40,7 +40,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
 
 
         /// <summary>
-        /// This function takes the text from a T$ template and parses out the parameters and return them as an empty dictionary.
+        /// This function takes the text from a T4 template and parses out the parameters and return them as an empty dictionary.
         /// This function is flaky and will need to be reworked at some point.
         /// </summary>
         /// <param name="templateText"></param>

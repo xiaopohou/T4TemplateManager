@@ -2,6 +2,11 @@
 <templates>
 	<template>
 		<name>Sample</name>
+     <outputDirectory />
+    <fileName>ObjectName</fileName>
+    <fileExtension>.cs</fileExtension>
+    <perTableTemplate>False</perTableTemplate>
+    <dataInterface>NONE</dataInterface>
 		<parameters>
 			<parameter>
 				<key>parameter1</key>
@@ -24,6 +29,390 @@ This report is Company Confidential.
 </body></html>]]>
 		</templateText>
 	</template>
+
+
+
+
+  <template>
+    <name>MVCModel</name>
+    <outputDirectory />
+    <fileName>Model</fileName>
+    <fileExtension>.cs</fileExtension>
+    <perTableTemplate>TRUE</perTableTemplate>
+    <dataInterface>MSSQL</dataInterface>
+    <parameters>
+      <parameter>
+        <key>Namespace</key>
+        <value>FoundationMVCProject.Areas.Public.Models</value>
+      </parameter>
+    </parameters>
+    <templateText>
+      <![CDATA[<#@ template language="C#"  hostspecific="true" #>
+<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseField>" Name="CNFieldList"#>
+<#@ parameter type="System.String" Name="Namespace"#>
+<#@ parameter type="System.String" Name="DatabaseTable"#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace <#= Namespace #>
+{
+    public class <#= DatabaseTable #>Model
+    {
+    <#= Codenesium.TemplateGenerator.Classes.Generation.Generator.Helpers.DotNetHelper.GenerateFieldPropertyForList(CNFieldList) #>
+    }
+}]]>
+    </templateText>
+  </template>
+
+
+  <template>
+    <name>BOInterfaces</name>
+    <outputDirectory>C:\Users\New Owner\Dropbox\Projects 2.0\Foundation\FermataFishDataAccess\FermataFishDataAccess\BO\Interfaces</outputDirectory>
+    <fileName>BasicObjectInterface</fileName>
+    <fileExtension>.cs</fileExtension>
+    <perTableTemplate>true</perTableTemplate>
+    <dataInterface>MSSQL</dataInterface>
+    <parameters>
+      <parameter>
+        <key>Namespace</key>
+        <value>Codenesium.FermataFish.BO</value>
+      </parameter>
+    </parameters>
+    <templateText>
+      <![CDATA[
+      <#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ Assembly Name="TemplateGenerator" #>
+<#@ assembly name="System.Core" #>
+<#@ Assembly Name="System.Data" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Data" #>
+<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseField>" Name="CNFieldList"#>
+<#@ parameter type="System.String" Name="Namespace"#>
+<#@ parameter type="System.String" Name="DatabaseTable"#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+<#
+string ObjectName =  Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertTableNameToRepositoryName(DatabaseTable);
+string BasicObjectName =  Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertTableNameToBasicObjectName(DatabaseTable);
+
+#>
+
+namespace <#= Namespace #>
+{
+    public interface I<#= BasicObjectName #>
+    {
+		    <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateInterfacePropertyForList(CNFieldList) #>
+     }
+}]]>
+    </templateText>
+  </template>
+
+  
+  	<template>
+		<name>BOObject</name>
+    <outputDirectory>C:\Users\New Owner\Dropbox\Projects 2.0\Foundation\FermataFishDataAccess\FermataFishDataAccess\BO\BasicObjects</outputDirectory>
+    <fileName>BasicObject</fileName>
+    <fileExtension>.cs</fileExtension>
+    <perTableTemplate>True</perTableTemplate>
+    <dataInterface>MSSQL</dataInterface>
+		<parameters>
+      <parameter>
+        <key>Namespace</key>
+        <value>Codenesium.FermataFish.BO</value>
+      </parameter>
+      <parameter>
+        <key>EntitiesName</key>
+        <value>FermataFishDataAccess.DBEntities</value>
+      </parameter>
+      <parameter>
+        <key>DatabaseTable</key>
+        <value>cnsession</value>
+      </parameter>
+    </parameters>
+		<templateText>
+		<![CDATA[<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ Assembly Name="TemplateGenerator" #>
+<#@ assembly name="System.Core" #>
+<#@ Assembly Name="System.Data" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Data" #>
+<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseField>" Name="CNFieldList"#>
+<#@ parameter type="System.String" Name="Namespace"#>
+<#@ parameter type="System.String" Name="DatabaseTable"#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+<#
+string ObjectName =  Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertTableNameToRepositoryName(DatabaseTable);
+string BasicObjectName =  Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertTableNameToBasicObjectName(DatabaseTable);
+
+#>
+
+namespace <#= Namespace #>
+{
+    public partial class <#= BasicObjectName #> :I<#= BasicObjectName #> 
+    {
+    
+		    <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateFieldPropertyForList(CNFieldList) #>
+
+        public <#= BasicObjectName #>()
+        {
+        }
+     }
+}
+    ]]>
+		</templateText>
+	</template>
+
+
+
+
+  <template>
+    <name>BO Repository Interface</name>
+    <outputDirectory>C:\Users\New Owner\Dropbox\Projects 2.0\Foundation\Foundation\BO\Interfaces</outputDirectory>
+    <fileName>REPOSITORYINTERFACE</fileName>
+    <fileExtension>.cs</fileExtension>
+    <perTableTemplate>true</perTableTemplate>
+    <dataInterface>MSSQL</dataInterface>
+    <parameters>
+      <parameter>
+        <key>Namespace</key>
+        <value>Codenesium.Foundation.BO</value>
+      </parameter>
+      <parameter>
+        <key>EntitiesName</key>
+        <value>DataAccess.FoundationDBEntities</value>
+      </parameter>
+      <parameter>
+        <key>DataAccessName</key>
+        <value>Codenesium.Foundation.DataAccess</value>
+      </parameter>
+      <parameter>
+        <key>DatabaseTable</key>
+        <value>cnsession</value>
+      </parameter>
+    </parameters>
+    <templateText>
+      <![CDATA[
+      <#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ Assembly Name="TemplateGenerator" #>
+<#@ assembly name="System.Core" #>
+<#@ Assembly Name="System.Data" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Data" #>
+<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseField>" Name="CNFieldList"#>
+<#@ parameter type="System.String" Name="Namespace"#>
+<#@ parameter type="System.String" Name="EntitiesName"#>
+<#@ parameter type="System.String" Name="DataAccessName"#>
+<#@ parameter type="System.String" Name="DatabaseTable"#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Web;
+<#
+string ObjectName =  Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertTableNameToRepositoryName(DatabaseTable);
+string BasicObjectName =  Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertTableNameToBasicObjectName(DatabaseTable);
+
+#>
+
+namespace <#= Namespace #>
+{
+    public interface I<#= ObjectName #>
+    {
+       int CreateRecord(<#= BasicObjectName #> passedObject);
+       bool UpdateRecord(<#= BasicObjectName #> passedObject);
+       bool SoftDeleteRecord(int id);
+       bool HardDeleteRecord(int id);
+       <#= BasicObjectName #> SelectByID(int id);
+    }
+}]]>
+    </templateText>
+  </template>
+
+  
+  
+  <template>
+	<name>BO Repository</name>
+    <outputDirectory>C:\Users\New Owner\Dropbox\Projects 2.0\Foundation\Foundation\BO\Repositories</outputDirectory>
+    <fileName>REPOSITORY</fileName>
+    <fileExtension>.cs</fileExtension>
+    <perTableTemplate>True</perTableTemplate>
+    <dataInterface>MSSQL</dataInterface>
+    <parameters>
+      <parameter>
+        <key>Namespace</key>
+        <value>Codenesium.Foundation.BO</value>
+      </parameter>
+      <parameter>
+        <key>EntitiesName</key>
+        <value>DataAccess.FoundationDBEntities</value>
+      </parameter>
+      <parameter>
+        <key>DataAccessName</key>
+        <value>Codenesium.Foundation.DataAccess</value>
+      </parameter>
+      <parameter>
+        <key>DatabaseTable</key>
+        <value>cnsession</value>
+      </parameter>
+    </parameters>
+		<templateText>
+		<![CDATA[<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ Assembly Name="TemplateGenerator" #>
+<#@ assembly name="System.Core" #>
+<#@ Assembly Name="System.Data" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Data" #>
+<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseField>" Name="CNFieldList"#>
+<#@ parameter type="System.String" Name="Namespace"#>
+<#@ parameter type="System.String" Name="EntitiesName"#>
+<#@ parameter type="System.String" Name="DatabaseTable"#>
+<#@ parameter type="System.String" Name="DataAccessName"#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Web;
+<#
+string ObjectName =  Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertTableNameToRepositoryName(DatabaseTable);
+string BasicObjectName =  Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertTableNameToBasicObjectName(DatabaseTable);
+string EFObjectName = "ef" + BasicObjectName;
+#>
+
+namespace <#= Namespace #>
+{
+    public partial class <#= ObjectName #> : I<#= ObjectName #>
+    {
+        <#= EntitiesName  #> _objCtx;
+
+        public <#= ObjectName #>()
+        {
+        }
+
+        public <#= ObjectName #>(<#= EntitiesName  #> objCtx)
+        {
+            this._objCtx = objCtx;
+        }
+
+        public int CreateRecord(<#= BasicObjectName #> passedObject)
+        {
+            <#=DataAccessName#>.<#= DatabaseTable #> record = new <#=DataAccessName#>.<#= DatabaseTable #>();
+            <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateFieldAssignmentsLeftSideNoCamelCase(CNFieldList,"record","passedObject") #>
+            record.recordStatus =  Codenesium.Foundation.BO.Constants.RECORD_STATUS_CREATED;
+            this._objCtx.<#= DatabaseTable #>.Add(record);
+            this._objCtx.SaveChanges();
+            return record.id;          
+        }
+      
+        public bool UpdateRecord(<#= BasicObjectName #> passedObject)
+        {
+             <#=DataAccessName#>.<#= DatabaseTable #> record = this.SearchLinqEF(x => x.id == passedObject.Id && x.recordStatus !=  Codenesium.Foundation.BO.Constants.RECORD_STATUS_DELETED).FirstOrDefault();
+            if (record == null)
+            {
+                return false;
+            }
+            else
+            {
+                 <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateFieldAssignmentsLeftSideNoCamelCase(CNFieldList,"record","passedObject") #>
+                this._objCtx.SaveChanges();
+                return true;
+            }
+
+        }
+   
+        public bool SoftDeleteRecord(int id)
+        {
+             <#=DataAccessName#>.<#= DatabaseTable #> record = this.SearchLinqEF(x => x.id == id && x.recordStatus !=  Codenesium.Foundation.BO.Constants.RECORD_STATUS_DELETED).FirstOrDefault();
+            if (record == null)
+            {
+                return false;
+            }
+            else
+            {
+                record.recordStatus =  Codenesium.Foundation.BO.Constants.RECORD_STATUS_DELETED;
+                this._objCtx.SaveChanges();
+                return true;
+            }
+
+        }
+        
+        public bool HardDeleteRecord(int id)
+        {
+             <#=DataAccessName#>.<#= DatabaseTable #> record = this.SearchLinqEF(x => x.id == id).FirstOrDefault();
+            if (record == null)
+            {
+                return false;
+            }
+            else
+            {
+                this._objCtx.<#= DatabaseTable #>.Remove(record);
+                this._objCtx.SaveChanges();
+                return true;
+            }
+
+        }
+        
+        
+        private <#= BasicObjectName #> ConvertEFObjectToBOObject(<#= DataAccessName#>.<#= DatabaseTable #> <#= EFObjectName #>)
+        {
+            <#= BasicObjectName #> record = new <#= BasicObjectName #>();
+            <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateReverseFieldAssignmentsLeftSideNoCamelCase(CNFieldList,"record",EFObjectName) #>
+            return record;
+        }
+        
+        
+        private List<<#= BasicObjectName #>> SearchLinqBO(Expression<Func<<#= DataAccessName#>.<#= DatabaseTable #>, bool>> predicate)
+        {
+            List<<#= DataAccessName#>.<#= DatabaseTable #>> list = this._objCtx.Set<<#= DataAccessName#>.<#= DatabaseTable #>>().Where(predicate).ToList<<#= DataAccessName#>.<#= DatabaseTable #>>();
+            
+            List<<#= BasicObjectName #>> response = new List<<#= BasicObjectName #>>();
+            
+            foreach(<#= DataAccessName#>.<#= DatabaseTable #> record in list)
+            {
+                response.Add( ConvertEFObjectToBOObject(record));
+            }
+           
+            return response;             
+        }
+        
+         private List<<#=  DataAccessName#>.<#= DatabaseTable #>> SearchLinqEF(Expression<Func<<#= DataAccessName#>.<#= DatabaseTable #>, bool>> predicate)
+         {
+            List<<#= DataAccessName#>.<#= DatabaseTable #>> list = this._objCtx.Set<<#= DataAccessName#>.<#= DatabaseTable #>>().Where(predicate).ToList<<#= DataAccessName#>.<#= DatabaseTable #>>();
+            return list;            
+        }
+        
+        public <#= BasicObjectName #> SelectByID(int id)
+        {
+           List<<#= BasicObjectName #> > list = this.SearchLinqBO(x => x.id == id && x.recordStatus == Constants.RECORD_STATUS_CREATED);
+           return list.FirstOrDefault();
+        }
+    }
+ }
+]]>
+		</templateText>
+	</template>
+	
+	
+	
+	
 	
 	</templates>
 </xml>

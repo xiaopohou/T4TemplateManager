@@ -44,6 +44,9 @@
             this.labelFilenamePlaceHolder = new System.Windows.Forms.Label();
             this.textBoxFilename = new System.Windows.Forms.TextBox();
             this.textBoxOutput = new System.Windows.Forms.RichTextBox();
+            this.buttonViewTemplate = new System.Windows.Forms.Button();
+            this.checkBoxAllTables = new System.Windows.Forms.CheckBox();
+            this.checkBoxSaveToDisk = new System.Windows.Forms.CheckBox();
             this.panelCanvas.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,7 +109,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(576, 343);
+            this.label3.Location = new System.Drawing.Point(576, 322);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(103, 13);
             this.label3.TabIndex = 6;
@@ -114,10 +117,10 @@
             // 
             // textBoxErrorsAndWarnings
             // 
-            this.textBoxErrorsAndWarnings.Location = new System.Drawing.Point(579, 359);
+            this.textBoxErrorsAndWarnings.Location = new System.Drawing.Point(579, 338);
             this.textBoxErrorsAndWarnings.Multiline = true;
             this.textBoxErrorsAndWarnings.Name = "textBoxErrorsAndWarnings";
-            this.textBoxErrorsAndWarnings.Size = new System.Drawing.Size(530, 81);
+            this.textBoxErrorsAndWarnings.Size = new System.Drawing.Size(530, 102);
             this.textBoxErrorsAndWarnings.TabIndex = 5;
             this.textBoxErrorsAndWarnings.WordWrap = false;
             // 
@@ -195,11 +198,44 @@
             this.textBoxOutput.TabIndex = 14;
             this.textBoxOutput.Text = "";
             // 
+            // buttonViewTemplate
+            // 
+            this.buttonViewTemplate.Location = new System.Drawing.Point(441, 82);
+            this.buttonViewTemplate.Name = "buttonViewTemplate";
+            this.buttonViewTemplate.Size = new System.Drawing.Size(106, 23);
+            this.buttonViewTemplate.TabIndex = 15;
+            this.buttonViewTemplate.Text = "View Template";
+            this.buttonViewTemplate.UseVisualStyleBackColor = true;
+            this.buttonViewTemplate.Click += new System.EventHandler(this.buttonViewTemplate_Click);
+            // 
+            // checkBoxAllTables
+            // 
+            this.checkBoxAllTables.AutoSize = true;
+            this.checkBoxAllTables.Location = new System.Drawing.Point(304, 87);
+            this.checkBoxAllTables.Name = "checkBoxAllTables";
+            this.checkBoxAllTables.Size = new System.Drawing.Size(72, 17);
+            this.checkBoxAllTables.TabIndex = 16;
+            this.checkBoxAllTables.Text = "All Tables";
+            this.checkBoxAllTables.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxSaveToDisk
+            // 
+            this.checkBoxSaveToDisk.AutoSize = true;
+            this.checkBoxSaveToDisk.Location = new System.Drawing.Point(304, 110);
+            this.checkBoxSaveToDisk.Name = "checkBoxSaveToDisk";
+            this.checkBoxSaveToDisk.Size = new System.Drawing.Size(87, 17);
+            this.checkBoxSaveToDisk.TabIndex = 17;
+            this.checkBoxSaveToDisk.Text = "Save to Disk";
+            this.checkBoxSaveToDisk.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1120, 510);
+            this.Controls.Add(this.checkBoxSaveToDisk);
+            this.Controls.Add(this.checkBoxAllTables);
+            this.Controls.Add(this.buttonViewTemplate);
             this.Controls.Add(this.textBoxOutput);
             this.Controls.Add(this.textBoxFilename);
             this.Controls.Add(this.labelFilenamePlaceHolder);
@@ -243,6 +279,9 @@
         private System.Windows.Forms.Label labelFilenamePlaceHolder;
         private System.Windows.Forms.TextBox textBoxFilename;
         private System.Windows.Forms.RichTextBox textBoxOutput;
+        private System.Windows.Forms.Button buttonViewTemplate;
+        private System.Windows.Forms.CheckBox checkBoxAllTables;
+        private System.Windows.Forms.CheckBox checkBoxSaveToDisk;
     }
 }
 

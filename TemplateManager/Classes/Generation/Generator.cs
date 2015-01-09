@@ -13,6 +13,12 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
 {
     public class Generator
     {
+
+        public string Contents { get; set; }
+        public Dictionary<string, string> Parameters { get; set; }
+        public string DatabaseInterface { get; set; }
+        public string ConnectionString { get; set; }
+        public TemplateExecutionResult ExecutionResult { get; set; }
         /// <summary>
         /// This function takes a prepared T4 template and executes it returning the result.
         /// We expect a T4 template here. Since I want to be able to pass these at runtime we just have to hope you're sending a valid file.
@@ -36,168 +42,56 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             }
         }
 
-        /// <summary>
-        /// This function makes a comma separated list of parameters like you would see in a .NET function prototype
-        /// Example string param1,int param2,long param3
-        /// </summary>
-        /// <param name="fieldList"></param>
-        /// <returns></returns>
-        public static string GenerateFunctionParameterList(List<Interfaces.IDatabaseField> fieldList)
+        
+
+        public void ExecuteTemplateCustomHost()
         {
-            string response = String.Empty;
-            foreach (Interfaces.IDatabaseField field in fieldList)
+            try
             {
-                switch (field.FieldType)
+                TemplateExecutionResult result = new TemplateExecutionResult();
+                Engine engine = new Engine();
+                Classes.Generation.CustomGenerationHost host = new Classes.Generation.CustomGenerationHost();
+                TextTemplatingSession session = new TextTemplatingSession();
+                string tempPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), Classes.Utility.RandomNumber.GetRandomNumber().ToString() + "temp.tt");
+                File.WriteAllText(tempPath, this.Contents.Trim());
+                host.TemplateFileValue = tempPath;
+
+                if (this.DatabaseInterface == "MSSQL")
                 {
-                    case DbType.String:
-                        {
-                            response += "string";
-                            break;
-                        }
-                    case DbType.DateTime:
-                        {
-                            response += "DateTime?";
-                            break;
-                        }
-                    case DbType.Int32:
-                        {
-                            response += "int";
-                            break;
-                        }
-                    case DbType.Int64:
-                        {
-                            response += "long";
-                            break;
-                        }
-                    case DbType.Boolean:
-                        {
-                            response += "bool";
-                            break;
-                        }
-                    case DbType.Decimal:
-                        {
-                            response += "decimal";
-                            break;
-                        }
+                    //We're going to load fields and tables by default if it's possible
+                    Classes.Database.MSSQL MSSQLInterface = new Classes.Database.MSSQL(this.ConnectionString);
+                    if (this.Parameters.Keys.Contains("DatabaseTable"))
+                    {
+                        List<Interfaces.IDatabaseField> fieldList = MSSQLInterface.GetFieldList(this.Parameters["DatabaseTable"]);
+                        session.Add("CNFieldList", fieldList);
+                    }
+                    List<Interfaces.IDatabaseTable> tableList = MSSQLInterface.GetTableList();
+                    session.Add("CNTableList", tableList);
                 }
-                response += " " + field.Name + ",";
-            }
-            return response.Remove(response.Length-1,1);
-        }
 
-        /// <summary>
-        /// Utility function to convert underscore to camelCase. I see underscores between parameters a lot in sql databases.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static string ConvertUnderscoreToCamelCase(string value)
-        {
-            string response = String.Empty;
-            string[] split = value.Split('_');
-            if (split.Length == 1)
-            {
-                response = value[0].ToString().ToUpper() + value.Substring(1);
-            }
-            else
-            {
-                foreach (string item in split)
+                //add all other parameters
+                foreach (string key in this.Parameters.Keys)
                 {
-                    response += item[0].ToString().ToUpper() + item.Substring(1);
+                    session.Add(key, this.Parameters[key]);
                 }
-            }
-            return response;
-        }
 
-        /// <summary>
-        /// This function generates the property declaration for a field. This violates the open/closed principle but I'm not sure I care.
-        /// </summary>
-        /// <param name="field"></param>
-        /// <returns></returns>
-        public static string GenerateSQLFieldProperty(Interfaces.IDatabaseField field)
-        {
-            string response = String.Empty;
-            switch (field.FieldType)
-            {
-                case DbType.String:
-                    {
-                        response =  "public string " + ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
-                        break;
-                    }
-                case DbType.DateTime:
-                    {
-                        response = "public DateTime? " + ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
-                        break;
-                    }
-                case DbType.Binary:
-                    {
-                        response = "public TimeSpan? " + ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
-                        break;
-                    }
-                case DbType.Int32:
-                    {
-                        response = "public int " + ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
-                        break;
-                    }
-                case DbType.Int64:
-                    {
-                        response = "public long " + ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
-                        break;
-                    }
-                case DbType.Boolean:
-                    {
-                        response = "public bool " + ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
-                        break;
-                    }
-                case DbType.Decimal:
-                    {
-                        response = "public decimal " + ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
-                        break;
-                    }
-            }
-            return response; 
-        }
+                host.Session = session;
+                result.TransformedText = engine.ProcessTemplate(this.Contents, host).Trim();
 
-        public TemplateExecutionResult ExecuteTemplateCustomHost(string contents, string parametersString, string databaseInterface, string connectionString)
-        {
-            TemplateExecutionResult result = new TemplateExecutionResult();
-            Engine engine = new Engine();
-            Classes.Generation.CustomGenerationHost host = new Classes.Generation.CustomGenerationHost();
-            TextTemplatingSession session = new TextTemplatingSession();
-            Dictionary<string, string> parameters = Classes.Generation.Parameter.ParseParameters(parametersString);
-            
-            string tempPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "temp.tt");
-            File.WriteAllText(tempPath, contents.Trim());
-            host.TemplateFileValue = tempPath;
-            
-            if (databaseInterface == "MSSQL")
-            {
-                //We're going to load fields and tables by default if it's possible
-                Classes.Database.MSSQL MSSQLInterface = new Classes.Database.MSSQL(connectionString);
-                if (parameters.Keys.Contains("DatabaseTable"))
+                foreach (CompilerError item in host.Errors)
                 {
-                    List<Interfaces.IDatabaseField> fieldList = MSSQLInterface.GetFieldList(parameters["DatabaseTable"]);
-                    session.Add("FieldList", fieldList);
+                    result.ErrorMessage += item.ToString() + Environment.NewLine;
                 }
-                List<Interfaces.IDatabaseTable> tableList = MSSQLInterface.GetTableList();
-                session.Add("TableList", tableList);
+                result.Success = true;
+                File.Delete(tempPath);
+                this.ExecutionResult = result;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
             }
 
-            //add all other parameters
-            foreach (string key in parameters.Keys)
-            {
-                session.Add(key, parameters[key]);
-            }
-
-            host.Session = session;
-            result.TransformedText = engine.ProcessTemplate(contents, host).Trim();
-           
-            foreach (CompilerError item in host.Errors)
-            {
-                result.ErrorMessage += item.ToString() + Environment.NewLine;
-            }
-            result.Success = true;
-            File.Delete(tempPath);
-            return result;
-        }
+       
     }
 }

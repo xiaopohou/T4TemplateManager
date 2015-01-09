@@ -28,7 +28,12 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                                           select new Template
                                           {
                                               Name = (string)template.Element("name").Value ?? string.Empty,
+                                              OutputDirectory = (string)template.Element("outputDirectory").Value ?? string.Empty,
                                               TemplateText = (string)template.Element("templateText").Value ?? string.Empty,
+                                              Filename = (string)template.Element("fileName").Value ?? string.Empty,
+                                              FileExtension = (string)template.Element("fileExtension").Value ?? string.Empty,
+                                              PerTableTemplate = Convert.ToBoolean(template.Element("perTableTemplate").Value),
+                                              DataInterface = template.Element("dataInterface").Value ?? string.Empty,
                                               Parameters = (from p in template.Element("parameters").Descendants("parameter")
                                                             select new 
                                                             {
