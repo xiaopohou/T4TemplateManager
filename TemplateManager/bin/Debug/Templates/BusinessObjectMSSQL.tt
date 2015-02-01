@@ -1,0 +1,60 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ Assembly Name="TemplateGenerator" #>
+<#@ assembly name="System.Core" #>
+<#@ Assembly Name="System.Data" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Data" #>
+<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseField>" Name="FieldList"#>
+<#@ parameter type="System.String" Name="Namespace"#>
+<#@ parameter type="System.String" Name="EntitiesName"#>
+<#@ parameter type="System.String" Name="DBPrefix"#>
+<#@ parameter type="System.String" Name="DatabaseTable"#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Codenesium.TemplateGenerator.Interfaces;
+using Codenesium.TemplateGenerator.Classes;
+namespace <#= Namespace #>
+{
+    public partial class <#= DatabaseTable #> : I<#= DatabaseTable #> 
+    {
+		<#
+		foreach(Codenesium.TemplateGenerator.Interfaces.IDatabaseField field in FieldList)
+		{
+		#>
+		<#=Codenesium.TemplateGenerator.Classes.Generation.Generator.GenerateSQLFieldProperty(field) #>
+		<#
+		}
+		#>
+
+		public static CreateRecord(<#= Codenesium.TemplateGenerator.Classes.Generation.Generator.GenerateFunctionParameterList(FieldList)#>)
+        {
+            DataAccess.<#= DatabaseTable #> record = new DataAccess.<#= DatabaseTable #>();
+			<#
+			foreach(Codenesium.TemplateGenerator.Interfaces.IDatabaseField field in FieldList)
+			{
+			#>
+			record.<#= field.Name #> =  <#= field.Name #>;
+			<#
+			}
+			#>
+
+            record.recordStatus = Constants.RECORD_STATUS_CREATED;
+            using (DataAccess.<#= EntitiesName #> objCtx = new DataAccess.<#= EntitiesName #>())
+            {
+                objCtx.<#= DatabaseTable #>.Add(record);
+                objCtx.SaveChanges();
+                return record.id;
+            }
+        }
+
+
+
+	}
+}
+
+

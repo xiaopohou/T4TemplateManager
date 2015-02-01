@@ -1,0 +1,156 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Codenesium.Foundation.BO
+{
+    public partial class CNSession
+    {
+        DataAccess.DBEntities _objCtx;
+        public int Id { get; set; }
+        public string Session { get; set; }
+        public int CnuserID { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public string IpAddress { get; set; }
+        public int RecordStatus { get; set; }
+        public CNSession()
+        {
+
+        }
+
+        public CNSession(DataAccess.DBEntities objCtx)
+        {
+            this._objCtx = objCtx;
+        }
+
+        public int CreateRecord(string session, int cnuserID, DateTime? dateCreated, string ipAddress)
+        {
+            DataAccess.cnsession record = new DataAccess.cnsession();
+            record.session = session;
+            record.cnuserID = cnuserID;
+            record.dateCreated = dateCreated;
+            record.ipAddress = ipAddress;
+            record.recordStatus = Constants.RECORD_STATUS_CREATED;
+            this._objCtx.cnsession.Add(record);
+            this._objCtx.SaveChanges();
+            return record.id;
+        }
+
+        public bool UpdateRecord(int id, string session, int cnuserID, DateTime? dateCreated, string ipAddress)
+        {
+            DataAccess.cnsession record = (from c in this._objCtx.cnsession
+                                           where c.id == id
+                                           && c.recordStatus != Constants.RECORD_STATUS_DELETED
+                                           select c).FirstOrDefault();
+            if (record == null)
+            {
+                return false;
+            }
+            else
+            {
+                record.id = id;
+                record.session = session;
+                record.cnuserID = cnuserID;
+                record.dateCreated = dateCreated;
+                record.ipAddress = ipAddress;
+
+                this._objCtx.SaveChanges();
+                return true;
+            }
+
+        }
+        public bool UpdateRecord(CNSession passedObject)
+        {
+            DataAccess.cnsession record = (from c in this._objCtx.cnsession
+                                           where c.id == passedObject.Id
+                                           && c.recordStatus != Constants.RECORD_STATUS_DELETED
+                                           select c).FirstOrDefault();
+            if (record == null)
+            {
+                return false;
+            }
+            else
+            {
+                record.id = passedObject.Id;
+                record.session = passedObject.Session;
+                record.cnuserID = passedObject.CnuserID;
+                record.dateCreated = passedObject.DateCreated;
+                record.ipAddress = passedObject.IpAddress;
+
+                this._objCtx.SaveChanges();
+                return true;
+            }
+
+        }
+        public bool SoftDeleteRecord(int id)
+        {
+            DataAccess.cnsession record = (from c in this._objCtx.cnsession
+                                           where c.id == id
+                                           && c.recordStatus != Constants.RECORD_STATUS_DELETED
+                                           select c).FirstOrDefault();
+            if (record == null)
+            {
+                return false;
+            }
+            else
+            {
+                record.recordStatus = Constants.RECORD_STATUS_DELETED;
+                this._objCtx.SaveChanges();
+                return true;
+            }
+
+        }
+        public bool HardDeleteRecord(int id)
+        {
+            DataAccess.cnsession record = (from c in this._objCtx.cnsession
+                                           where c.id == id
+                                           && c.recordStatus != Constants.RECORD_STATUS_DELETED
+                                           select c).FirstOrDefault();
+            if (record == null)
+            {
+                return false;
+            }
+            else
+            {
+                this._objCtx.cnsession.Remove(record);
+                this._objCtx.SaveChanges();
+                return true;
+            }
+
+        }
+        public static CNSession Factory(int id, DataAccess.DBEntities objCtx)
+        {
+            var query = (from c in objCtx.cnsession
+                         where c.id == id
+                         && c.recordStatus != Constants.RECORD_STATUS_DELETED
+                         select new
+                         {
+                             id = (int)(c.id),
+                             session = (string)(c.session ?? ""),
+                             cnuserID = (int)(c.cnuserID),
+                             dateCreated = c.dateCreated,
+                             ipAddress = (string)(c.ipAddress ?? ""),
+                             recordStatus = (int)(c.recordStatus)
+
+                         }).FirstOrDefault();
+            if (query == null)
+            {
+                return null;
+            }
+            else
+            {
+                CNSession factoryObject = new CNSession();
+                factoryObject.Id = query.id;
+                factoryObject.Session = query.session;
+                factoryObject.CnuserID = query.cnuserID;
+                factoryObject.DateCreated = query.dateCreated;
+                factoryObject.IpAddress = query.ipAddress;
+                factoryObject.RecordStatus = query.recordStatus;
+
+                return factoryObject;
+            }
+        }
+    }
+}
