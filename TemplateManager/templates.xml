@@ -1,21 +1,20 @@
 <xml>
 <templates>
 	<template>
-		<name>Sample</name>
-     <outputDirectory />
-    <fileName>ObjectName</fileName>
+		<name>TemplateSample</name>
     <fileExtension>.cs</fileExtension>
     <perTableTemplate>False</perTableTemplate>
     <dataInterface>NONE</dataInterface>
+    <description>none</description>
 		<parameters>
 			<parameter>
-				<key>parameter1</key>
-				<value>parameter1 value</value>
+        <name>parameter1</name>
 			</parameter>
 		</parameters>
 		<templateText>
 		<![CDATA[<#@ template language="C#"  hostspecific="true" #>
-<#@parameter type="System.String" name="parameter1"#>
+<#@ parameter type="System.String" name="parameter1"#>
+<#@ parameter type="System.String" name="parameter2"#>
 <html><body>
 <h1>Sales for Previous Month</h2>
 <table>
@@ -25,7 +24,7 @@
              <td>Test value <#= i * i #> </td> </tr>
     <# } #>
  </table>
-This report is Company Confidential.
+This report is Company Confidential.<#= parameter1 #>
 </body></html>]]>
 		</templateText>
 	</template>
@@ -34,16 +33,14 @@ This report is Company Confidential.
 
 
   <template>
-    <name>MVCModel</name>
-    <outputDirectory />
-    <fileName>Model</fileName>
+    <name>TemplateMVCModel</name>
     <fileExtension>.cs</fileExtension>
     <perTableTemplate>TRUE</perTableTemplate>
     <dataInterface>MSSQL</dataInterface>
+    <description>none</description>
     <parameters>
       <parameter>
-        <key>Namespace</key>
-        <value>FoundationMVCProject.Areas.Public.Models</value>
+        <name>Namespace</name>
       </parameter>
     </parameters>
     <templateText>
@@ -68,16 +65,15 @@ namespace <#= Namespace #>
 
 
   <template>
-    <name>BOInterfaces</name>
+    <name>TemplateBOInterface</name>
     <outputDirectory>C:\Users\New Owner\Dropbox\Projects 2.0\Foundation\FermataFishDataAccess\FermataFishDataAccess\BO\Interfaces</outputDirectory>
-    <fileName>BasicObjectInterface</fileName>
     <fileExtension>.cs</fileExtension>
     <perTableTemplate>true</perTableTemplate>
     <dataInterface>MSSQL</dataInterface>
+    <description>none</description>
     <parameters>
       <parameter>
-        <key>Namespace</key>
-        <value>Codenesium.FermataFish.BO</value>
+        <name>Namespace</name>
       </parameter>
     </parameters>
     <templateText>
@@ -116,24 +112,21 @@ namespace <#= Namespace #>
 
   
   	<template>
-		<name>BOObject</name>
+		<name>TemplateBOObject</name>
     <outputDirectory>C:\Users\New Owner\Dropbox\Projects 2.0\Foundation\FermataFishDataAccess\FermataFishDataAccess\BO\BasicObjects</outputDirectory>
-    <fileName>BasicObject</fileName>
     <fileExtension>.cs</fileExtension>
     <perTableTemplate>True</perTableTemplate>
     <dataInterface>MSSQL</dataInterface>
+      <description>none</description>
 		<parameters>
       <parameter>
-        <key>Namespace</key>
-        <value>Codenesium.FermataFish.BO</value>
+        <name>Namespace</name>
       </parameter>
       <parameter>
-        <key>EntitiesName</key>
-        <value>FermataFishDataAccess.DBEntities</value>
+        <name>EntitiesName</name>
       </parameter>
       <parameter>
-        <key>DatabaseTable</key>
-        <value>cnsession</value>
+        <name>DatabaseTable</name>
       </parameter>
     </parameters>
 		<templateText>
@@ -179,28 +172,24 @@ namespace <#= Namespace #>
 
 
   <template>
-    <name>BO Repository Interface</name>
+    <name>TemplateBORepositoryInterface</name>
     <outputDirectory>C:\Users\New Owner\Dropbox\Projects 2.0\Foundation\Foundation\BO\Interfaces</outputDirectory>
-    <fileName>REPOSITORYINTERFACE</fileName>
     <fileExtension>.cs</fileExtension>
     <perTableTemplate>true</perTableTemplate>
     <dataInterface>MSSQL</dataInterface>
+    <description>none</description>
     <parameters>
       <parameter>
-        <key>Namespace</key>
-        <value>Codenesium.Foundation.BO</value>
+        <name>Namespace</name>
       </parameter>
       <parameter>
-        <key>EntitiesName</key>
-        <value>DataAccess.FoundationDBEntities</value>
+        <name>EntitiesName</name>
+    </parameter>
+      <parameter>
+        <name>DataAccessName</name>
       </parameter>
       <parameter>
-        <key>DataAccessName</key>
-        <value>Codenesium.Foundation.DataAccess</value>
-      </parameter>
-      <parameter>
-        <key>DatabaseTable</key>
-        <value>cnsession</value>
+        <name>DatabaseTable</name>
       </parameter>
     </parameters>
     <templateText>
@@ -247,28 +236,24 @@ namespace <#= Namespace #>
   
   
   <template>
-	<name>BO Repository</name>
+	<name>TemplateBORepository</name>
     <outputDirectory>C:\Users\New Owner\Dropbox\Projects 2.0\Foundation\Foundation\BO\Repositories</outputDirectory>
-    <fileName>REPOSITORY</fileName>
     <fileExtension>.cs</fileExtension>
     <perTableTemplate>True</perTableTemplate>
     <dataInterface>MSSQL</dataInterface>
+    <description>none</description>
     <parameters>
       <parameter>
-        <key>Namespace</key>
-        <value>Codenesium.Foundation.BO</value>
+        <name>Namespace</name>
       </parameter>
       <parameter>
-        <key>EntitiesName</key>
-        <value>DataAccess.FoundationDBEntities</value>
+        <name>EntitiesName</name>
       </parameter>
       <parameter>
-        <key>DataAccessName</key>
-        <value>Codenesium.Foundation.DataAccess</value>
+        <name>DataAccessName</name>
       </parameter>
       <parameter>
-        <key>DatabaseTable</key>
-        <value>cnsession</value>
+        <name>DatabaseTable</name>
       </parameter>
     </parameters>
 		<templateText>

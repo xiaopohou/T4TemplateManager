@@ -9,10 +9,8 @@ namespace Codenesium.TemplateGenerator.Classes.Database
 {
     public class MSSQL : Interfaces.IDatabaseInterface
     {
-
         public bool ConnectionTestResult { get; set; }
         public string ConnectionString { get;set;}
-
 
         public MSSQL(string connectionString)
         {

@@ -4,49 +4,57 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-
+using System.IO;
+using System.Windows.Forms;
 namespace Codenesium.TemplateGenerator.Classes.Generation
 {
     public class TemplateContainer
     {
+        public string FileLocation = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), TemplateContainer.Filename);
         public List<Template> TemplateList{get;set;}
+        public static string Filename = "templates.xml";
+        private static TemplateContainer _templateContainer;
 
-        public TemplateContainer()
+        public  static TemplateContainer GetInstance()
+        {
+            if(_templateContainer == null)
+            {
+                _templateContainer = new TemplateContainer();
+            }
+            return _templateContainer;
+        }
+
+        private TemplateContainer()
         {
             this.TemplateList = new List<Template>();
         }
 
-        public static TemplateContainer Factory(string filename)
+        public bool Load(string filename)
         {
-            TemplateContainer container = new TemplateContainer();
 
             try
             {
                 XDocument xDoc = XDocument.Load(filename);
 
-                container.TemplateList = (from template in xDoc.Descendants("template")
+                this.TemplateList = (from template in xDoc.Root.Element("templates").Descendants("template")
                                           select new Template
                                           {
                                               Name = (string)template.Element("name").Value ?? string.Empty,
-                                              OutputDirectory = (string)template.Element("outputDirectory").Value ?? string.Empty,
+                                              Description = (string)template.Element("description").Value ?? string.Empty,
                                               TemplateText = (string)template.Element("templateText").Value ?? string.Empty,
-                                              Filename = (string)template.Element("fileName").Value ?? string.Empty,
                                               FileExtension = (string)template.Element("fileExtension").Value ?? string.Empty,
                                               PerTableTemplate = Convert.ToBoolean(template.Element("perTableTemplate").Value),
-                                              DataInterface = template.Element("dataInterface").Value ?? string.Empty,
                                               Parameters = (from p in template.Element("parameters").Descendants("parameter")
-                                                            select new 
-                                                            {
-                                                                key = (string)p.Element("key").Value ?? string.Empty,
-                                                                value = (string)p.Element("value").Value ?? string.Empty
-                                                            }).ToDictionary(pair => pair.key,pair => pair.value)
+                                                            select p.Element("name").Value).ToList()
+
                                           }).ToList<Template>();
+                    return true;
             }
             catch(Exception ex)
             {
                 throw;
             }
-            return container;
+ 
         }
     }
 }

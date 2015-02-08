@@ -9,41 +9,26 @@ using Microsoft.VisualStudio.TextTemplating.VSHost;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Windows.Forms;
+using Codenesium.TemplateGenerator.Classes.Database;
 namespace Codenesium.TemplateGenerator.Classes.Generation
 {
     public class Generator
     {
-
-        public string Contents { get; set; }
+        public string OutputDirectory { get; set; }
+        public Template @Template { get; set; }
         public Dictionary<string, string> Parameters { get; set; }
-        public string DatabaseInterface { get; set; }
+        public  DATAINTERFACE DataInterface { get; set; }
         public string ConnectionString { get; set; }
         public TemplateExecutionResult ExecutionResult { get; set; }
-        /// <summary>
-        /// This function takes a prepared T4 template and executes it returning the result.
-        /// We expect a T4 template here. Since I want to be able to pass these at runtime we just have to hope you're sending a valid file.
-        /// </summary>
-        /// <param name="template"></param>
-        /// <returns></returns>
-        public TemplateExecutionResult ExecuteTemplate(dynamic template)
+        public Generator()
         {
-            TemplateExecutionResult result = new TemplateExecutionResult();
-            try
-            {
-                result.Success = true;
-                result.TransformedText = template.TransformText();
-                return result;
-            }
-            catch(Exception ex)
-            {
-                result.Success = false;
-                result.ErrorMessage = "Error transforming text:" + ex.ToString();
-                return result;
-            }
+            this.Parameters = new Dictionary<string, string>();
+            this.DataInterface = DATAINTERFACE.NONE;
+            this.ConnectionString = String.Empty;
+            this.ExecutionResult = null;
+            this.OutputDirectory = String.Empty;
         }
-
         
-
         public void ExecuteTemplateCustomHost()
         {
             try
@@ -53,10 +38,9 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                 Classes.Generation.CustomGenerationHost host = new Classes.Generation.CustomGenerationHost();
                 TextTemplatingSession session = new TextTemplatingSession();
                 string tempPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), Classes.Utility.RandomNumber.GetRandomNumber().ToString() + "temp.tt");
-                File.WriteAllText(tempPath, this.Contents.Trim());
+                File.WriteAllText(tempPath, this.Template.TemplateText.Trim());
                 host.TemplateFileValue = tempPath;
-
-                if (this.DatabaseInterface == "MSSQL")
+                if (this.DataInterface == DATAINTERFACE.MSSQL)
                 {
                     //We're going to load fields and tables by default if it's possible
                     Classes.Database.MSSQL MSSQLInterface = new Classes.Database.MSSQL(this.ConnectionString);
@@ -68,6 +52,18 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                     List<Interfaces.IDatabaseTable> tableList = MSSQLInterface.GetTableList();
                     session.Add("CNTableList", tableList);
                 }
+                else if (this.DataInterface == DATAINTERFACE.FILE)
+                {
+                    throw new NotImplementedException();
+                }
+                else if (this.DataInterface == DATAINTERFACE.NONE)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
 
                 //add all other parameters
                 foreach (string key in this.Parameters.Keys)
@@ -76,7 +72,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                 }
 
                 host.Session = session;
-                result.TransformedText = engine.ProcessTemplate(this.Contents, host).Trim();
+                result.TransformedText = engine.ProcessTemplate(this.Template.TemplateText, host).Trim();
 
                 foreach (CompilerError item in host.Errors)
                 {
@@ -84,14 +80,60 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                 }
                 result.Success = true;
                 File.Delete(tempPath);
+
                 this.ExecutionResult = result;
+
+                if (this.Parameters.ContainsKey("DatabaseTable"))
+                {
+                    this.ProcessResult(this.Parameters["DatabaseTable"]);
+                }
+                else
+                {
+                    this.ProcessResult("output");
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
-            }
+        }
 
-       
+        private void ProcessResult(string table)
+        {
+            if (!String.IsNullOrEmpty(this.OutputDirectory))
+            {
+                if (!Directory.Exists(this.OutputDirectory))
+                {
+                    Directory.CreateDirectory(this.OutputDirectory);
+                }
+
+                if (!String.IsNullOrEmpty(this.Template.Name))
+                {
+                    string filename = String.Empty;
+                    if (this.Template.Name.ToUpper() == "TEMPLATEBOREPOSITORY")
+                    {
+                        filename = Path.Combine(this.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToRepositoryName(table)) + this.Template.FileExtension;
+                    }
+                    else if (this.Template.Name.ToUpper() == "TEMPLATEBOREPOSITORYINTERFACE")
+                    {
+                        filename = Path.Combine(this.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToRepositoryInterfaceName(table)) + this.Template.FileExtension;
+                    }
+                    else if (this.Template.Name.ToUpper() == "TEMPLATEBOOBJECT")
+                    {
+                        filename = Path.Combine(this.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToBasicObjectName(table)) + this.Template.FileExtension;
+                    }
+                    else if (this.Template.Name.ToUpper() == "TEMPLATEBOINTERFACE")
+                    {
+                        filename = Path.Combine(this.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToBasicObjectInterfaceName(table)) + this.Template.FileExtension;
+                    }
+                    else
+                    {
+                        filename = Path.Combine(this.OutputDirectory, table + this.Template.FileExtension);
+                    }
+                    File.WriteAllText(filename, this.ExecutionResult.TransformedText);
+
+                }
+            }
+        }
     }
 }

@@ -185,7 +185,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             string response = String.Empty;
             foreach (Interfaces.IDatabaseField field in fields)
             {
-                if (field.Name.ToUpper() == "ID" || field.Name.ToUpper() == "RECORDSTATUS")
+                if (field.Name.ToUpper() == "RECORDSTATUS")
                 {
                     continue;
                 }
@@ -198,11 +198,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             string response = String.Empty;
             switch (field.FieldType)
             {
-                case DbType.DateTime:
-                    {
-                        response =  recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (DateTime)" + queryName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name);
-                        break;
-                    }
                 default:
                     {
                         response =  recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = " + queryName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name);
@@ -221,7 +216,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             string response = String.Empty;
             foreach (Interfaces.IDatabaseField field in fields)
             {
-                if (field.Name.ToUpper() == "ID" || field.Name.ToUpper() == "RECORDSTATUS")
+                if (field.Name.ToUpper() == "RECORDSTATUS")
                 {
                     continue;
                 }
@@ -235,11 +230,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             string response = String.Empty;
             switch (field.FieldType)
             {
-                case DbType.DateTime:
-                    {
-                        response = recordName + "." + field.Name + " = (DateTime)" + queryName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name);
-                        break;
-                    }
                 default:
                     {
                         response = recordName + "." + field.Name + " = " + queryName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name);
@@ -254,7 +244,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             string response = String.Empty;
             foreach (Interfaces.IDatabaseField field in fields)
             {
-                if (field.Name.ToUpper() == "ID" || field.Name.ToUpper() == "RECORDSTATUS")
+                if (field.Name.ToUpper() == "RECORDSTATUS")
                 {
                     continue;
                 }
@@ -276,7 +266,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
                      }
                  case DbType.DateTime:
                      {
-                         response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (DateTime)" + queryName + "." + field.Name;
+                         response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = " + queryName + "." + field.Name;
                          break;
                      }
                  case DbType.Binary:
@@ -315,7 +305,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             string response = String.Empty;
             foreach (Interfaces.IDatabaseField field in fields)
             {
-                if (field.Name.ToUpper() == "ID" || field.Name.ToUpper() == "RECORDSTATUS")
+                if ( field.Name.ToUpper() == "RECORDSTATUS")
                 {
                     continue;
                 }

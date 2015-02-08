@@ -13,6 +13,7 @@ using System.IO;
 using Microsoft.VisualStudio.TextTemplating;
 using Microsoft.VisualStudio.TextTemplating.VSHost;
 using System.CodeDom.Compiler;
+using Codenesium.TemplateGenerator.Classes.Generation;
 
 namespace Codenesium.TemplateGenerator
 {
@@ -20,7 +21,6 @@ namespace Codenesium.TemplateGenerator
     {
         delegate void SetStatusCallback();
         List<string> Messages;
-        Classes.Generation.TemplateContainer TemplateContainer;
         public Form1()
         {
             InitializeComponent();
@@ -33,14 +33,13 @@ namespace Codenesium.TemplateGenerator
                 textBoxParameters.Clear();
                 Classes.Generation.Template template = (Classes.Generation.Template)comboBoxTemplate.SelectedItem; 
 
-                if(template.DataInterface != String.Empty)
-                {
-                    comboBoxDatabaseInterface.SelectedItem = template.DataInterface;
-                    checkBoxAllTables.Checked = template.PerTableTemplate;
-                }
+                //if(template.DataInterface != String.Empty)
+                //{
+                //    comboBoxDatabaseInterface.SelectedItem = template.DataInterface;
+                //    checkBoxAllTables.Checked = template.PerTableTemplate;
+                //}
 
                 Dictionary<string, string> parameters = Classes.Generation.Parameter.ParseParametersFromTemplate(template.TemplateText);
-
                 foreach (string key in parameters.Keys)
                 {
                     if(key.Length > 2 && key.ToUpper().Substring(0,2) == "CN")
@@ -48,22 +47,32 @@ namespace Codenesium.TemplateGenerator
                         continue; //skip parameters that are special. Built in parameters are prefixed with CN
                     }
                     //If the user has defaul values specified in the template.xml file load those. If not leave the paraemter blank
-                    if (template.Parameters.Keys.Contains(key))
+
+                    Project project = (Project)comboBoxProject.SelectedItem;
+                    ProjectTemplate projectTemplate = project.ProjectTemplateList.Where(x => x.TemplateName.ToUpper() == template.Name.ToUpper()).FirstOrDefault();
+
+                    if (projectTemplate.Parameters.ContainsKey(key))
                     {
-                        textBoxParameters.Text += key + "=" + template.Parameters[key] + Environment.NewLine;
-                    }
+                        textBoxParameters.Text += key + "=" + projectTemplate.Parameters[key] + Environment.NewLine;
+                    } 
                     else
                     {
-                        textBoxParameters.Text += key + "=" + Environment.NewLine;
+                         textBoxParameters.Text += key + "=" + Environment.NewLine;
                     }
+                    
                 }
-
             }
         }
 
         private void buttonProcess_Click(object sender, EventArgs e)
         {
-             Classes.Generation.Template template = (Classes.Generation.Template)comboBoxTemplate.SelectedItem;
+            ProcessSingleTemplate();
+        }
+
+
+        private void ProcessSingleTemplate()
+        {
+            Classes.Generation.Template template = (Classes.Generation.Template)comboBoxTemplate.SelectedItem;
             if (checkBoxAllTables.Checked)
             {
                 ProcessAllTables(template);
@@ -71,7 +80,7 @@ namespace Codenesium.TemplateGenerator
             }
             else
             {
-                ProcessTemplate(template);
+                //ProcessTemplate(template);
             }
         }
 
@@ -79,47 +88,38 @@ namespace Codenesium.TemplateGenerator
         {
             this.Messages = new List<string>();
             textBoxFilename.Text = ConfigurationManager.AppSettings["outputDirectory"];
-            this.TemplateContainer = new Classes.Generation.TemplateContainer();
-            LoadTemplates();
+            LoadData();
             SetComboboxes();  
         }
 
-        private void ProcessTemplate(Classes.Generation.Template  template)
-        {
-            Classes.Generation.Generator generator = new Classes.Generation.Generator();
-            Dictionary<string, string> parameters = Classes.Generation.Parameter.ParseParameters(textBoxParameters.Text);
-            generator.DatabaseInterface = comboBoxDatabaseInterface.Text;
-            generator.Contents = template.TemplateText;
-            generator.Parameters = parameters;
-            generator.ConnectionString = ConfigurationManager.AppSettings["connectionString"];
-            generator.ExecuteTemplateCustomHost();
-            textBoxOutput.Text = generator.ExecutionResult.TransformedText;
-            textBoxErrorsAndWarnings.Text = generator.ExecutionResult.ErrorMessage;
-        }
+       
 
         private void ProcessAllTables(Classes.Generation.Template template)
         {
             Classes.Database.MSSQL MSSQLManager = new Classes.Database.MSSQL(ConfigurationManager.AppSettings["connectionString"]);
             List<Interfaces.IDatabaseTable> tableList = MSSQLManager.GetTableList();
-            Classes.Generation.Generator generator = new Classes.Generation.Generator();
+
             Dictionary<string, string> parameters = Classes.Generation.Parameter.ParseParameters(textBoxParameters.Text);
             Task[] tasks = new Task[tableList.Count];
             for(int i=0; i < tableList.Count; i++)
             {
                 parameters["DatabaseTable"] = tableList[i].Name;
-
-                generator.DatabaseInterface = comboBoxDatabaseInterface.Text;
-                generator.Contents = template.TemplateText;
+                Classes.Generation.Generator generator = new Classes.Generation.Generator();
+                generator.DataInterface = Classes.Database.DataInterface.ParseDataInterfaceEnum(comboBoxDatabaseInterface.Text);
+          //      generator.Contents = template.TemplateText;
                 generator.Parameters = parameters;
                 generator.ConnectionString = ConfigurationManager.AppSettings["connectionString"];
 
-            //    Action action = new Action(generator.ExecuteTemplateCustomHost);
-            //    tasks[i] = Task.Factory.StartNew(action)
-            //        .ContinueWith(antecedant => ProcessResult(template, generator.ExecutionResult, tableList[i]));      
+                //Action action = new Action(generator.ExecuteTemplateCustomHost);
+                //tasks[i] = Task.Factory.StartNew(action)
+                //    .ContinueWith(antecedant => ProcessResult(template, generator.ExecutionResult, tableList[i]));      
 
                 generator.ExecuteTemplateCustomHost();
 
-                ProcessResult(template, generator.ExecutionResult, tableList[i]);
+                Project project = (Project)comboBoxProject.SelectedItem;
+                ProjectTemplate projectTemplate = project.ProjectTemplateList.Where(x => x.TemplateName == template.Name).FirstOrDefault();
+
+           //     ProcessResult(projectTemplate,template, generator.ExecutionResult, tableList[i]);
             }
             //try
             //{
@@ -133,40 +133,40 @@ namespace Codenesium.TemplateGenerator
 
         }
 
-        private void ProcessResult(Classes.Generation.Template template, Classes.Generation.TemplateExecutionResult result,Interfaces.IDatabaseTable table)
-        {
-            if (!String.IsNullOrEmpty(template.OutputDirectory))
-            {
-                if (!String.IsNullOrEmpty(template.Filename))
-                {
-                    string filename = String.Empty;
-                    if (template.Filename.ToUpper() == "REPOSITORY")
-                    {
-                        filename = Path.Combine(template.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToRepositoryName(table.Name)) + template.FileExtension;
-                    }
-                    else if (template.Filename.ToUpper() == "REPOSITORYINTERFACE")
-                    {
-                        filename = Path.Combine(template.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToRepositoryInterfaceName(table.Name)) + template.FileExtension;
-                    }
-                    else if (template.Filename.ToUpper() == "BASICOBJECT")
-                    {
-                        filename = Path.Combine(template.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToBasicObjectName(table.Name)) + template.FileExtension;
-                    }
-                    else if (template.Filename.ToUpper() == "BASICOBJECTINTERFACE")
-                    {
-                        filename = Path.Combine(template.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToBasicObjectInterfaceName(table.Name)) + template.FileExtension;
-                    }
-                    else
-                    {
-                        filename = Path.Combine(template.OutputDirectory, table.Name + template.FileExtension);
-                    }
-                    if (checkBoxSaveToDisk.Checked)
-                    {
-                        File.WriteAllText(filename, result.TransformedText);
-                    }
-                }
-            }
-        }
+        //private void ProcessResult(Classes.Generation.ProjectTemplate projectTemplate, Classes.Generation.Template template, Classes.Generation.TemplateExecutionResult result,Interfaces.IDatabaseTable table)
+        //{
+        //    if (!String.IsNullOrEmpty(projectTemplate.OutputDirectory))
+        //    {
+        //        if (!String.IsNullOrEmpty(template.Filename))
+        //        {
+        //            string filename = String.Empty;
+        //            if (template.Filename.ToUpper() == "REPOSITORY")
+        //            {
+        //                filename = Path.Combine(projectTemplate.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToRepositoryName(table.Name)) + template.FileExtension;
+        //            }
+        //            else if (template.Filename.ToUpper() == "REPOSITORYINTERFACE")
+        //            {
+        //                filename = Path.Combine(projectTemplate.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToRepositoryInterfaceName(table.Name)) + template.FileExtension;
+        //            }
+        //            else if (template.Filename.ToUpper() == "BASICOBJECT")
+        //            {
+        //                filename = Path.Combine(projectTemplate.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToBasicObjectName(table.Name)) + template.FileExtension;
+        //            }
+        //            else if (template.Filename.ToUpper() == "BASICOBJECTINTERFACE")
+        //            {
+        //                filename = Path.Combine(projectTemplate.OutputDirectory, Classes.Generation.Helpers.CommonHelper.ConvertTableNameToBasicObjectInterfaceName(table.Name)) + template.FileExtension;
+        //            }
+        //            else
+        //            {
+        //                filename = Path.Combine(projectTemplate.OutputDirectory, table.Name + template.FileExtension);
+        //            }
+        //            if (checkBoxSaveToDisk.Checked)
+        //            {
+        //                File.WriteAllText(filename, result.TransformedText);
+        //            }
+        //        }
+        //    }
+        //}
 
 
         private void SetComboboxes()
@@ -182,12 +182,22 @@ namespace Codenesium.TemplateGenerator
         }
 
 
-        private void LoadTemplates()
+        private void LoadData()
         {
+           
+            string templateFilename = (Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), TemplateContainer.Filename));
+            TemplateContainer.GetInstance().Load(templateFilename);
+
+            string projectFilename = (Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), ProjectContainer.Filename));
+            ProjectContainer.GetInstance().Load(projectFilename);
+
             comboBoxTemplate.Items.Clear();
-            this.TemplateContainer = Classes.Generation.TemplateContainer.Factory(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "templates.xml"));
-            comboBoxTemplate.DataSource = this.TemplateContainer.TemplateList;
+            comboBoxTemplate.DataSource = TemplateContainer.GetInstance().TemplateList;
             comboBoxTemplate.DisplayMember = "Name";
+
+            comboBoxProject.Items.Clear();
+            comboBoxProject.DataSource = ProjectContainer.GetInstance().ProjectList;
+            comboBoxProject.DisplayMember = "Name";
         }
 
         private void buttonTestConnection_Click(object sender, EventArgs e)
@@ -237,6 +247,35 @@ namespace Codenesium.TemplateGenerator
             Classes.Generation.Template template = (Classes.Generation.Template)comboBoxTemplate.SelectedItem;
             Forms.FormTextViewer viewer = new Forms.FormTextViewer(template.TemplateText);
             viewer.ShowDialog();
+        }
+
+        private void linkLabelOutputDirectory_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            //if (comboBoxTemplate.SelectedIndex > -1)
+            //{
+            //    textBoxParameters.Clear();
+            //    Classes.Generation template = (Classes.Generation.Template)comboBoxTemplate.SelectedItem;
+            //    System.Diagnostics.Process.Start(template.OutputDirectory);
+            //}
+        }
+
+        private void linkLabelOutputDirectory_MouseHover(object sender, EventArgs e)
+        {
+            //if (comboBoxTemplate.SelectedIndex > -1)
+            //{               
+            //    Classes.Generation.Template template = (Classes.Generation.Template)comboBoxTemplate.SelectedItem;
+            //    toolTipOutputDirectory.SetToolTip(linkLabelOutputDirectory, template.OutputDirectory);
+            //}
+        }
+
+        private void toolTipOutputDirectory_Draw(object sender, DrawToolTipEventArgs e)
+        {
+
+        }
+
+        private void buttonProcessBatch_Click(object sender, EventArgs e)
+        {
+           
         }
 
     }

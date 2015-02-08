@@ -33,7 +33,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
         }
 
         public static string ConvertTableNameToRepositoryName(string tableName)
-        {
+        {            
             string objectName = String.Empty;
             if (tableName.ToUpper().Substring(0, 2) == "CN")
             {
