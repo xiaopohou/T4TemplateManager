@@ -31,6 +31,29 @@ This report is Company Confidential.<#= parameter1 #>
 
 
 
+  <template>
+    <name>TemplateMSSQLSelectAll</name>
+    <fileExtension>.sql</fileExtension>
+    <perTableTemplate>False</perTableTemplate>
+    <dataInterface>MSSQL</dataInterface>
+    <description>none</description>
+    <parameters>
+      <parameter>
+        <name>DatabaseTable</name>
+      </parameter>
+    </parameters>
+    <templateText>
+      <![CDATA[<#@ template language="C#"  hostspecific="true" #>
+<#@ parameter type="System.String" Name="DatabaseTable"#>
+<#@ parameter type="Codenesium.TemplateGenerator.Interfaces.IDatabaseTable" Name="CNTable"#>
+
+
+<#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.MSSQLHelper.GenerateSelectAllQuery(CNTable)  #>
+]]>
+    </templateText>
+  </template>
+
+
 
   <template>
     <name>TemplateMVCModel</name>
@@ -45,7 +68,7 @@ This report is Company Confidential.<#= parameter1 #>
     </parameters>
     <templateText>
       <![CDATA[<#@ template language="C#"  hostspecific="true" #>
-<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseField>" Name="CNFieldList"#>
+<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseTable>" Name="CNTable"#>
 <#@ parameter type="System.String" Name="Namespace"#>
 <#@ parameter type="System.String" Name="DatabaseTable"#>
 using System;
@@ -57,7 +80,7 @@ namespace <#= Namespace #>
 {
     public class <#= DatabaseTable #>Model
     {
-    <#= Codenesium.TemplateGenerator.Classes.Generation.Generator.Helpers.DotNetHelper.GenerateFieldPropertyForList(CNFieldList) #>
+    <#= Codenesium.TemplateGenerator.Classes.Generation.Generator.Helpers.DotNetHelper.GenerateFieldPropertyForList(CNTable.FieldList) #>
     }
 }]]>
     </templateText>
@@ -87,7 +110,7 @@ namespace <#= Namespace #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Data" #>
-<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseField>" Name="CNFieldList"#>
+<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseTable>" Name="CNTable"#>
 <#@ parameter type="System.String" Name="Namespace"#>
 <#@ parameter type="System.String" Name="DatabaseTable"#>
 using System;
@@ -139,7 +162,7 @@ namespace <#= Namespace #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Data" #>
-<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseField>" Name="CNFieldList"#>
+<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseTable>" Name="CNTable"#>
 <#@ parameter type="System.String" Name="Namespace"#>
 <#@ parameter type="System.String" Name="DatabaseTable"#>
 using System;
@@ -157,7 +180,7 @@ namespace <#= Namespace #>
     public partial class <#= BasicObjectName #> :I<#= BasicObjectName #> 
     {
     
-		    <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateFieldPropertyForList(CNFieldList) #>
+		    <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateFieldPropertyForList(CNTable.FieldList) #>
 
         public <#= BasicObjectName #>()
         {
@@ -203,7 +226,7 @@ namespace <#= Namespace #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Data" #>
-<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseField>" Name="CNFieldList"#>
+<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseTable>" Name="CNTable"#>
 <#@ parameter type="System.String" Name="Namespace"#>
 <#@ parameter type="System.String" Name="EntitiesName"#>
 <#@ parameter type="System.String" Name="DataAccessName"#>
@@ -266,7 +289,7 @@ namespace <#= Namespace #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Data" #>
-<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseField>" Name="CNFieldList"#>
+<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseTable>" Name="CNTable"#>
 <#@ parameter type="System.String" Name="Namespace"#>
 <#@ parameter type="System.String" Name="EntitiesName"#>
 <#@ parameter type="System.String" Name="DatabaseTable"#>
@@ -300,7 +323,7 @@ namespace <#= Namespace #>
         public int CreateRecord(<#= BasicObjectName #> passedObject)
         {
             <#=DataAccessName#>.<#= DatabaseTable #> record = new <#=DataAccessName#>.<#= DatabaseTable #>();
-            <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateFieldAssignmentsLeftSideNoCamelCase(CNFieldList,"record","passedObject") #>
+            <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateFieldAssignmentsLeftSideNoCamelCase(CNTable.FieldList,"record","passedObject") #>
             record.recordStatus =  Codenesium.Foundation.BO.Constants.RECORD_STATUS_CREATED;
             this._objCtx.<#= DatabaseTable #>.Add(record);
             this._objCtx.SaveChanges();
@@ -316,7 +339,7 @@ namespace <#= Namespace #>
             }
             else
             {
-                 <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateFieldAssignmentsLeftSideNoCamelCase(CNFieldList,"record","passedObject") #>
+                 <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateFieldAssignmentsLeftSideNoCamelCase(CNTable.FieldList,"record","passedObject") #>
                 this._objCtx.SaveChanges();
                 return true;
             }
@@ -359,7 +382,7 @@ namespace <#= Namespace #>
         private <#= BasicObjectName #> ConvertEFObjectToBOObject(<#= DataAccessName#>.<#= DatabaseTable #> <#= EFObjectName #>)
         {
             <#= BasicObjectName #> record = new <#= BasicObjectName #>();
-            <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateReverseFieldAssignmentsLeftSideNoCamelCase(CNFieldList,"record",EFObjectName) #>
+            <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateReverseFieldAssignmentsLeftSideNoCamelCase(CNTable.FieldList,"record",EFObjectName) #>
             return record;
         }
         

@@ -34,13 +34,33 @@ namespace Codenesium.TemplateGenerator.UserControls
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
+            textBoxResult.Clear();
             if(comboBoxProjects.SelectedIndex > -1)
             {
                 Project project = (Project)comboBoxProjects.SelectedItem;
-               
+
+
+                Dictionary<string, string> tempParameters = new Dictionary<string, string>();
                 foreach(ProjectTemplate projectTemplate in project.ProjectTemplateList)
                 {
-                    ProcessTemplate(projectTemplate,TemplateContainer.GetInstance().TemplateList.ToList().Where(x => x.Name == projectTemplate.TemplateName).FirstOrDefault(),
+
+                    foreach (string key in projectTemplate.Parameters.Keys)
+                    {
+                        if (projectTemplate.Parameters[key].ToUpper() == "PROMPT")
+                        {
+                            Forms.ParameterPrompt formParameterPrompt = new Forms.ParameterPrompt(key);
+                            formParameterPrompt.ShowDialog();
+                            tempParameters[key] = formParameterPrompt.Value;
+                        }
+                        else
+                        {
+                            tempParameters[key] = projectTemplate.Parameters[key];
+                        }
+                    }
+                    projectTemplate.Parameters = tempParameters;
+
+
+                    textBoxResult.Text += ProcessTemplate(projectTemplate,TemplateContainer.GetInstance().TemplateList.ToList().Where(x => x.Name == projectTemplate.TemplateName).FirstOrDefault(),
                         project.ConnectionStrings[projectTemplate.Parameters["ConnectionString"]]);       
                 }
             }
@@ -48,14 +68,24 @@ namespace Codenesium.TemplateGenerator.UserControls
 
 
        
-        private void ProcessTemplate(ProjectTemplate projectTemplate,Template template,string connectionString)
+        private string ProcessTemplate(ProjectTemplate projectTemplate,Template template,string connectionString)
         {
+            string response = string.Empty;
             Classes.Generation.Generator generator = new Classes.Generation.Generator();
             generator.Template = template;
             generator.Parameters = projectTemplate.Parameters;
             generator.DataInterface = Classes.Database.DataInterface.ParseDataInterfaceEnum(projectTemplate.Parameters["DataInterface"]);
             generator.ConnectionString = connectionString;
-            generator.OutputDirectory = projectTemplate.OutputDirectory;
+            generator.OutputDirectory = projectTemplate.Parameters["OutputDirectory"];
+
+            if (projectTemplate.Parameters.ContainsKey("OutputFormat"))
+            {
+                if (projectTemplate.Parameters["OutputFormat"].ToUpper() == "DISK")
+                {
+                    generator.WriteToDisk = true;
+                }
+            }
+
 
             if (projectTemplate.Parameters.ContainsKey("AllTables"))
             {
@@ -68,10 +98,31 @@ namespace Codenesium.TemplateGenerator.UserControls
                     generator.ExecuteTemplateCustomHost();
                 }
             }
+            else
+            {
+
+                generator.Parameters["DatabaseTable"] = projectTemplate.Parameters["DatabaseTable"];
+                generator.ExecuteTemplateCustomHost();
+            }
 
 
-            //textBoxResult.Text = generator.ExecutionResult.TransformedText;
-            //textBoxResult.Text += generator.ExecutionResult.ErrorMessage;
+            if(projectTemplate.Parameters.ContainsKey("OutputFormat"))
+            {
+                if(projectTemplate.Parameters["OutputFormat"].ToUpper() == "SCREEN")
+                {
+                    response += generator.ExecutionResult.TransformedText;
+                }
+            }
+            
+            response += generator.ExecutionResult.ErrorMessage;
+            return response;
+        }
+
+
+
+        private void comboBoxProjects_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
         }
     }
 }

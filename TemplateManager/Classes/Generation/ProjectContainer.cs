@@ -13,7 +13,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         public  string FileLocation = (Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), ProjectContainer.Filename));
         public static string Filename = "projects.xml";
         public List<Project> ProjectList;
-        public EventHandler Reload;
+        public EventHandler Reload; //notify listeners that we have saved and they need to reload data
         private static ProjectContainer _projectContainer;
 
         public static ProjectContainer GetInstance()
@@ -99,7 +99,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                                                                      select new ProjectTemplate
                                                                      {
                                                                          TemplateName = (string)pt.Element("templateName").Value ?? string.Empty,
-                                                                         OutputDirectory = (string)pt.Element("outputDirectory").Value ?? string.Empty,
                                                                          Parameters = (from p in pt.Element("parameters").Descendants("parameter")
                                                                                        select new
                                                                                        {

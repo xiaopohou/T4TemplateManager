@@ -52,6 +52,7 @@
             this.comboBoxProjects.Size = new System.Drawing.Size(305, 29);
             this.comboBoxProjects.TabIndex = 9;
             this.comboBoxProjects.UseSelectable = true;
+            this.comboBoxProjects.SelectedIndexChanged += new System.EventHandler(this.comboBoxProjects_SelectedIndexChanged);
             // 
             // buttonGenerate
             // 

@@ -46,7 +46,6 @@ namespace Codenesium.TemplateGenerator.UserControls
 
         private void ClearFields()
         {
-            labelOutputDirectory.Text = String.Empty;
             dataGridViewParameters.Rows.Clear();
         }
 
@@ -56,9 +55,7 @@ namespace Codenesium.TemplateGenerator.UserControls
             if (comboBoxTemplates.SelectedIndex > -1)
             {
                 ProjectTemplate projectTemplate = (ProjectTemplate)comboBoxTemplates.SelectedItem;
-                labelOutputDirectory.Text =  projectTemplate.OutputDirectory;
                 Template template=  TemplateContainer.GetInstance().TemplateList.Where(x => x.Name.ToUpper() == projectTemplate.TemplateName.ToUpper()).FirstOrDefault();
-               linkLabelTemplateDescription.Tag = template.Description;
 
                 Dictionary<string, string> parameters = Classes.Generation.Parameter.ParseParametersFromTemplate(template.TemplateText);
                 foreach (string key in parameters.Keys)
@@ -124,7 +121,6 @@ namespace Codenesium.TemplateGenerator.UserControls
                     ProjectTemplate template = (ProjectTemplate)comboBoxTemplates.SelectedItem;
                     Project project = (Project)comboBoxProjects.SelectedItem;
                     template.Parameters = parameters;
-                    template.OutputDirectory = labelOutputDirectory.Text;
 
                     int index = project.ProjectTemplateList.FindIndex(x => x.TemplateName == template.TemplateName);
                     project.ProjectTemplateList[index] = template;
@@ -137,12 +133,6 @@ namespace Codenesium.TemplateGenerator.UserControls
 
         }
 
-        private void buttonSelectOutputDirectory_Click(object sender, EventArgs e)
-        {
-            if(folderBrowserDialogDirectory.ShowDialog() == DialogResult.OK)
-            {
-                labelOutputDirectory.Text = folderBrowserDialogDirectory.SelectedPath;
-            }
-        }
+     
     }
 }

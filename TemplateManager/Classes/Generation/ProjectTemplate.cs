@@ -10,11 +10,9 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
     {
         public string TemplateName { get;set; }
         public Dictionary<string, string> Parameters;
-        public string OutputDirectory { get; set; }
         public ProjectTemplate()
         {
             this.TemplateName = String.Empty;
-            this.OutputDirectory = String.Empty;
             this.Parameters = new Dictionary<string, string>();
         }
 
@@ -22,7 +20,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         {
             XElement response = new XElement("projectTemplate");
             response.Add(new XElement("templateName", this.TemplateName));
-            response.Add(new XElement("outputDirectory", this.OutputDirectory));
 
             XElement parameters = new XElement("parameters");
             foreach(string key in this.Parameters.Keys)

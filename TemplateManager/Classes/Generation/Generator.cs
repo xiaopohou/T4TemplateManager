@@ -20,6 +20,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         public  DATAINTERFACE DataInterface { get; set; }
         public string ConnectionString { get; set; }
         public TemplateExecutionResult ExecutionResult { get; set; }
+        public bool WriteToDisk { get; set; }
         public Generator()
         {
             this.Parameters = new Dictionary<string, string>();
@@ -47,7 +48,8 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                     if (this.Parameters.Keys.Contains("DatabaseTable"))
                     {
                         List<Interfaces.IDatabaseField> fieldList = MSSQLInterface.GetFieldList(this.Parameters["DatabaseTable"]);
-                        session.Add("CNFieldList", fieldList);
+                        Interfaces.IDatabaseTable table = MSSQLInterface.GetTableList().Where(x => x.Name == this.Parameters["DatabaseTable"]).FirstOrDefault();
+                        session.Add("CNTable", table);
                     }
                     List<Interfaces.IDatabaseTable> tableList = MSSQLInterface.GetTableList();
                     session.Add("CNTableList", tableList);
@@ -76,20 +78,26 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
 
                 foreach (CompilerError item in host.Errors)
                 {
-                    result.ErrorMessage += item.ToString() + Environment.NewLine;
+                    if (!item.IsWarning)
+                    {
+                        result.ErrorMessage += item.ToString() + Environment.NewLine;
+                    }
                 }
                 result.Success = true;
                 File.Delete(tempPath);
 
                 this.ExecutionResult = result;
 
-                if (this.Parameters.ContainsKey("DatabaseTable"))
+                if (this.WriteToDisk)
                 {
-                    this.ProcessResult(this.Parameters["DatabaseTable"]);
-                }
-                else
-                {
-                    this.ProcessResult("output");
+                    if (this.Parameters.ContainsKey("DatabaseTable"))
+                    {
+                        this.ProcessResult(this.Parameters["DatabaseTable"]);
+                    }
+                    else
+                    {
+                        this.ProcessResult("output");
+                    }
                 }
             }
             catch (Exception ex)

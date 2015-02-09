@@ -103,6 +103,7 @@
     <Compile Include="Classes\Generation\Generator.cs" />
     <Compile Include="Classes\Generation\Helpers\CommonHelper.cs" />
     <Compile Include="Classes\Generation\Helpers\DotNetHelper.cs" />
+    <Compile Include="Classes\Generation\Helpers\MSSQLHelper.cs" />
     <Compile Include="Classes\Generation\Parameter.cs" />
     <Compile Include="Classes\Generation\Project.cs" />
     <Compile Include="Classes\Generation\ProjectContainer.cs" />
@@ -134,6 +135,12 @@
     </Compile>
     <Compile Include="Forms\ManageProject.Designer.cs">
       <DependentUpon>ManageProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ParameterPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ParameterPrompt.Designer.cs">
+      <DependentUpon>ParameterPrompt.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IDatabaseField.cs" />
     <Compile Include="Interfaces\IDatabaseInterface.cs" />
@@ -175,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ManageProject.resx">
       <DependentUpon>ManageProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ParameterPrompt.resx">
+      <DependentUpon>ParameterPrompt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
