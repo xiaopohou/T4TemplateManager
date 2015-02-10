@@ -34,7 +34,6 @@ namespace Codenesium.TemplateGenerator.UserControls
         public void SetCreateMode(bool value)
         {
             this._createMode = value;
-
         }
 
         public void ClearFields()
@@ -45,26 +44,43 @@ namespace Codenesium.TemplateGenerator.UserControls
         }
 
         private void LoadForm()
-        {            
-            comboBoxProjects.DataSource = new BindingList<Project>(ProjectContainer.GetInstance().ProjectList);
-            comboBoxProjects.DisplayMember = "Name";
-
+        {
             checkedListBoxTemplates.Items.Clear();//checkedlistbox doesn't support databinding
             foreach(Template template in TemplateContainer.GetInstance().TemplateList)
             {
                 checkedListBoxTemplates.Items.Add(template.Name);
             }
 
-            comboBoxProjects.SelectedIndex = -1;//force reselection so the template will load
-            if(comboBoxProjects.Items.Count > 0)
+            int currentSelectedProject = comboBoxProjects.SelectedIndex;
+            comboBoxProjects.DataSource = new BindingList<Project>(ProjectContainer.GetInstance().ProjectList);
+            comboBoxProjects.DisplayMember = "Name";
+
+            if (currentSelectedProject == -1 && comboBoxProjects.Items.Count > 0)
             {
                 comboBoxProjects.SelectedIndex = 0;
+            }
+            else
+            {
+                comboBoxProjects.SelectedIndex = currentSelectedProject;
             }
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            Save();
+            if (Validate())
+            {
+                Save();
+            }
+        }
+
+        private bool Validate()
+        {
+            if(String.IsNullOrEmpty(textBoxName.Text))
+            {
+                Classes.Mediation.FormMediator.GetInstance().SendError("Project Name is Required");
+                return false;
+            }
+            return true;
         }
 
         private void Save()
@@ -76,6 +92,10 @@ namespace Codenesium.TemplateGenerator.UserControls
                 {
                     ProjectTemplate projectTemplate = new ProjectTemplate();
                     projectTemplate.TemplateName = item.ToString();
+                    projectTemplate.Parameters["OutputFormat"] = "SCREEN";
+                    projectTemplate.Parameters["DataInterface"] = "NONE";
+                    projectTemplate.Parameters["ConnectionString"] = "";
+                    projectTemplate.Parameters["OutputDirectory"] = @"c:\";
                     templateList.Add(projectTemplate);
                 }
                 Project project = new Project();
@@ -84,6 +104,8 @@ namespace Codenesium.TemplateGenerator.UserControls
                 project.ProjectTemplateList.AddRange(templateList);
                 ProjectContainer.GetInstance().UpdateProject(project);
                 ProjectContainer.GetInstance().Save(ProjectContainer.GetInstance().FileLocation);
+                Classes.Mediation.FormMediator.GetInstance().SendMessage("Project Created");
+                SetCreateMode(false);
             }
             else
             {
@@ -112,10 +134,10 @@ namespace Codenesium.TemplateGenerator.UserControls
                     
                     ProjectContainer.GetInstance().UpdateProject(project);
                     ProjectContainer.GetInstance().Save(ProjectContainer.GetInstance().FileLocation);
+                    Classes.Mediation.FormMediator.GetInstance().SendMessage("Project Updated");
                 }
             }
         }
-
 
         private void UncheckAll()
         {
@@ -123,8 +145,8 @@ namespace Codenesium.TemplateGenerator.UserControls
             {
                 checkedListBoxTemplates.SetItemChecked(i, false);
             }
-
         }
+
         private void comboBoxProjects_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxProjects.SelectedIndex > -1)

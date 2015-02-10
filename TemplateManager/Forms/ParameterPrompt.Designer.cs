@@ -54,6 +54,7 @@
             this.textBoxValue.Size = new System.Drawing.Size(208, 23);
             this.textBoxValue.TabIndex = 1;
             this.textBoxValue.UseSelectable = true;
+            this.textBoxValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxValue_KeyDown);
             // 
             // buttonSave
             // 

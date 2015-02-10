@@ -25,5 +25,14 @@ namespace Codenesium.TemplateGenerator.Forms
             this.Value = textBoxValue.Text;
             this.Close();
         }
+
+        private void textBoxValue_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                this.Value = textBoxValue.Text;
+                this.Close();
+            }
+        }
     }
 }

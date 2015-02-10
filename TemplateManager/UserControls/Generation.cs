@@ -9,16 +9,20 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Codenesium.TemplateGenerator.Classes.Generation;
 using System.IO;
-
+using Codenesium.TemplateGenerator.Classes.Mediation;
 namespace Codenesium.TemplateGenerator.UserControls
 {
     public partial class Generation : UserControl
     {
+        private Project _selectedProject;
+        delegate void SetStatusCallback(object sender, MessageEventArgs me);
         public Generation()
         {
             InitializeComponent();
             LoadForm();
             ProjectContainer.GetInstance().Reload += ProjectChanged;
+            FormMediator.GetInstance().GenerationScreenEvent += GenerationScreenEventHandler;
+            FormMediator.GetInstance().GenerationCompleteEvent += GenerationCompleteHandler;
         }
 
         private void ProjectChanged(object sender, EventArgs e)
@@ -26,68 +30,134 @@ namespace Codenesium.TemplateGenerator.UserControls
             LoadForm();
         }
 
+
+        private void GenerationScreenEventHandler(object sender, MessageEventArgs me)
+        {
+
+            if (textBoxResult.InvokeRequired)
+            {
+                SetStatusCallback callback = new SetStatusCallback(GenerationScreenEventHandler);
+                this.Invoke(callback, this, me);
+            }
+            else
+            {
+                textBoxResult.Text += me.Message;
+            }
+        }
+
+
+        private void GenerationCompleteHandler(object sender, MessageEventArgs me)
+        {
+
+            if (progressSpinnerGeneration.InvokeRequired)
+            {
+                SetStatusCallback callback = new SetStatusCallback(GenerationCompleteHandler);
+                this.Invoke(callback, this, me);
+            }
+            else
+            {
+                progressSpinnerGeneration.Visible = false;
+            }
+        }
+        
         private void LoadForm()
         {
+            int currentSelectedProject = comboBoxProjects.SelectedIndex;
             comboBoxProjects.DataSource = new BindingList<Project>(ProjectContainer.GetInstance().ProjectList);
             comboBoxProjects.DisplayMember = "Name";
+            if (currentSelectedProject == -1 && comboBoxProjects.Items.Count > 0)
+            {
+                comboBoxProjects.SelectedIndex = 0;
+            }
+            else
+            {
+                comboBoxProjects.SelectedIndex = currentSelectedProject;
+            }
         }
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
             textBoxResult.Clear();
-            if(comboBoxProjects.SelectedIndex > -1)
+            if (comboBoxProjects.SelectedIndex > -1)
             {
-                Project project = (Project)comboBoxProjects.SelectedItem;
-
-
-                Dictionary<string, string> tempParameters = new Dictionary<string, string>();
-                foreach(ProjectTemplate projectTemplate in project.ProjectTemplateList)
-                {
-
-                    foreach (string key in projectTemplate.Parameters.Keys)
-                    {
-                        if (projectTemplate.Parameters[key].ToUpper() == "PROMPT")
-                        {
-                            Forms.ParameterPrompt formParameterPrompt = new Forms.ParameterPrompt(key);
-                            formParameterPrompt.ShowDialog();
-                            tempParameters[key] = formParameterPrompt.Value;
-                        }
-                        else
-                        {
-                            tempParameters[key] = projectTemplate.Parameters[key];
-                        }
-                    }
-                    projectTemplate.Parameters = tempParameters;
-
-
-                    textBoxResult.Text += ProcessTemplate(projectTemplate,TemplateContainer.GetInstance().TemplateList.ToList().Where(x => x.Name == projectTemplate.TemplateName).FirstOrDefault(),
-                        project.ConnectionStrings[projectTemplate.Parameters["ConnectionString"]]);       
-                }
+                this._selectedProject = (Project)comboBoxProjects.SelectedItem;
+                progressSpinnerGeneration.Visible = true;
+                Action action = new Action(StartGeneration);
+                Task generate = new Task(action);
+                generate.Start();
             }
         }
 
+        private void StartGeneration()
+        {
 
-       
-        private string ProcessTemplate(ProjectTemplate projectTemplate,Template template,string connectionString)
+            Classes.Mediation.FormMediator.GetInstance().SendMessage("Starting Generation");
+            Dictionary<string, string> tempParameters = new Dictionary<string, string>();
+            foreach (ProjectTemplate projectTemplate in this._selectedProject.ProjectTemplateList)
+            {
+
+                foreach (string key in projectTemplate.Parameters.Keys)
+                {
+                    if (projectTemplate.Parameters[key].ToUpper() == "PROMPT")
+                    {
+                        Forms.ParameterPrompt formParameterPrompt = new Forms.ParameterPrompt(key);
+                        formParameterPrompt.ShowDialog();
+                        tempParameters[key] = formParameterPrompt.Value;
+                    }
+                    else
+                    {
+                        tempParameters[key] = projectTemplate.Parameters[key];
+                    }
+                }
+
+
+                string connectionString = String.Empty;
+                if (projectTemplate.Parameters.ContainsKey("ConnectionString"))
+                {
+                    connectionString = this._selectedProject.ConnectionStrings[projectTemplate.Parameters["ConnectionString"]];
+                }
+
+                FormMediator.GetInstance().AddGenerationScreenMessage(ProcessTemplate(tempParameters, TemplateContainer.GetInstance().TemplateList.ToList().Where(x => x.Name == projectTemplate.TemplateName).FirstOrDefault(),
+                  connectionString));
+            }
+            Classes.Mediation.FormMediator.GetInstance().GenerationComplete();
+            Classes.Mediation.FormMediator.GetInstance().SendMessage("Generation Complete");
+
+        }
+
+        private string ProcessTemplate(Dictionary<string, string> parameters, Template template, string connectionString)
         {
             string response = string.Empty;
             Classes.Generation.Generator generator = new Classes.Generation.Generator();
             generator.Template = template;
-            generator.Parameters = projectTemplate.Parameters;
-            generator.DataInterface = Classes.Database.DataInterface.ParseDataInterfaceEnum(projectTemplate.Parameters["DataInterface"]);
-            generator.ConnectionString = connectionString;
-            generator.OutputDirectory = projectTemplate.Parameters["OutputDirectory"];
+            generator.Parameters = parameters;
 
-            if (projectTemplate.Parameters.ContainsKey("OutputFormat"))
+            if (parameters.ContainsKey("DataInterface"))
             {
-                if (projectTemplate.Parameters["OutputFormat"].ToUpper() == "DISK")
+                generator.DataInterface = Classes.Database.DataInterface.ParseDataInterfaceEnum(parameters["DataInterface"]);
+            }
+            else
+            {
+                generator.DataInterface = Classes.Database.DATAINTERFACE.NONE;
+            }
+            generator.ConnectionString = connectionString;
+
+            if(parameters.ContainsKey("OutputDirectory"))
+            {
+                generator.OutputDirectory = parameters["OutputDirectory"];
+            }
+
+
+            if (parameters.ContainsKey("OutputFormat"))
+            {
+                if (parameters["OutputFormat"].ToUpper() == "DISK")
                 {
                     generator.WriteToDisk = true;
                 }
             }
 
 
-            if (projectTemplate.Parameters.ContainsKey("AllTables"))
+            if (parameters.ContainsKey("AllTables"))
             {
                 Classes.Database.MSSQL MSSQLManager = new Classes.Database.MSSQL(connectionString);
                 List<Interfaces.IDatabaseTable> tableList = MSSQLManager.GetTableList();
@@ -100,21 +170,28 @@ namespace Codenesium.TemplateGenerator.UserControls
             }
             else
             {
-
-                generator.Parameters["DatabaseTable"] = projectTemplate.Parameters["DatabaseTable"];
+                if (parameters.ContainsKey("DatabaseTable"))
+                {
+                    generator.Parameters["DatabaseTable"] = parameters["DatabaseTable"];
+                }
                 generator.ExecuteTemplateCustomHost();
             }
 
 
-            if(projectTemplate.Parameters.ContainsKey("OutputFormat"))
+            if (parameters.ContainsKey("OutputFormat"))
             {
-                if(projectTemplate.Parameters["OutputFormat"].ToUpper() == "SCREEN")
+                if (parameters["OutputFormat"].ToUpper() == "SCREEN")
                 {
                     response += generator.ExecutionResult.TransformedText;
                 }
             }
-            
+
             response += generator.ExecutionResult.ErrorMessage;
+
+            if(!String.IsNullOrEmpty(generator.ExecutionResult.ErrorMessage))
+            {
+                Classes.Mediation.FormMediator.GetInstance().SendError("Error processing template");
+            }
             return response;
         }
 

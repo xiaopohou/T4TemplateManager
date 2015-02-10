@@ -30,6 +30,32 @@ This report is Company Confidential.<#= parameter1 #>
 	</template>
 
 
+  <template>
+    <name>TemplateSample2</name>
+    <fileExtension>.cs</fileExtension>
+    <perTableTemplate>False</perTableTemplate>
+    <dataInterface>NONE</dataInterface>
+    <description>none</description>
+    <parameters>
+      <parameter>
+        <name>parameter1</name>
+      </parameter>
+    </parameters>
+    <templateText>
+      <![CDATA[<#@ template language="C#"  hostspecific="true" #>
+<#@ parameter type="System.String" name="parameter1"#>
+<#@ parameter type="System.String" name="parameter2"#>
+<#@ parameter type="System.String" name="parameter3"#>
+Dear <#= parameter1 #>,
+I regret to inform you that <#= parameter2 #> is being terminated.
+
+Sincerely,
+<#= parameter3 #>
+
+
+]]>
+    </templateText>
+  </template>
 
   <template>
     <name>TemplateMSSQLSelectAll</name>

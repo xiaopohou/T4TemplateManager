@@ -33,6 +33,7 @@
             this.buttonTemplates = new MetroFramework.Controls.MetroButton();
             this.buttonDataInterfaces = new MetroFramework.Controls.MetroButton();
             this.buttonGeneration = new MetroFramework.Controls.MetroButton();
+            this.labelStatus = new MetroFramework.Controls.MetroLabel();
             this.SuspendLayout();
             // 
             // panelMain
@@ -89,20 +90,34 @@
             this.buttonGeneration.UseSelectable = true;
             this.buttonGeneration.Click += new System.EventHandler(this.buttonGeneration_Click);
             // 
+            // labelStatus
+            // 
+            this.labelStatus.AutoSize = true;
+            this.labelStatus.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.labelStatus.ForeColor = System.Drawing.Color.LimeGreen;
+            this.labelStatus.Location = new System.Drawing.Point(24, 658);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(72, 19);
+            this.labelStatus.TabIndex = 7;
+            this.labelStatus.Text = "Response";
+            this.labelStatus.UseCustomForeColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(865, 658);
+            this.ClientSize = new System.Drawing.Size(865, 709);
+            this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.buttonGeneration);
             this.Controls.Add(this.buttonDataInterfaces);
             this.Controls.Add(this.buttonTemplates);
             this.Controls.Add(this.buttonProjects);
             this.Controls.Add(this.panelMain);
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "Codenesium T4 Template Manager";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -113,6 +128,7 @@
         private MetroFramework.Controls.MetroButton buttonTemplates;
         private MetroFramework.Controls.MetroButton buttonDataInterfaces;
         private MetroFramework.Controls.MetroButton buttonGeneration;
+        private MetroFramework.Controls.MetroLabel labelStatus;
 
 
     }

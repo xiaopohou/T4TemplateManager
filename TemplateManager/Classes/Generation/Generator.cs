@@ -38,7 +38,17 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                 Engine engine = new Engine();
                 Classes.Generation.CustomGenerationHost host = new Classes.Generation.CustomGenerationHost();
                 TextTemplatingSession session = new TextTemplatingSession();
-                string tempPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), Classes.Utility.RandomNumber.GetRandomNumber().ToString() + "temp.tt");
+
+                string workingDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "WorkingDirectory");
+
+                if(!Directory.Exists(workingDirectory))
+                {
+                    Directory.CreateDirectory(workingDirectory);
+                }
+
+                string tempPath = Path.Combine(workingDirectory, Classes.Utility.RandomNumber.GetRandomNumber().ToString() + "temp.tt");
+                
+                
                 File.WriteAllText(tempPath, this.Template.TemplateText.Trim());
                 host.TemplateFileValue = tempPath;
                 if (this.DataInterface == DATAINTERFACE.MSSQL)
@@ -60,7 +70,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                 }
                 else if (this.DataInterface == DATAINTERFACE.NONE)
                 {
-                    throw new NotImplementedException();
+                    //throw new NotImplementedException();
                 }
                 else
                 {
@@ -74,6 +84,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                 }
 
                 host.Session = session;
+                
                 result.TransformedText = engine.ProcessTemplate(this.Template.TemplateText, host).Trim();
 
                 foreach (CompilerError item in host.Errors)

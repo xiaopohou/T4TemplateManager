@@ -26,9 +26,19 @@ namespace Codenesium.TemplateGenerator.UserControls
 
         private void LoadForm()
         {
+            int currentSelectedProject = comboBoxProjects.SelectedIndex;
             comboBoxProjects.DataSource = new BindingList<Project>(ProjectContainer.GetInstance().ProjectList);
             comboBoxProjects.DisplayMember = "Name";
             comboBoxProjects.ValueMember = "ID";
+
+            if (currentSelectedProject == -1 && comboBoxProjects.Items.Count > 0)
+            {
+                comboBoxProjects.SelectedIndex = 0;
+            }
+            else
+            {
+                comboBoxProjects.SelectedIndex = currentSelectedProject;
+            }
         }
 
         private void comboBoxProjects_SelectedIndexChanged(object sender, EventArgs e)
@@ -51,6 +61,7 @@ namespace Codenesium.TemplateGenerator.UserControls
                 Project project = (Project)comboBoxProjects.SelectedItem;
                 project.ConnectionStrings = ConvertGridToDictionary();
                 ProjectContainer.GetInstance().Save(ProjectContainer.GetInstance().FileLocation);
+                Classes.Mediation.FormMediator.GetInstance().SendMessage("Database Settings Updated");
             }
         }
 

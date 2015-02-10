@@ -111,6 +111,8 @@
     <Compile Include="Classes\Generation\Template.cs" />
     <Compile Include="Classes\Generation\TemplateContainer.cs" />
     <Compile Include="Classes\Generation\TemplateExecutionResult.cs" />
+    <Compile Include="Classes\Mediation\FormMediator.cs" />
+    <Compile Include="Classes\Mediation\MessageEventArgs.cs" />
     <Compile Include="Classes\Utility\RandomNumber.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -129,12 +131,6 @@
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ManageProject.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ManageProject.Designer.cs">
-      <DependentUpon>ManageProject.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ParameterPrompt.cs">
       <SubType>Form</SubType>
@@ -179,9 +175,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ManageProject.resx">
-      <DependentUpon>ManageProject.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ParameterPrompt.resx">
       <DependentUpon>ParameterPrompt.cs</DependentUpon>

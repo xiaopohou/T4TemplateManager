@@ -32,6 +32,7 @@
             this.comboBoxProjects = new MetroFramework.Controls.MetroComboBox();
             this.buttonGenerate = new MetroFramework.Controls.MetroButton();
             this.textBoxResult = new MetroFramework.Controls.MetroTextBox();
+            this.progressSpinnerGeneration = new MetroFramework.Controls.MetroProgressSpinner();
             this.SuspendLayout();
             // 
             // metroLabel3
@@ -67,7 +68,7 @@
             // textBoxResult
             // 
             this.textBoxResult.Lines = new string[0];
-            this.textBoxResult.Location = new System.Drawing.Point(364, 103);
+            this.textBoxResult.Location = new System.Drawing.Point(370, 48);
             this.textBoxResult.MaxLength = 32767;
             this.textBoxResult.Multiline = true;
             this.textBoxResult.Name = "textBoxResult";
@@ -78,10 +79,21 @@
             this.textBoxResult.TabIndex = 12;
             this.textBoxResult.UseSelectable = true;
             // 
+            // progressSpinnerGeneration
+            // 
+            this.progressSpinnerGeneration.Location = new System.Drawing.Point(187, 92);
+            this.progressSpinnerGeneration.Maximum = 100;
+            this.progressSpinnerGeneration.Name = "progressSpinnerGeneration";
+            this.progressSpinnerGeneration.Size = new System.Drawing.Size(44, 42);
+            this.progressSpinnerGeneration.TabIndex = 13;
+            this.progressSpinnerGeneration.UseSelectable = true;
+            this.progressSpinnerGeneration.Visible = false;
+            // 
             // Generation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.progressSpinnerGeneration);
             this.Controls.Add(this.textBoxResult);
             this.Controls.Add(this.buttonGenerate);
             this.Controls.Add(this.metroLabel3);
@@ -99,5 +111,6 @@
         private MetroFramework.Controls.MetroComboBox comboBoxProjects;
         private MetroFramework.Controls.MetroButton buttonGenerate;
         private MetroFramework.Controls.MetroTextBox textBoxResult;
+        private MetroFramework.Controls.MetroProgressSpinner progressSpinnerGeneration;
     }
 }
