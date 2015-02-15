@@ -42,7 +42,7 @@
             // 
             this.comboBoxProjects.FormattingEnabled = true;
             this.comboBoxProjects.ItemHeight = 23;
-            this.comboBoxProjects.Location = new System.Drawing.Point(35, 51);
+            this.comboBoxProjects.Location = new System.Drawing.Point(12, 36);
             this.comboBoxProjects.Name = "comboBoxProjects";
             this.comboBoxProjects.Size = new System.Drawing.Size(200, 29);
             this.comboBoxProjects.TabIndex = 0;
@@ -52,7 +52,7 @@
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(35, 26);
+            this.metroLabel1.Location = new System.Drawing.Point(12, 11);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(50, 19);
             this.metroLabel1.TabIndex = 1;
@@ -62,7 +62,7 @@
             // 
             this.textBoxName.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.textBoxName.Lines = new string[0];
-            this.textBoxName.Location = new System.Drawing.Point(35, 116);
+            this.textBoxName.Location = new System.Drawing.Point(12, 101);
             this.textBoxName.MaxLength = 32767;
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.PasswordChar = '\0';
@@ -75,7 +75,7 @@
             // metroLabel2
             // 
             this.metroLabel2.AutoSize = true;
-            this.metroLabel2.Location = new System.Drawing.Point(35, 94);
+            this.metroLabel2.Location = new System.Drawing.Point(12, 79);
             this.metroLabel2.Name = "metroLabel2";
             this.metroLabel2.Size = new System.Drawing.Size(45, 19);
             this.metroLabel2.TabIndex = 3;
@@ -93,7 +93,7 @@
             // 
             // buttonCreate
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(254, 51);
+            this.buttonCreate.Location = new System.Drawing.Point(231, 36);
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.Size = new System.Drawing.Size(75, 29);
             this.buttonCreate.TabIndex = 5;

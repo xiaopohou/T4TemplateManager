@@ -38,7 +38,7 @@
             // metroLabel3
             // 
             this.metroLabel3.AutoSize = true;
-            this.metroLabel3.Location = new System.Drawing.Point(17, 23);
+            this.metroLabel3.Location = new System.Drawing.Point(13, 10);
             this.metroLabel3.Name = "metroLabel3";
             this.metroLabel3.Size = new System.Drawing.Size(50, 19);
             this.metroLabel3.TabIndex = 10;
@@ -48,7 +48,7 @@
             // 
             this.comboBoxProjects.FormattingEnabled = true;
             this.comboBoxProjects.ItemHeight = 23;
-            this.comboBoxProjects.Location = new System.Drawing.Point(17, 48);
+            this.comboBoxProjects.Location = new System.Drawing.Point(13, 35);
             this.comboBoxProjects.Name = "comboBoxProjects";
             this.comboBoxProjects.Size = new System.Drawing.Size(200, 29);
             this.comboBoxProjects.TabIndex = 9;
@@ -57,7 +57,7 @@
             // 
             // buttonGenerate
             // 
-            this.buttonGenerate.Location = new System.Drawing.Point(142, 102);
+            this.buttonGenerate.Location = new System.Drawing.Point(141, 92);
             this.buttonGenerate.Name = "buttonGenerate";
             this.buttonGenerate.Size = new System.Drawing.Size(75, 29);
             this.buttonGenerate.TabIndex = 11;
@@ -68,7 +68,7 @@
             // textBoxResult
             // 
             this.textBoxResult.Lines = new string[0];
-            this.textBoxResult.Location = new System.Drawing.Point(250, 48);
+            this.textBoxResult.Location = new System.Drawing.Point(244, 35);
             this.textBoxResult.MaxLength = 32767;
             this.textBoxResult.Multiline = true;
             this.textBoxResult.Name = "textBoxResult";
@@ -81,7 +81,7 @@
             // 
             // progressSpinnerGeneration
             // 
-            this.progressSpinnerGeneration.Location = new System.Drawing.Point(173, 143);
+            this.progressSpinnerGeneration.Location = new System.Drawing.Point(172, 133);
             this.progressSpinnerGeneration.Maximum = 100;
             this.progressSpinnerGeneration.Name = "progressSpinnerGeneration";
             this.progressSpinnerGeneration.Size = new System.Drawing.Size(44, 42);

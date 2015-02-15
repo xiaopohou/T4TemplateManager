@@ -113,7 +113,9 @@
             this.Controls.Add(this.buttonTemplates);
             this.Controls.Add(this.buttonProjects);
             this.Controls.Add(this.panelMain);
+            this.MaximizeBox = false;
             this.Name = "MainForm";
+            this.Resizable = false;
             this.Text = "Codenesium T4 Template Manager";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
