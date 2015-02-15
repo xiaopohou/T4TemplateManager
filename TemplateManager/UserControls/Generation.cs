@@ -105,6 +105,13 @@ namespace Codenesium.TemplateGenerator.UserControls
                         {
                             Forms.ParameterPrompt formParameterPrompt = new Forms.ParameterPrompt(key);
                             formParameterPrompt.ShowDialog();
+                            if(!formParameterPrompt.Saved)
+                            {
+                                Classes.Mediation.FormMediator.GetInstance().SendMessage("Generation Canceled");
+                                Classes.Mediation.FormMediator.GetInstance().GenerationComplete();
+                                return;
+                            }
+
                             tempParameters[key] = formParameterPrompt.Value;
                         }
                         else

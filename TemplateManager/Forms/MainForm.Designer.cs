@@ -95,7 +95,7 @@
             this.labelStatus.AutoSize = true;
             this.labelStatus.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.labelStatus.ForeColor = System.Drawing.Color.LimeGreen;
-            this.labelStatus.Location = new System.Drawing.Point(24, 658);
+            this.labelStatus.Location = new System.Drawing.Point(23, 648);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(72, 19);
             this.labelStatus.TabIndex = 7;
@@ -106,7 +106,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(865, 709);
+            this.ClientSize = new System.Drawing.Size(865, 673);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.buttonGeneration);
             this.Controls.Add(this.buttonDataInterfaces);

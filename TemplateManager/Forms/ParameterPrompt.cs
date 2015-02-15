@@ -13,6 +13,7 @@ namespace Codenesium.TemplateGenerator.Forms
     public partial class ParameterPrompt : MetroFramework.Forms.MetroForm
     {
         public string Value { get; set; }
+        public bool Saved { get; set; }
         public ParameterPrompt(string key)
         {
             InitializeComponent();
@@ -23,6 +24,7 @@ namespace Codenesium.TemplateGenerator.Forms
         private void buttonSave_Click(object sender, EventArgs e)
         {
             this.Value = textBoxValue.Text;
+            this.Saved = true;
             this.Close();
         }
 
@@ -30,6 +32,7 @@ namespace Codenesium.TemplateGenerator.Forms
         {
             if(e.KeyCode == Keys.Enter)
             {
+                this.Saved = true;
                 this.Value = textBoxValue.Text;
                 this.Close();
             }
@@ -37,8 +40,7 @@ namespace Codenesium.TemplateGenerator.Forms
 
         private void ParameterPrompt_Load(object sender, EventArgs e)
         {
-            textBoxValue.Select();
-            
+            textBoxValue.Select();       
         }
     }
 }

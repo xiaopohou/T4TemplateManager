@@ -50,14 +50,14 @@
             this.comboBoxProjects.ItemHeight = 23;
             this.comboBoxProjects.Location = new System.Drawing.Point(17, 48);
             this.comboBoxProjects.Name = "comboBoxProjects";
-            this.comboBoxProjects.Size = new System.Drawing.Size(305, 29);
+            this.comboBoxProjects.Size = new System.Drawing.Size(200, 29);
             this.comboBoxProjects.TabIndex = 9;
             this.comboBoxProjects.UseSelectable = true;
             this.comboBoxProjects.SelectedIndexChanged += new System.EventHandler(this.comboBoxProjects_SelectedIndexChanged);
             // 
             // buttonGenerate
             // 
-            this.buttonGenerate.Location = new System.Drawing.Point(247, 103);
+            this.buttonGenerate.Location = new System.Drawing.Point(142, 102);
             this.buttonGenerate.Name = "buttonGenerate";
             this.buttonGenerate.Size = new System.Drawing.Size(75, 23);
             this.buttonGenerate.TabIndex = 11;
@@ -68,20 +68,20 @@
             // textBoxResult
             // 
             this.textBoxResult.Lines = new string[0];
-            this.textBoxResult.Location = new System.Drawing.Point(370, 48);
+            this.textBoxResult.Location = new System.Drawing.Point(250, 48);
             this.textBoxResult.MaxLength = 32767;
             this.textBoxResult.Multiline = true;
             this.textBoxResult.Name = "textBoxResult";
             this.textBoxResult.PasswordChar = '\0';
             this.textBoxResult.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBoxResult.SelectedText = "";
-            this.textBoxResult.Size = new System.Drawing.Size(391, 332);
+            this.textBoxResult.Size = new System.Drawing.Size(556, 458);
             this.textBoxResult.TabIndex = 12;
             this.textBoxResult.UseSelectable = true;
             // 
             // progressSpinnerGeneration
             // 
-            this.progressSpinnerGeneration.Location = new System.Drawing.Point(187, 92);
+            this.progressSpinnerGeneration.Location = new System.Drawing.Point(173, 143);
             this.progressSpinnerGeneration.Maximum = 100;
             this.progressSpinnerGeneration.Name = "progressSpinnerGeneration";
             this.progressSpinnerGeneration.Size = new System.Drawing.Size(44, 42);
@@ -99,7 +99,7 @@
             this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.comboBoxProjects);
             this.Name = "Generation";
-            this.Size = new System.Drawing.Size(800, 600);
+            this.Size = new System.Drawing.Size(819, 545);
             this.ResumeLayout(false);
             this.PerformLayout();
 

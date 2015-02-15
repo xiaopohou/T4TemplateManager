@@ -38,6 +38,7 @@
             this.dataGridViewParameters = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.linkLabelViewTemplate = new MetroFramework.Controls.MetroLink();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewParameters)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,7 +66,7 @@
             this.comboBoxTemplates.ItemHeight = 23;
             this.comboBoxTemplates.Location = new System.Drawing.Point(12, 104);
             this.comboBoxTemplates.Name = "comboBoxTemplates";
-            this.comboBoxTemplates.Size = new System.Drawing.Size(305, 29);
+            this.comboBoxTemplates.Size = new System.Drawing.Size(200, 29);
             this.comboBoxTemplates.TabIndex = 5;
             this.comboBoxTemplates.UseSelectable = true;
             this.comboBoxTemplates.SelectedIndexChanged += new System.EventHandler(this.comboBoxTemplates_SelectedIndexChanged);
@@ -85,14 +86,14 @@
             this.comboBoxProjects.ItemHeight = 23;
             this.comboBoxProjects.Location = new System.Drawing.Point(12, 36);
             this.comboBoxProjects.Name = "comboBoxProjects";
-            this.comboBoxProjects.Size = new System.Drawing.Size(305, 29);
+            this.comboBoxProjects.Size = new System.Drawing.Size(200, 29);
             this.comboBoxProjects.TabIndex = 7;
             this.comboBoxProjects.UseSelectable = true;
             this.comboBoxProjects.SelectedIndexChanged += new System.EventHandler(this.comboBoxProjects_SelectedIndexChanged);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(692, 470);
+            this.buttonSave.Location = new System.Drawing.Point(703, 484);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 29);
             this.buttonSave.TabIndex = 12;
@@ -106,9 +107,9 @@
             this.dataGridViewParameters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Key,
             this.Value});
-            this.dataGridViewParameters.Location = new System.Drawing.Point(12, 175);
+            this.dataGridViewParameters.Location = new System.Drawing.Point(3, 175);
             this.dataGridViewParameters.Name = "dataGridViewParameters";
-            this.dataGridViewParameters.Size = new System.Drawing.Size(773, 194);
+            this.dataGridViewParameters.Size = new System.Drawing.Size(813, 282);
             this.dataGridViewParameters.TabIndex = 15;
             // 
             // Key
@@ -123,10 +124,24 @@
             this.Value.HeaderText = "Value";
             this.Value.Name = "Value";
             // 
+            // linkLabelViewTemplate
+            // 
+            this.linkLabelViewTemplate.ForeColor = System.Drawing.Color.Blue;
+            this.linkLabelViewTemplate.Location = new System.Drawing.Point(216, 107);
+            this.linkLabelViewTemplate.Name = "linkLabelViewTemplate";
+            this.linkLabelViewTemplate.Size = new System.Drawing.Size(75, 23);
+            this.linkLabelViewTemplate.Style = MetroFramework.MetroColorStyle.Blue;
+            this.linkLabelViewTemplate.TabIndex = 16;
+            this.linkLabelViewTemplate.Text = "View";
+            this.linkLabelViewTemplate.UseCustomForeColor = true;
+            this.linkLabelViewTemplate.UseSelectable = true;
+            this.linkLabelViewTemplate.Click += new System.EventHandler(this.linkLabelViewTemplate_Click);
+            // 
             // Templates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.linkLabelViewTemplate);
             this.Controls.Add(this.dataGridViewParameters);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.metroLabel3);
@@ -135,7 +150,7 @@
             this.Controls.Add(this.comboBoxTemplates);
             this.Controls.Add(this.metroLabel1);
             this.Name = "Templates";
-            this.Size = new System.Drawing.Size(800, 600);
+            this.Size = new System.Drawing.Size(819, 545);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewParameters)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -154,5 +169,6 @@
         private System.Windows.Forms.DataGridView dataGridViewParameters;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
+        private MetroFramework.Controls.MetroLink linkLabelViewTemplate;
     }
 }

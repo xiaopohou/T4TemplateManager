@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Codenesium.TemplateGenerator.Forms
 {
-    public partial class FormTextViewer : Form
+    public partial class FormTextViewer : MetroFramework.Forms.MetroForm
     {
         private string _text;
         public FormTextViewer(string text)

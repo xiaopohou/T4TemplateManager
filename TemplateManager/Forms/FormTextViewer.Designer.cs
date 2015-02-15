@@ -34,11 +34,13 @@
             // richTextBoxViewer
             // 
             this.richTextBoxViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxViewer.Location = new System.Drawing.Point(0, 0);
+            this.richTextBoxViewer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxViewer.Location = new System.Drawing.Point(20, 60);
             this.richTextBoxViewer.Name = "richTextBoxViewer";
-            this.richTextBoxViewer.Size = new System.Drawing.Size(941, 610);
+            this.richTextBoxViewer.Size = new System.Drawing.Size(901, 530);
             this.richTextBoxViewer.TabIndex = 0;
             this.richTextBoxViewer.Text = "";
+            this.richTextBoxViewer.WordWrap = false;
             // 
             // FormTextViewer
             // 
@@ -47,8 +49,6 @@
             this.ClientSize = new System.Drawing.Size(941, 610);
             this.Controls.Add(this.richTextBoxViewer);
             this.Name = "FormTextViewer";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormTextViewer";
             this.Load += new System.EventHandler(this.FormTextViewer_Load);
             this.ResumeLayout(false);
 

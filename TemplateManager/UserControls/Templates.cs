@@ -122,8 +122,6 @@ namespace Codenesium.TemplateGenerator.UserControls
         }
         private void buttonSave_Click(object sender, EventArgs e)
         {
-
-
             if(comboBoxProjects.SelectedIndex > -1)
             {
                 if(comboBoxTemplates.SelectedIndex > -1)
@@ -142,7 +140,18 @@ namespace Codenesium.TemplateGenerator.UserControls
                     Classes.Mediation.FormMediator.GetInstance().SendMessage("Project Template Saved");
                 }
             }
+        }
 
+        private void linkLabelViewTemplate_Click(object sender, EventArgs e)
+        {
+            if(comboBoxTemplates.SelectedIndex > -1)
+            {
+                ProjectTemplate projectTemplate = (ProjectTemplate)comboBoxTemplates.SelectedItem;
+                Template template = TemplateContainer.GetInstance().TemplateList.Where(x => x.Name.ToUpper() == projectTemplate.TemplateName.ToUpper()).FirstOrDefault();
+                Forms.FormTextViewer textViewer = new Forms.FormTextViewer(template.TemplateText);
+                textViewer.ShowDialog();
+            }
+            
         }
 
      

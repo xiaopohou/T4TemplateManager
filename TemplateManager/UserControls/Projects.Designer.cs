@@ -44,7 +44,7 @@
             this.comboBoxProjects.ItemHeight = 23;
             this.comboBoxProjects.Location = new System.Drawing.Point(35, 51);
             this.comboBoxProjects.Name = "comboBoxProjects";
-            this.comboBoxProjects.Size = new System.Drawing.Size(198, 29);
+            this.comboBoxProjects.Size = new System.Drawing.Size(200, 29);
             this.comboBoxProjects.TabIndex = 0;
             this.comboBoxProjects.UseSelectable = true;
             this.comboBoxProjects.SelectedIndexChanged += new System.EventHandler(this.comboBoxProjects_SelectedIndexChanged);
@@ -83,7 +83,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(679, 480);
+            this.buttonSave.Location = new System.Drawing.Point(703, 484);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 29);
             this.buttonSave.TabIndex = 4;
@@ -131,7 +131,7 @@
             this.Controls.Add(this.metroLabel1);
             this.Controls.Add(this.comboBoxProjects);
             this.Name = "Projects";
-            this.Size = new System.Drawing.Size(800, 600);
+            this.Size = new System.Drawing.Size(819, 545);
             this.ResumeLayout(false);
             this.PerformLayout();
 

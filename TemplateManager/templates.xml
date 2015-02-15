@@ -41,9 +41,7 @@ This report is Company Confidential.<#= parameter1 #>
       </parameter>
     </parameters>
     <templateText>
-      <![CDATA[
-      
-<#@ template language="C#"  hostspecific="true" #>
+      <![CDATA[<#@ template language="C#"  hostspecific="true" #>
 <#@ parameter type="System.String" name="ViewName"#>
 <#@ parameter type="System.String" name="PostUrl"#>
 <#@ parameter type="System.String" Name="DatabaseTable"#>
@@ -119,8 +117,6 @@ I regret to inform you that <#= parameter2 #> is being terminated.
 
 Sincerely,
 <#= parameter3 #>
-
-
 ]]>
     </templateText>
   </template>
@@ -197,8 +193,7 @@ namespace <#= Namespace #>
                 <#
                 }
                 #>
-            }   
-           
+            }          
         }
     }   
 }
@@ -221,8 +216,7 @@ namespace <#= Namespace #>
       </parameter>
     </parameters>
     <templateText>
-      <![CDATA[
-      <#@ template debug="false" hostspecific="false" language="C#" #>
+      <![CDATA[<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ Assembly Name="TemplateGenerator" #>
 <#@ assembly name="System.Core" #>
 <#@ Assembly Name="System.Data" #>
@@ -337,8 +331,7 @@ namespace <#= Namespace #>
       </parameter>
     </parameters>
     <templateText>
-      <![CDATA[
-      <#@ template debug="false" hostspecific="false" language="C#" #>
+      <![CDATA[<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ Assembly Name="TemplateGenerator" #>
 <#@ assembly name="System.Core" #>
 <#@ Assembly Name="System.Data" #>
@@ -538,10 +531,5 @@ namespace <#= Namespace #>
 ]]>
 		</templateText>
 	</template>
-	
-	
-	
-	
-	
 	</templates>
 </xml>
