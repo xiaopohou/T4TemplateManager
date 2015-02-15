@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xml>
+
+  <connectionStrings>
+    <connectionString>
+      <key>default</key>
+      <value>data source=DatabaseServer;initial catalog=FermataFish;user id=test;password=test;</value>
+    </connectionString>
+    <connectionString>
+      <key>foundation</key>
+      <value>data source=DatabaseServer;initial catalog=Foundation;user id=test;password=test;</value>
+    </connectionString>
+  </connectionStrings>
+  
   <projects>
     <project>
       <id>35807859-b35c-4116-a222-00b20e4d9204</id>
@@ -154,16 +166,6 @@
           </parameters>
         </projectTemplate>
       </projectTemplates>
-      <connectionStrings>
-        <connectionString>
-          <key>default</key>
-          <value>data source=DatabaseServer;initial catalog=FermataFish;user id=test;password=test;</value>
-        </connectionString>
-        <connectionString>
-          <key>foundation</key>
-          <value>data source=DatabaseServer;initial catalog=Foundation;user id=test;password=test;</value>
-        </connectionString>
-      </connectionStrings>
     </project>
     <project>
       <id>35807859-b35c-4116-a222-00b20e4d9205</id>
@@ -318,12 +320,6 @@
           </parameters>
         </projectTemplate>
       </projectTemplates>
-      <connectionStrings>
-        <connectionString>
-          <key>Foundation</key>
-          <value>data source=DatabaseServer;initial catalog=Foundation;user id=test;password=test;</value>
-        </connectionString>
-      </connectionStrings>
     </project>
     <project>
       <id>4663c265-23de-48a5-83e7-941bc3209aa4</id>
@@ -359,12 +355,6 @@
           </parameters>
         </projectTemplate>
       </projectTemplates>
-      <connectionStrings>
-        <connectionString>
-          <key>default</key>
-          <value>data source=DatabaseServer;initial catalog=FermataFish;user id=test;password=test;</value>
-        </connectionString>
-      </connectionStrings>
     </project>
     <project>
       <id>816b5220-2cce-47a0-88bd-bf7ff606f4e4</id>

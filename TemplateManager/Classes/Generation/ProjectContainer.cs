@@ -15,6 +15,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         public List<Project> ProjectList;
         public EventHandler Reload; //notify listeners that we have saved and they need to reload data
         private static ProjectContainer _projectContainer;
+        public Dictionary<string, string> ConnectionStrings;
 
         public static ProjectContainer GetInstance()
         {
@@ -28,6 +29,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         private ProjectContainer()
         {
             this.ProjectList = new List<Project>();
+            this.ConnectionStrings = new Dictionary<string, string>();
         }
 
         public bool UpdateProject(Project project)
@@ -63,8 +65,18 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         {
             XDocument xDoc = new XDocument();
             XElement root = new XElement("xml");
-            XElement projects= new XElement("projects");
 
+            XElement connectionStrings = new XElement("connectionStrings");
+            foreach (string key in this.ConnectionStrings.Keys)
+            {
+                XElement item = new XElement("connectionString");
+                item.Add(new XElement("key", key));
+                item.Add(new XElement("value", this.ConnectionStrings[key]));
+                connectionStrings.Add(item);
+            }
+            root.Add(connectionStrings);
+
+            XElement projects= new XElement("projects");
             foreach(Project project in this.ProjectList)
             {
                 projects.Add(project.Export());
@@ -83,17 +95,20 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             {
                 XDocument xDoc = XDocument.Load(filename);
 
+
+                this.ConnectionStrings = (from cs in xDoc.Root.Element("connectionStrings").Descendants("connectionString")
+                                          select new
+                                          {
+                                              key = (string)cs.Element("key").Value ?? string.Empty,
+                                              value = (string)cs.Element("value").Value ?? string.Empty
+                                          }).ToDictionary(pair => pair.key, pair => pair.value);
+
+
                 this.ProjectList = (from project in xDoc.Root.Element("projects").Descendants("project")
                                           select new Project
                                           {
                                               ID = Guid.Parse(project.Element("id").Value),
                                               Name = (string)project.Element("name").Value ?? string.Empty,
-                                              ConnectionStrings =  (from p in project.Element("connectionStrings").Descendants("connectionString")
-                                                                                       select new
-                                                                                       {
-                                                                                           key = (string)p.Element("key").Value ?? string.Empty,
-                                                                                           value = (string)p.Element("value").Value ?? string.Empty
-                                                                                       }).ToDictionary(pair => pair.key, pair => pair.value),
 
                                               ProjectTemplateList = (from pt in project.Elements("projectTemplates").Descendants("projectTemplate")
                                                                      select new ProjectTemplate

@@ -114,7 +114,7 @@ namespace Codenesium.TemplateGenerator.UserControls
                 string connectionString = String.Empty;
                 if (projectTemplate.Parameters.ContainsKey("ConnectionString"))
                 {
-                    connectionString = this._selectedProject.ConnectionStrings[projectTemplate.Parameters["ConnectionString"]];
+                    connectionString = ProjectContainer.GetInstance().ConnectionStrings[projectTemplate.Parameters["ConnectionString"]];
                 }
 
                 FormMediator.GetInstance().AddGenerationScreenMessage(ProcessTemplate(tempParameters, TemplateContainer.GetInstance().TemplateList.ToList().Where(x => x.Name == projectTemplate.TemplateName).FirstOrDefault(),

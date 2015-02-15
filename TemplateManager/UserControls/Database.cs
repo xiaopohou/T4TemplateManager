@@ -26,43 +26,19 @@ namespace Codenesium.TemplateGenerator.UserControls
 
         private void LoadForm()
         {
-            int currentSelectedProject = comboBoxProjects.SelectedIndex;
-            comboBoxProjects.DataSource = new BindingList<Project>(ProjectContainer.GetInstance().ProjectList);
-            comboBoxProjects.DisplayMember = "Name";
-            comboBoxProjects.ValueMember = "ID";
-
-            if (currentSelectedProject == -1 && comboBoxProjects.Items.Count > 0)
-            {
-                comboBoxProjects.SelectedIndex = 0;
-            }
-            else
-            {
-                comboBoxProjects.SelectedIndex = currentSelectedProject;
-            }
-        }
-
-        private void comboBoxProjects_SelectedIndexChanged(object sender, EventArgs e)
-        {
             dataGridViewParameters.Rows.Clear();
-            if (comboBoxProjects.SelectedIndex > -1)
+            foreach (string key in ProjectContainer.GetInstance().ConnectionStrings.Keys)
             {
-                Project project = (Project)comboBoxProjects.SelectedItem;
-                foreach (string key in project.ConnectionStrings.Keys)
-                {
-                    dataGridViewParameters.Rows.Add(key, project.ConnectionStrings[key]);
-                }
-            }
+                dataGridViewParameters.Rows.Add(key, ProjectContainer.GetInstance().ConnectionStrings[key]);
+            }        
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (comboBoxProjects.SelectedIndex > -1)
-            {
-                Project project = (Project)comboBoxProjects.SelectedItem;
-                project.ConnectionStrings = ConvertGridToDictionary();
-                ProjectContainer.GetInstance().Save(ProjectContainer.GetInstance().FileLocation);
-                Classes.Mediation.FormMediator.GetInstance().SendMessage("Database Settings Updated");
-            }
+            ProjectContainer.GetInstance().ConnectionStrings.Clear();
+            ProjectContainer.GetInstance().ConnectionStrings = ConvertGridToDictionary();
+            ProjectContainer.GetInstance().Save(ProjectContainer.GetInstance().FileLocation);
+            Classes.Mediation.FormMediator.GetInstance().SendMessage("Database Settings Updated");
         }
 
         public Dictionary<string, string> ConvertGridToDictionary()
@@ -70,7 +46,6 @@ namespace Codenesium.TemplateGenerator.UserControls
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             foreach (DataGridViewRow row in dataGridViewParameters.Rows)
             {
-
                 string key = (row.Cells["key"].Value ?? String.Empty).ToString();
                 string value = (row.Cells["value"].Value ?? String.Empty).ToString();
                 if (key != String.Empty)

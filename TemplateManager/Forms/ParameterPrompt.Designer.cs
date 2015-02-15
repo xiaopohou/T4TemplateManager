@@ -76,6 +76,7 @@
             this.Controls.Add(this.labelKey);
             this.Name = "ParameterPrompt";
             this.Text = "ParameterPrompt";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.ParameterPrompt_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
