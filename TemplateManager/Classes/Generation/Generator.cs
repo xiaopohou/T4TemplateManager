@@ -57,12 +57,12 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                     Classes.Database.MSSQL MSSQLInterface = new Classes.Database.MSSQL(this.ConnectionString);
                     if (this.Parameters.Keys.Contains("DatabaseTable"))
                     {
-                        List<Interfaces.IDatabaseField> fieldList = MSSQLInterface.GetFieldList(this.Parameters["DatabaseTable"]);
-                        Interfaces.IDatabaseTable table = MSSQLInterface.GetTableList().Where(x => x.Name == this.Parameters["DatabaseTable"]).FirstOrDefault();
+                        //List<Interfaces.IDatabaseField> fieldList = MSSQLInterface.GetFieldList(this.Parameters["DatabaseTable"]);
+                        Interfaces.IDatabaseTable table = MSSQLInterface.GetTableList().Where(x => x.Name.ToUpper() == this.Parameters["DatabaseTable"].ToUpper()).FirstOrDefault();
                         session.Add("CNTable", table);
                     }
-                    List<Interfaces.IDatabaseTable> tableList = MSSQLInterface.GetTableList();
-                    session.Add("CNTableList", tableList);
+                 //   List<Interfaces.IDatabaseTable> tableList = MSSQLInterface.GetTableList();
+                   // session.Add("CNTableList", tableList);
                 }
                 else if (this.DataInterface == DATAINTERFACE.FILE)
                 {

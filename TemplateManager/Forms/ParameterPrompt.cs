@@ -34,5 +34,10 @@ namespace Codenesium.TemplateGenerator.Forms
                 this.Close();
             }
         }
+
+        private void ParameterPrompt_Load(object sender, EventArgs e)
+        {
+            textBoxValue.Select();
+        }
     }
 }

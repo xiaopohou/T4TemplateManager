@@ -29,6 +29,74 @@ This report is Company Confidential.<#= parameter1 #>
 		</templateText>
 	</template>
 
+  <template>
+    <name>MVCCreateView</name>
+    <fileExtension>.cs</fileExtension>
+    <perTableTemplate>False</perTableTemplate>
+    <dataInterface>NONE</dataInterface>
+    <description>none</description>
+    <parameters>
+      <parameter>
+        <name>parameter1</name>
+      </parameter>
+    </parameters>
+    <templateText>
+      <![CDATA[
+      
+<#@ template language="C#"  hostspecific="true" #>
+<#@ parameter type="System.String" name="ViewName"#>
+<#@ parameter type="System.String" name="PostUrl"#>
+<#@ parameter type="System.String" Name="DatabaseTable"#>
+<#@ parameter type="Codenesium.TemplateGenerator.Interfaces.IDatabaseTable" Name="CNTable"#>
+
+<div class="container padding-top-20 fill">
+    <div class="percent-div-100">
+        <h2>Create <#= ViewName #></h2>
+        <form class="form-horizontal" role="form" action="@Url.Content("<#= PostUrl #>")" method="post">
+           
+           
+          
+          
+          
+          
+            <#
+            foreach(Codenesium.TemplateGenerator.Interfaces.IDatabaseField field in CNTable.FieldList)
+            {
+            var fieldName = Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertUnderscoreToCamelCase(field.Name) ;
+            #>
+            
+            
+             <div class="form-group">
+                <label class="control-label col-sm-2" for="FirstName"><#= fieldName #></label>
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(model => model.<#= fieldName #>, new { placeholder = "<#= fieldName #>", @class = "form-control", @type = "text" })
+                    @Html.ValidationMessageFor(x => x.<#= fieldName #>)
+                </div>
+            </div>
+            
+            
+            
+            <#
+            }
+            #>
+                
+                
+                
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+]]>
+    </templateText>
+  </template>
+
+  
 
   <template>
     <name>TemplateSample2</name>
@@ -94,21 +162,48 @@ Sincerely,
     </parameters>
     <templateText>
       <![CDATA[<#@ template language="C#"  hostspecific="true" #>
-<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseTable>" Name="CNTable"#>
+<#@ parameter type="Codenesium.TemplateGenerator.Interfaces.IDatabaseTable" Name="CNTable"#>
 <#@ parameter type="System.String" Name="Namespace"#>
 <#@ parameter type="System.String" Name="DatabaseTable"#>
+<#@ parameter type="System.String" Name="ModelName"#>
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using FluentValidation;
+using FluentValidation.Mvc;
 
 namespace <#= Namespace #>
 {
-    public class <#= DatabaseTable #>Model
+    [FluentValidation.Attributes.Validator(typeof(<#= ModelName #>ModelValidator))]
+    public class <#= ModelName #>Model
     {
-    <#= Codenesium.TemplateGenerator.Classes.Generation.Generator.Helpers.DotNetHelper.GenerateFieldPropertyForList(CNTable.FieldList) #>
-    }
-}]]>
+        <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateFieldPropertyForList(CNTable.FieldList) #>
+    
+    
+        public <#= ModelName #>Model()
+        {
+        }
+    
+        public class <#= ModelName #>ModelValidator : AbstractValidator<<#= ModelName #>Model>
+        {
+            public <#= ModelName #>ModelValidator()
+            {
+                <#
+                foreach(Codenesium.TemplateGenerator.Interfaces.IDatabaseField field in CNTable.FieldList)
+                { 
+                #>
+                RuleFor(x => x.<#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertUnderscoreToCamelCase(field.Name) #>).NotNull().WithMessage("<#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertUnderscoreToCamelCase(field.Name) #> is required");
+                <#
+                }
+                #>
+            }   
+           
+        }
+    }   
+}
+
+]]>
     </templateText>
   </template>
 
@@ -136,7 +231,7 @@ namespace <#= Namespace #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Data" #>
-<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseTable>" Name="CNTable"#>
+<#@ parameter type="Codenesium.TemplateGenerator.Interfaces.IDatabaseTable" Name="CNTable"#>
 <#@ parameter type="System.String" Name="Namespace"#>
 <#@ parameter type="System.String" Name="DatabaseTable"#>
 using System;
@@ -153,7 +248,7 @@ namespace <#= Namespace #>
 {
     public interface I<#= BasicObjectName #>
     {
-		    <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateInterfacePropertyForList(CNFieldList) #>
+		    <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateInterfacePropertyForList(CNTable.FieldList) #>
      }
 }]]>
     </templateText>
@@ -188,7 +283,7 @@ namespace <#= Namespace #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Data" #>
-<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseTable>" Name="CNTable"#>
+<#@ parameter type="Codenesium.TemplateGenerator.Interfaces.IDatabaseTable" Name="CNTable"#>
 <#@ parameter type="System.String" Name="Namespace"#>
 <#@ parameter type="System.String" Name="DatabaseTable"#>
 using System;
@@ -252,7 +347,7 @@ namespace <#= Namespace #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Data" #>
-<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseTable>" Name="CNTable"#>
+<#@ parameter type="Codenesium.TemplateGenerator.Interfaces.IDatabaseTable" Name="CNTable"#>
 <#@ parameter type="System.String" Name="Namespace"#>
 <#@ parameter type="System.String" Name="EntitiesName"#>
 <#@ parameter type="System.String" Name="DataAccessName"#>
@@ -315,7 +410,7 @@ namespace <#= Namespace #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Data" #>
-<#@ parameter type="System.Collections.Generic.List<Codenesium.TemplateGenerator.Interfaces.IDatabaseTable>" Name="CNTable"#>
+<#@ parameter type="Codenesium.TemplateGenerator.Interfaces.IDatabaseTable" Name="CNTable"#>
 <#@ parameter type="System.String" Name="Namespace"#>
 <#@ parameter type="System.String" Name="EntitiesName"#>
 <#@ parameter type="System.String" Name="DatabaseTable"#>

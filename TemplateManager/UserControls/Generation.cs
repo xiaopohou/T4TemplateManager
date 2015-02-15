@@ -190,7 +190,7 @@ namespace Codenesium.TemplateGenerator.UserControls
 
             if(!String.IsNullOrEmpty(generator.ExecutionResult.ErrorMessage))
             {
-                Classes.Mediation.FormMediator.GetInstance().SendError("Error processing template");
+                Classes.Mediation.FormMediator.GetInstance().SendError("Error processing template:" + template.Name);
             }
             return response;
         }
