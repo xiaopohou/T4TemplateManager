@@ -93,35 +93,46 @@ namespace Codenesium.TemplateGenerator.UserControls
 
             Classes.Mediation.FormMediator.GetInstance().SendMessage("Starting Generation");
             Dictionary<string, string> tempParameters = new Dictionary<string, string>();
-            foreach (ProjectTemplate projectTemplate in this._selectedProject.ProjectTemplateList)
+
+            try
             {
-
-                foreach (string key in projectTemplate.Parameters.Keys)
+                foreach (ProjectTemplate projectTemplate in this._selectedProject.ProjectTemplateList)
                 {
-                    if (projectTemplate.Parameters[key].ToUpper() == "PROMPT")
+
+                    foreach (string key in projectTemplate.Parameters.Keys)
                     {
-                        Forms.ParameterPrompt formParameterPrompt = new Forms.ParameterPrompt(key);
-                        formParameterPrompt.ShowDialog();
-                        tempParameters[key] = formParameterPrompt.Value;
+                        if (projectTemplate.Parameters[key].ToUpper() == "PROMPT")
+                        {
+                            Forms.ParameterPrompt formParameterPrompt = new Forms.ParameterPrompt(key);
+                            formParameterPrompt.ShowDialog();
+                            tempParameters[key] = formParameterPrompt.Value;
+                        }
+                        else
+                        {
+                            tempParameters[key] = projectTemplate.Parameters[key];
+                        }
                     }
-                    else
+
+
+                    string connectionString = String.Empty;
+                    if (projectTemplate.Parameters.ContainsKey("ConnectionString"))
                     {
-                        tempParameters[key] = projectTemplate.Parameters[key];
+                        connectionString = ProjectContainer.GetInstance().ConnectionStrings[projectTemplate.Parameters["ConnectionString"]];
                     }
+
+                    FormMediator.GetInstance().AddGenerationScreenMessage(ProcessTemplate(tempParameters, TemplateContainer.GetInstance().TemplateList.ToList().Where(x => x.Name == projectTemplate.TemplateName).FirstOrDefault(),
+                      connectionString));
                 }
-
-
-                string connectionString = String.Empty;
-                if (projectTemplate.Parameters.ContainsKey("ConnectionString"))
-                {
-                    connectionString = ProjectContainer.GetInstance().ConnectionStrings[projectTemplate.Parameters["ConnectionString"]];
-                }
-
-                FormMediator.GetInstance().AddGenerationScreenMessage(ProcessTemplate(tempParameters, TemplateContainer.GetInstance().TemplateList.ToList().Where(x => x.Name == projectTemplate.TemplateName).FirstOrDefault(),
-                  connectionString));
+                Classes.Mediation.FormMediator.GetInstance().SendMessage("Generation Complete");
             }
+            catch(Exception ex)
+            {
+                Classes.Mediation.FormMediator.GetInstance().SendMessage("Exception in Generation");
+                FormMediator.GetInstance().AddGenerationScreenMessage(ex.ToString());
+            }
+
             Classes.Mediation.FormMediator.GetInstance().GenerationComplete();
-            Classes.Mediation.FormMediator.GetInstance().SendMessage("Generation Complete");
+            
 
         }
 
