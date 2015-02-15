@@ -114,12 +114,6 @@
     <Compile Include="Classes\Mediation\FormMediator.cs" />
     <Compile Include="Classes\Mediation\MessageEventArgs.cs" />
     <Compile Include="Classes\Utility\RandomNumber.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FormTextViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,9 +161,6 @@
     <Compile Include="UserControls\Templates.Designer.cs">
       <DependentUpon>Templates.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormTextViewer.resx">
       <DependentUpon>FormTextViewer.cs</DependentUpon>
     </EmbeddedResource>
