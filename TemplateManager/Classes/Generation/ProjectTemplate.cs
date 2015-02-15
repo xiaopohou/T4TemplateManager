@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+
 namespace Codenesium.TemplateGenerator.Classes.Generation
 {
     public class ProjectTemplate
@@ -33,7 +34,5 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             response.Add(parameters);
             return response;
         }
-
-
     }
 }

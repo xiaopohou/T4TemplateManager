@@ -40,7 +40,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
                 string strippedName = tableName.Replace("cn", "").Replace("CN", "");
                 string fixedStrippedName = strippedName.Substring(0, 1).ToUpper() + strippedName.Substring(1, strippedName.Length - 1);
                 objectName = "CN" + fixedStrippedName + "Repository";
-
             }
             else
             {
@@ -57,7 +56,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
                 string strippedName = tableName.Replace("cn", "").Replace("CN", "");
                 string fixedStrippedName = strippedName.Substring(0, 1).ToUpper() + strippedName.Substring(1, strippedName.Length - 1);
                 objectName = "ICN" + fixedStrippedName + "Repository";
-
             }
             else
             {
@@ -65,7 +63,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             }
             return objectName;
         }
-
 
         public static string ConvertTableNameToBasicObjectName(string tableName)
         {

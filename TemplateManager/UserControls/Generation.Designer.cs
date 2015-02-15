@@ -59,7 +59,7 @@
             // 
             this.buttonGenerate.Location = new System.Drawing.Point(142, 102);
             this.buttonGenerate.Name = "buttonGenerate";
-            this.buttonGenerate.Size = new System.Drawing.Size(75, 23);
+            this.buttonGenerate.Size = new System.Drawing.Size(75, 29);
             this.buttonGenerate.TabIndex = 11;
             this.buttonGenerate.Text = "Generate";
             this.buttonGenerate.UseSelectable = true;

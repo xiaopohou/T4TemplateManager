@@ -8,7 +8,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
 {
     public class Parameter
     {
-
         /// <summary>
         /// This function takes a new line delimeted set of = sign delimeted paramaters and returns a key,value dictionary
         /// It tries to ignore bad data so if you fail to pass a correct string you will get unusual results.

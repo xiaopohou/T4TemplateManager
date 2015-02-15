@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Codenesium.TemplateGenerator.Classes.Generation;
 using System.IO;
 using Codenesium.TemplateGenerator.Classes.Mediation;
+
 namespace Codenesium.TemplateGenerator.UserControls
 {
     public partial class Generation : UserControl
@@ -30,10 +31,8 @@ namespace Codenesium.TemplateGenerator.UserControls
             LoadForm();
         }
 
-
         private void GenerationScreenEventHandler(object sender, MessageEventArgs me)
         {
-
             if (textBoxResult.InvokeRequired)
             {
                 SetStatusCallback callback = new SetStatusCallback(GenerationScreenEventHandler);
@@ -44,7 +43,6 @@ namespace Codenesium.TemplateGenerator.UserControls
                 textBoxResult.Text += me.Message;
             }
         }
-
 
         private void GenerationCompleteHandler(object sender, MessageEventArgs me)
         {
@@ -139,8 +137,6 @@ namespace Codenesium.TemplateGenerator.UserControls
             }
 
             Classes.Mediation.FormMediator.GetInstance().GenerationComplete();
-            
-
         }
 
         private string ProcessTemplate(Dictionary<string, string> parameters, Template template, string connectionString)
@@ -158,13 +154,13 @@ namespace Codenesium.TemplateGenerator.UserControls
             {
                 generator.DataInterface = Classes.Database.DATAINTERFACE.NONE;
             }
+
             generator.ConnectionString = connectionString;
 
             if(parameters.ContainsKey("OutputDirectory"))
             {
                 generator.OutputDirectory = parameters["OutputDirectory"];
             }
-
 
             if (parameters.ContainsKey("OutputFormat"))
             {
@@ -173,7 +169,6 @@ namespace Codenesium.TemplateGenerator.UserControls
                     generator.WriteToDisk = true;
                 }
             }
-
 
             if (parameters.ContainsKey("AllTables"))
             {
@@ -195,7 +190,6 @@ namespace Codenesium.TemplateGenerator.UserControls
                 generator.ExecuteTemplateCustomHost();
             }
 
-
             if (parameters.ContainsKey("OutputFormat"))
             {
                 if (parameters["OutputFormat"].ToUpper() == "SCREEN")
@@ -212,8 +206,6 @@ namespace Codenesium.TemplateGenerator.UserControls
             }
             return response;
         }
-
-
 
         private void comboBoxProjects_SelectedIndexChanged(object sender, EventArgs e)
         {

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Codenesium.TemplateGenerator.Classes.Generation
 {
-
     /// <summary>
     /// This class is returned when you execute a template. Result is whether the execution succeeded. 
     /// TransformedText is the response from the template.

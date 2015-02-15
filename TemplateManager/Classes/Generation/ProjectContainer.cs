@@ -46,10 +46,8 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                 if (index > -1)
                 {
                     this.ProjectList[index] = project;
-                }
-              
+                }          
             }
-            
             return true;
         }
 
@@ -90,7 +88,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
 
         public bool Load(string filename)
         {
-
             try
             {
                 XDocument xDoc = XDocument.Load(filename);
@@ -136,8 +133,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             catch (Exception ex)
             {
                 throw;
-            }
-           
+            }  
         }
     }
 }

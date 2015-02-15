@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Codenesium.TemplateGenerator.Classes.Generation;
+
 namespace Codenesium.TemplateGenerator.UserControls
 {
     public partial class Database : UserControl

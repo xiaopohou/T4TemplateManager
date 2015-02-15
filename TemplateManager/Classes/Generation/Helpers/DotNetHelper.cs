@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+
 namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
 {
-   public  class DotNetHelper
+    public class DotNetHelper
     {
         public static string GenerateFieldPropertyForList(List<Interfaces.IDatabaseField> fields)
         {
@@ -18,8 +19,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             return response;
         }
 
-
-
         public static string GenerateInterfacePropertyForList(List<Interfaces.IDatabaseField> fields)
         {
             string response = String.Empty;
@@ -29,7 +28,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             }
             return response;
         }
-
 
         /// <summary>
         /// This function makes a comma separated list of parameters like you would see in a .NET function prototype
@@ -129,7 +127,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             return response;
         }
 
-
         /// <summary>
         /// This function generates the property declaration for a field. This violates the open/closed principle but I'm not sure I care.
         /// </summary>
@@ -179,7 +176,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             return response;
         }
 
-
         public static string GenerateFieldAssignments(List<Interfaces.IDatabaseField> fields, string recordName, string queryName)
         {
             string response = String.Empty;
@@ -193,6 +189,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             }
             return response;
         }
+
         public static string GenerateFieldAssignment(Interfaces.IDatabaseField field, string recordName, string queryName)
         {
             string response = String.Empty;
@@ -200,16 +197,13 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             {
                 default:
                     {
-                        response =  recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = " + queryName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name);
+                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = " + queryName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name);
                         break;
                     }
             }
             return response;
 
         }
-
-
-
 
         public static string GenerateFieldAssignmentsLeftSideNoCamelCase(List<Interfaces.IDatabaseField> fields, string recordName, string queryName)
         {
@@ -253,59 +247,57 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
             return response;
         }
 
-         public static string GenerateReverseFieldAssignmentLeftSideNoCamelCase(Interfaces.IDatabaseField field, string recordName, string queryName)
+        public static string GenerateReverseFieldAssignmentLeftSideNoCamelCase(Interfaces.IDatabaseField field, string recordName, string queryName)
         {
-             string response = String.Empty;
+            string response = String.Empty;
 
-             switch (field.FieldType)
-             {
-                 case DbType.String:
-                     {
-                         response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (string)" + queryName + "." + field.Name;
-                         break;
-                     }
-                 case DbType.DateTime:
-                     {
-                         response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = " + queryName + "." + field.Name;
-                         break;
-                     }
-                 case DbType.Binary:
-                     {
-                         response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (TimeSpan)" + queryName + "." + field.Name;
-                         break;
-                     }
-                 case DbType.Int32:
-                     {
-                         response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (int)" + queryName + "." + field.Name;
-                         break;
-                     }
-                 case DbType.Int64:
-                     {
-                         response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (long)" + queryName + "." + field.Name;
-                         break;
-                     }
-                 case DbType.Boolean:
-                     {
-                         response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = Convert.ToBoolean(" + queryName + "." + field.Name;
-                         break;
-                     }
-                 case DbType.Decimal:
-                     {
-                         response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (decimal)" + queryName + "." + field.Name;
-                         break;
-                     }
-             }
-                    return response;
-
+            switch (field.FieldType)
+            {
+                case DbType.String:
+                    {
+                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (string)" + queryName + "." + field.Name;
+                        break;
+                    }
+                case DbType.DateTime:
+                    {
+                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = " + queryName + "." + field.Name;
+                        break;
+                    }
+                case DbType.Binary:
+                    {
+                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (TimeSpan)" + queryName + "." + field.Name;
+                        break;
+                    }
+                case DbType.Int32:
+                    {
+                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (int)" + queryName + "." + field.Name;
+                        break;
+                    }
+                case DbType.Int64:
+                    {
+                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (long)" + queryName + "." + field.Name;
+                        break;
+                    }
+                case DbType.Boolean:
+                    {
+                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = Convert.ToBoolean(" + queryName + "." + field.Name;
+                        break;
+                    }
+                case DbType.Decimal:
+                    {
+                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (decimal)" + queryName + "." + field.Name;
+                        break;
+                    }
+            }
+            return response;
         }
-
 
         public static string GenerateFieldAssignmentsSimple(List<Interfaces.IDatabaseField> fields, string recordName)
         {
             string response = String.Empty;
             foreach (Interfaces.IDatabaseField field in fields)
             {
-                if ( field.Name.ToUpper() == "RECORDSTATUS")
+                if (field.Name.ToUpper() == "RECORDSTATUS")
                 {
                     continue;
                 }
@@ -337,6 +329,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
 
             return response;
         }
+
         public static string GenerateSQLinqField(Interfaces.IDatabaseField field, string tableName)
         {
             //linq_fields += this._field_list[i].Name + " = (string)(" + LinqAbbreviation(this._table_name) + "." + this._field_list[i].Name + " ?? \"\")";
@@ -393,6 +386,5 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
                 return tableName.ToLower().Substring(0, 3);
             }
         }
-        
     }
 }

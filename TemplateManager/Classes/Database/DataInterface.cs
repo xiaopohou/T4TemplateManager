@@ -16,8 +16,6 @@ namespace Codenesium.TemplateGenerator.Classes.Database
 
     public static class DataInterface
     {
-
-      
         public static string ToString(this DATAINTERFACE value) //ext method
         {
             switch(value)

@@ -54,7 +54,6 @@ namespace Codenesium.TemplateGenerator.UserControls
             }
         }
 
-
         private void ClearFields()
         {
             dataGridViewParameters.Rows.Clear();
@@ -66,7 +65,7 @@ namespace Codenesium.TemplateGenerator.UserControls
             if (comboBoxTemplates.SelectedIndex > -1)
             {
                 ProjectTemplate projectTemplate = (ProjectTemplate)comboBoxTemplates.SelectedItem;
-                Template template=  TemplateContainer.GetInstance().TemplateList.Where(x => x.Name.ToUpper() == projectTemplate.TemplateName.ToUpper()).FirstOrDefault();
+                Template template = TemplateContainer.GetInstance().TemplateList.Where(x => x.Name.ToUpper() == projectTemplate.TemplateName.ToUpper()).FirstOrDefault();
 
                 Dictionary<string, string> parameters = Classes.Generation.Parameter.ParseParametersFromTemplate(template.TemplateText);
                 foreach (string key in parameters.Keys)
@@ -91,18 +90,17 @@ namespace Codenesium.TemplateGenerator.UserControls
 
 
                 //if we have extra parameters that are not used by the template but are generation specific we add those here
-                foreach(string key in projectTemplate.Parameters.Keys)
+                foreach (string key in projectTemplate.Parameters.Keys)
                 {
-                    if(!parameters.ContainsKey(key))
+                    if (!parameters.ContainsKey(key))
                     {
                         int index = dataGridViewParameters.Rows.Add(key, projectTemplate.Parameters[key]);
                         dataGridViewParameters.Rows[index].Cells["key"].Style.ForeColor = Color.Blue;
                     }
                 }
-                
+
             }
         }
-
 
         public Dictionary<string,string> ConvertGridToDictionary()
         {
@@ -120,6 +118,7 @@ namespace Codenesium.TemplateGenerator.UserControls
 
             return parameters;
         }
+
         private void buttonSave_Click(object sender, EventArgs e)
         {
             if(comboBoxProjects.SelectedIndex > -1)
@@ -150,10 +149,7 @@ namespace Codenesium.TemplateGenerator.UserControls
                 Template template = TemplateContainer.GetInstance().TemplateList.Where(x => x.Name.ToUpper() == projectTemplate.TemplateName.ToUpper()).FirstOrDefault();
                 Forms.FormTextViewer textViewer = new Forms.FormTextViewer(template.TemplateText);
                 textViewer.ShowDialog();
-            }
-            
+            }        
         }
-
-     
     }
 }

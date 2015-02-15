@@ -8,7 +8,6 @@ namespace Codenesium.TemplateGenerator.Classes.Mediation
 {
     public class FormMediator
     {
-
         static FormMediator _instance;
         public EventHandler<MessageEventArgs> BroadCastMessageEvent;
         public EventHandler<MessageEventArgs> BroadCastErrorEvent;
@@ -64,6 +63,5 @@ namespace Codenesium.TemplateGenerator.Classes.Mediation
                 this.GenerationCompleteEvent(this,new MessageEventArgs());
             }
         }
-
     }
 }

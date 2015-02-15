@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+
 namespace Codenesium.TemplateGenerator.Classes.DataType
 {
-
-
     /// <summary>
     /// This class should be self explanatory. We have added the SQLFieldType in case we need MYSQL specific info for a template
     /// </summary>

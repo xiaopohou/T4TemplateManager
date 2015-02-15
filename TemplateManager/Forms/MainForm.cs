@@ -105,6 +105,7 @@ namespace Codenesium.TemplateGenerator.Forms
                 this._projects = new UserControls.Projects();
             }
             panelMain.Controls.Add(this._projects);
+            buttonProjects.Select();
         }
 
         private void buttonDataInterfaces_Click(object sender, EventArgs e)

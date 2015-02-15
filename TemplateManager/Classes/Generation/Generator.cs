@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.IO;
 using System.Windows.Forms;
 using Codenesium.TemplateGenerator.Classes.Database;
+
 namespace Codenesium.TemplateGenerator.Classes.Generation
 {
     public class Generator
@@ -21,6 +22,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         public string ConnectionString { get; set; }
         public TemplateExecutionResult ExecutionResult { get; set; }
         public bool WriteToDisk { get; set; }
+
         public Generator()
         {
             this.Parameters = new Dictionary<string, string>();
@@ -149,8 +151,8 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                     {
                         filename = Path.Combine(this.OutputDirectory, table + this.Template.FileExtension);
                     }
-                    File.WriteAllText(filename, this.ExecutionResult.TransformedText);
 
+                    File.WriteAllText(filename, this.ExecutionResult.TransformedText);
                 }
             }
         }

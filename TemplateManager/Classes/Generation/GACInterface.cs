@@ -19,7 +19,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         public static string FindDllInGAC(string name)
         {
             string directory = Path.Combine(@"c:\Windows\assembly\GAC_MSIL",name);
-
             string response = FindDll(directory,name);
 
             if(response != String.Empty)
@@ -48,10 +47,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             {
                 return response;
             }
-
-
             return String.Empty;
-        
         }
 
         private static string FindDll(string directory, string name)
@@ -71,12 +67,12 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                         }
                     }
                 }
+                return String.Empty;
             }
             catch (DirectoryNotFoundException)
             {
                 return String.Empty;
             }
-            return String.Empty;
         }
     }
 }

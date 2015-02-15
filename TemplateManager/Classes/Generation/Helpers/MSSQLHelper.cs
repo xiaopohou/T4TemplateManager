@@ -8,10 +8,8 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
 {
     public class MSSQLHelper
     {
-
         public static string GenerateSelectAllQuery(Interfaces.IDatabaseTable table)
         {
-
             string response = "SELECT " + Environment.NewLine;
 
             for(int i =0; i < table.FieldList.Count;i++)
@@ -25,13 +23,10 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Helpers
                 
                 response += Environment.NewLine;
             }
-
-           
+  
             response += "FROM [" + table.Name + "]" + Environment.NewLine;
             response += "WHERE[ID] = @id" + Environment.NewLine;
             return response;
-
-
         }
     }
 }
