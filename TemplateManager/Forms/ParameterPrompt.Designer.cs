@@ -45,20 +45,20 @@
             // textBoxValue
             // 
             this.textBoxValue.Lines = new string[0];
-            this.textBoxValue.Location = new System.Drawing.Point(27, 77);
+            this.textBoxValue.Location = new System.Drawing.Point(23, 77);
             this.textBoxValue.MaxLength = 32767;
             this.textBoxValue.Name = "textBoxValue";
             this.textBoxValue.PasswordChar = '\0';
             this.textBoxValue.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBoxValue.SelectedText = "";
-            this.textBoxValue.Size = new System.Drawing.Size(208, 23);
+            this.textBoxValue.Size = new System.Drawing.Size(234, 23);
             this.textBoxValue.TabIndex = 1;
             this.textBoxValue.UseSelectable = true;
             this.textBoxValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxValue_KeyDown);
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(160, 124);
+            this.buttonSave.Location = new System.Drawing.Point(182, 122);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 2;
@@ -74,8 +74,9 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxValue);
             this.Controls.Add(this.labelKey);
+            this.MaximizeBox = false;
             this.Name = "ParameterPrompt";
-            this.Text = "ParameterPrompt";
+            this.Text = "Parameter Prompt";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.ParameterPrompt_Load);
             this.ResumeLayout(false);

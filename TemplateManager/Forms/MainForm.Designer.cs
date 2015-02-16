@@ -52,9 +52,9 @@
             // 
             // buttonProjects
             // 
-            this.buttonProjects.Location = new System.Drawing.Point(24, 71);
+            this.buttonProjects.Location = new System.Drawing.Point(24, 64);
             this.buttonProjects.Name = "buttonProjects";
-            this.buttonProjects.Size = new System.Drawing.Size(100, 25);
+            this.buttonProjects.Size = new System.Drawing.Size(100, 29);
             this.buttonProjects.TabIndex = 3;
             this.buttonProjects.Text = "Projects";
             this.buttonProjects.UseSelectable = true;
@@ -62,9 +62,9 @@
             // 
             // buttonTemplates
             // 
-            this.buttonTemplates.Location = new System.Drawing.Point(142, 71);
+            this.buttonTemplates.Location = new System.Drawing.Point(142, 64);
             this.buttonTemplates.Name = "buttonTemplates";
-            this.buttonTemplates.Size = new System.Drawing.Size(100, 25);
+            this.buttonTemplates.Size = new System.Drawing.Size(100, 29);
             this.buttonTemplates.TabIndex = 4;
             this.buttonTemplates.Text = "Templates";
             this.buttonTemplates.UseSelectable = true;
@@ -72,9 +72,9 @@
             // 
             // buttonDataInterfaces
             // 
-            this.buttonDataInterfaces.Location = new System.Drawing.Point(260, 71);
+            this.buttonDataInterfaces.Location = new System.Drawing.Point(260, 64);
             this.buttonDataInterfaces.Name = "buttonDataInterfaces";
-            this.buttonDataInterfaces.Size = new System.Drawing.Size(100, 25);
+            this.buttonDataInterfaces.Size = new System.Drawing.Size(100, 29);
             this.buttonDataInterfaces.TabIndex = 5;
             this.buttonDataInterfaces.Text = "Data Interfaces";
             this.buttonDataInterfaces.UseSelectable = true;
@@ -82,9 +82,9 @@
             // 
             // buttonGeneration
             // 
-            this.buttonGeneration.Location = new System.Drawing.Point(377, 71);
+            this.buttonGeneration.Location = new System.Drawing.Point(377, 64);
             this.buttonGeneration.Name = "buttonGeneration";
-            this.buttonGeneration.Size = new System.Drawing.Size(100, 25);
+            this.buttonGeneration.Size = new System.Drawing.Size(100, 29);
             this.buttonGeneration.TabIndex = 6;
             this.buttonGeneration.Text = "Generation";
             this.buttonGeneration.UseSelectable = true;

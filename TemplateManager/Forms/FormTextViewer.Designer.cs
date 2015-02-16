@@ -48,6 +48,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(941, 610);
             this.Controls.Add(this.richTextBoxViewer);
+            this.MaximizeBox = false;
             this.Name = "FormTextViewer";
             this.Load += new System.EventHandler(this.FormTextViewer_Load);
             this.ResumeLayout(false);
