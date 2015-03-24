@@ -44,7 +44,7 @@
             this.panelMain.HorizontalScrollbarSize = 10;
             this.panelMain.Location = new System.Drawing.Point(23, 100);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(819, 400);
+            this.panelMain.Size = new System.Drawing.Size(819, 385);
             this.panelMain.TabIndex = 2;
             this.panelMain.VerticalScrollbarBarColor = true;
             this.panelMain.VerticalScrollbarHighlightOnWheel = false;
@@ -106,7 +106,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(865, 519);
+            this.ClientSize = new System.Drawing.Size(865, 510);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.buttonGeneration);
             this.Controls.Add(this.buttonDataInterfaces);
