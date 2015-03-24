@@ -83,7 +83,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(703, 484);
+            this.buttonSave.Location = new System.Drawing.Point(724, 336);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 29);
             this.buttonSave.TabIndex = 4;
@@ -131,7 +131,7 @@
             this.Controls.Add(this.metroLabel1);
             this.Controls.Add(this.comboBoxProjects);
             this.Name = "Projects";
-            this.Size = new System.Drawing.Size(819, 545);
+            this.Size = new System.Drawing.Size(819, 384);
             this.ResumeLayout(false);
             this.PerformLayout();
 

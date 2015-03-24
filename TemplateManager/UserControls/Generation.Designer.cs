@@ -75,7 +75,7 @@
             this.textBoxResult.PasswordChar = '\0';
             this.textBoxResult.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBoxResult.SelectedText = "";
-            this.textBoxResult.Size = new System.Drawing.Size(556, 458);
+            this.textBoxResult.Size = new System.Drawing.Size(556, 289);
             this.textBoxResult.TabIndex = 12;
             this.textBoxResult.UseSelectable = true;
             this.textBoxResult.WordWrap = false;
@@ -100,7 +100,7 @@
             this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.comboBoxProjects);
             this.Name = "Generation";
-            this.Size = new System.Drawing.Size(819, 545);
+            this.Size = new System.Drawing.Size(819, 384);
             this.ResumeLayout(false);
             this.PerformLayout();
 

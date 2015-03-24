@@ -43,7 +43,7 @@
             this.Value});
             this.dataGridViewParameters.Location = new System.Drawing.Point(3, 21);
             this.dataGridViewParameters.Name = "dataGridViewParameters";
-            this.dataGridViewParameters.Size = new System.Drawing.Size(813, 439);
+            this.dataGridViewParameters.Size = new System.Drawing.Size(813, 266);
             this.dataGridViewParameters.TabIndex = 16;
             // 
             // Key
@@ -60,7 +60,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(703, 484);
+            this.buttonSave.Location = new System.Drawing.Point(724, 336);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 29);
             this.buttonSave.TabIndex = 17;
@@ -75,7 +75,7 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.dataGridViewParameters);
             this.Name = "Database";
-            this.Size = new System.Drawing.Size(819, 545);
+            this.Size = new System.Drawing.Size(819, 384);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewParameters)).EndInit();
             this.ResumeLayout(false);
 
