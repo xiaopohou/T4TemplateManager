@@ -137,61 +137,6 @@
     <Compile Include="Interfaces\IDatabaseTable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Templates\MoveFiles\template.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\MVCCreateView\template.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\PawnFrogGuidUrlList\template.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\PawnFrogQRCodeWebListing\template.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\TemplateBOInterface\template.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\TemplateBOObject\template.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\TemplateBORepositoryInterface\template.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\TemplateBORepository\template.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\TemplateMSSQLBulkDatabaseBackup\template.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\TemplateMSSQLSelectAll\template.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\TemplateMVCModel\template.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\Database.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -257,52 +202,38 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Templates\CDCEmailList\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>template.sql</LastGenOutput>
-    </None>
+    <None Include="Templates\CDCEmailList\template.tt" />
     <None Include="Templates\MoveFiles\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>template.cs</LastGenOutput>
     </None>
     <None Include="Templates\MVCCreateView\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>template.cs</LastGenOutput>
     </None>
     <None Include="Templates\PawnFrogGuidUrlList\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>template.cs</LastGenOutput>
     </None>
     <None Include="Templates\PawnFrogQRCodeWebListing\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>template.cs</LastGenOutput>
     </None>
     <None Include="Templates\TemplateBOInterface\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>template.cs</LastGenOutput>
     </None>
     <None Include="Templates\TemplateBOObject\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>template.cs</LastGenOutput>
     </None>
     <None Include="Templates\TemplateBORepositoryInterface\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>template.cs</LastGenOutput>
     </None>
     <None Include="Templates\TemplateBORepository\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>template.cs</LastGenOutput>
     </None>
     <None Include="Templates\TemplateMSSQLBulkDatabaseBackup\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>template.cs</LastGenOutput>
     </None>
     <None Include="Templates\TemplateMSSQLSelectAll\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>template.cs</LastGenOutput>
     </None>
     <None Include="Templates\TemplateMVCModel\template.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>template.cs</LastGenOutput>
     </None>
   </ItemGroup>
@@ -336,11 +267,6 @@
     <Content Include="templates.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Templates\CDCEmailList\template.sql">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>template.tt</DependentUpon>
     </Content>
     <Content Include="Templates\CDCEmailList\template.xml" />
     <Content Include="Templates\MoveFiles\template.xml" />
