@@ -1,0 +1,40 @@
+<#@ template language="C#"  hostspecific="true" #>
+<#@ parameter type="Codenesium.TemplateGenerator.Interfaces.IDatabaseTable" Name="CNTable"#>
+<#@ parameter type="System.String" Name="Namespace"#>
+<#@ parameter type="System.String" Name="DatabaseTable"#>
+<#@ parameter type="System.String" Name="ModelName"#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using FluentValidation;
+using FluentValidation.Mvc;
+
+namespace <#= Namespace #>
+{
+    [FluentValidation.Attributes.Validator(typeof(<#= ModelName #>ModelValidator))]
+    public class <#= ModelName #>Model
+    {
+        <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateFieldPropertyForList(CNTable.FieldList) #>
+    
+    
+        public <#= ModelName #>Model()
+        {
+        }
+    
+        public class <#= ModelName #>ModelValidator : AbstractValidator<<#= ModelName #>Model>
+        {
+            public <#= ModelName #>ModelValidator()
+            {
+                <#
+                foreach(Codenesium.TemplateGenerator.Interfaces.IDatabaseField field in CNTable.FieldList)
+                { 
+                #>
+                RuleFor(x => x.<#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertUnderscoreToCamelCase(field.Name) #>).NotNull().WithMessage("<#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertUnderscoreToCamelCase(field.Name) #> is required");
+                <#
+                }
+                #>
+            }          
+        }
+    }   
+}

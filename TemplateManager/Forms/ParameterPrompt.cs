@@ -28,16 +28,6 @@ namespace Codenesium.TemplateGenerator.Forms
             this.Close();
         }
 
-        private void textBoxValue_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.KeyCode == Keys.Enter)
-            {
-                this.Saved = true;
-                this.Value = textBoxValue.Text;
-                this.Close();
-            }
-        }
-
         private void ParameterPrompt_Load(object sender, EventArgs e)
         {
             textBoxValue.Select();       

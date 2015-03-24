@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xml>
+  <project>
+    <id>b9f30c2b-9620-4eb7-b68f-3743fa1874f0</id>
+    <name>CDCEmailList</name>
+    <projectTemplates>
+      <projectTemplate>
+        <templateName>TemplateBOObject</templateName>
+        <parameters>
+          <parameter>
+            <key>Namespace</key>
+            <value>Codenesium.FermataFishBO</value>
+          </parameter>
+          <parameter>
+            <key>DatabaseTable</key>
+            <value></value>
+          </parameter>
+          <parameter>
+            <key>AllTables</key>
+            <value>True</value>
+          </parameter>
+          <parameter>
+            <key>ConnectionString</key>
+            <value>default</value>
+          </parameter>
+          <parameter>
+            <key>DataInterface</key>
+            <value>MSSQL</value>
+          </parameter>
+          <parameter>
+            <key>OutputFormat</key>
+            <value>DISK</value>
+          </parameter>
+          <parameter>
+            <key>OutputDirectory</key>
+            <value>C:\Users\New Owner\Dropbox\Projects 2.0\Git\TemplateManager\TemplateManager\bin\Debug\Projects\CDCEmailList\Output</value>
+          </parameter>
+        </parameters>
+      </projectTemplate>
+    </projectTemplates>
+  </project>
+</xml>

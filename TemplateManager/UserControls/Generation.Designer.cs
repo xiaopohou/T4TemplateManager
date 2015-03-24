@@ -78,6 +78,7 @@
             this.textBoxResult.Size = new System.Drawing.Size(556, 458);
             this.textBoxResult.TabIndex = 12;
             this.textBoxResult.UseSelectable = true;
+            this.textBoxResult.WordWrap = false;
             // 
             // progressSpinnerGeneration
             // 

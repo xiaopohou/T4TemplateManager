@@ -1,0 +1,9 @@
+<xml>
+	<template>
+		<name>TemplateBORepositoryInterface</name>
+		<fileExtension>.cs</fileExtension>
+		<perTableTemplate>True</perTableTemplate>
+		<dataInterface>NONE</dataInterface>
+		<description>none</description>
+	</template>
+</xml>

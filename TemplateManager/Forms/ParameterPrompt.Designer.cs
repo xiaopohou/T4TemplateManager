@@ -46,19 +46,20 @@
             // 
             this.textBoxValue.Lines = new string[0];
             this.textBoxValue.Location = new System.Drawing.Point(23, 77);
-            this.textBoxValue.MaxLength = 32767;
+            this.textBoxValue.MaxLength = 2000000;
+            this.textBoxValue.Multiline = true;
             this.textBoxValue.Name = "textBoxValue";
             this.textBoxValue.PasswordChar = '\0';
-            this.textBoxValue.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.textBoxValue.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxValue.SelectedText = "";
-            this.textBoxValue.Size = new System.Drawing.Size(234, 23);
+            this.textBoxValue.Size = new System.Drawing.Size(395, 203);
             this.textBoxValue.TabIndex = 1;
             this.textBoxValue.UseSelectable = true;
-            this.textBoxValue.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxValue_KeyDown);
+            this.textBoxValue.WordWrap = false;
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(182, 122);
+            this.buttonSave.Location = new System.Drawing.Point(343, 301);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 2;
@@ -70,7 +71,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 168);
+            this.ClientSize = new System.Drawing.Size(441, 347);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxValue);
             this.Controls.Add(this.labelKey);

@@ -133,8 +133,8 @@ namespace Codenesium.TemplateGenerator.UserControls
                     int index = project.ProjectTemplateList.FindIndex(x => x.TemplateName == template.TemplateName);
                     project.ProjectTemplateList[index] = template;
 
-                    ProjectContainer.GetInstance().Save(ProjectContainer.GetInstance().FileLocation);
-                    ProjectContainer.GetInstance().Load(ProjectContainer.GetInstance().FileLocation);
+                    ProjectContainer.GetInstance().Save();
+                    ProjectContainer.GetInstance().Load();
                     LoadForm();
                     Classes.Mediation.FormMediator.GetInstance().SendMessage("Project Template Saved");
                 }

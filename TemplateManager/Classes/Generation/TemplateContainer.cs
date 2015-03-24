@@ -10,9 +10,8 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
 {
     public class TemplateContainer
     {
-        public string FileLocation = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), TemplateContainer.Filename);
+        public string TemplateRootDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "templates");
         public List<Template> TemplateList{get;set;}
-        public static string Filename = "templates.xml";
         private static TemplateContainer _templateContainer;
 
         public  static TemplateContainer GetInstance()
@@ -29,25 +28,33 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             this.TemplateList = new List<Template>();
         }
 
-        public bool Load(string filename)
+        public bool Load(string templatesRootPath)
         {
+            this.TemplateList = new List<Template>();
             try
             {
-                XDocument xDoc = XDocument.Load(filename);
 
-                this.TemplateList = (from template in xDoc.Root.Element("templates").Descendants("template")
-                                          select new Template
-                                          {
-                                              Name = (string)template.Element("name").Value ?? string.Empty,
-                                              Description = (string)template.Element("description").Value ?? string.Empty,
-                                              TemplateText = (string)template.Element("templateText").Value ?? string.Empty,
-                                              FileExtension = (string)template.Element("fileExtension").Value ?? string.Empty,
-                                              PerTableTemplate = Convert.ToBoolean(template.Element("perTableTemplate").Value),
-                                              Parameters = (from p in template.Element("parameters").Descendants("parameter")
-                                                            select p.Element("name").Value).ToList()
+                string[] directories = Directory.GetDirectories(templatesRootPath);
 
-                                          }).ToList<Template>();
-                    return true;
+                foreach (string directory in directories)
+                {
+                    XDocument xDoc = XDocument.Load(Path.Combine(directory,"template.xml"));
+
+                    string templateText = File.ReadAllText(Path.Combine(directory, "template.tt"));
+
+                    Template template = (from t in xDoc.Root.Descendants("template")
+                                         select new Template
+                                         {
+                                             Name = (string)t.Element("name").Value ?? string.Empty,
+                                             Description = (string)t.Element("description").Value ?? string.Empty,
+                                             FileExtension = (string)t.Element("fileExtension").Value ?? string.Empty,
+                                             PerTableTemplate = Convert.ToBoolean(t.Element("perTableTemplate").Value),
+                                             TemplateText = templateText
+                                         }).FirstOrDefault();
+                    this.TemplateList.Add(template);
+                  
+                }
+                return true;
             }
             catch(Exception ex)
             {

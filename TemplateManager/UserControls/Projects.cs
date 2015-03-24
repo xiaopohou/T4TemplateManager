@@ -94,8 +94,8 @@ namespace Codenesium.TemplateGenerator.UserControls
                     projectTemplate.TemplateName = item.ToString();
                     projectTemplate.Parameters["OutputFormat"] = "SCREEN";
                     projectTemplate.Parameters["DataInterface"] = "NONE";
-                    projectTemplate.Parameters["ConnectionString"] = "";
-                    projectTemplate.Parameters["OutputDirectory"] = @"c:\";
+                    projectTemplate.Parameters["ConnectionString"] = "default";
+                    projectTemplate.Parameters["OutputDirectory"] = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), "projects", textBoxName.Text, "Output");
                     templateList.Add(projectTemplate);
                 }
                 Project project = new Project();
@@ -103,7 +103,7 @@ namespace Codenesium.TemplateGenerator.UserControls
                 project.ProjectTemplateList.Clear();
                 project.ProjectTemplateList.AddRange(templateList);
                 ProjectContainer.GetInstance().UpdateProject(project);
-                ProjectContainer.GetInstance().Save(ProjectContainer.GetInstance().FileLocation);
+                ProjectContainer.GetInstance().Save();
                 Classes.Mediation.FormMediator.GetInstance().SendMessage("Project Created");
                 SetCreateMode(false);
             }
@@ -133,7 +133,7 @@ namespace Codenesium.TemplateGenerator.UserControls
                     }
                     
                     ProjectContainer.GetInstance().UpdateProject(project);
-                    ProjectContainer.GetInstance().Save(ProjectContainer.GetInstance().FileLocation);
+                    ProjectContainer.GetInstance().Save();
                     Classes.Mediation.FormMediator.GetInstance().SendMessage("Project Updated");
                 }
             }

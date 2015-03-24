@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xml>
+  <project>
+    <id>d99427aa-6d72-4603-bba7-ec689d2c9f3e</id>
+    <name>PawnFrog</name>
+    <projectTemplates>
+      <projectTemplate>
+        <templateName>PawnFrogQRCodeWebListing</templateName>
+        <parameters>
+          <parameter>
+            <key>guidList</key>
+            <value>PROMPT</value>
+          </parameter>
+          <parameter>
+            <key>OutputFormat</key>
+            <value>SCREEN</value>
+          </parameter>
+        </parameters>
+      </projectTemplate>
+    </projectTemplates>
+  </project>
+</xml>

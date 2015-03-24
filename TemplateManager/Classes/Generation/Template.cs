@@ -13,7 +13,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         public string FileExtension { get; set; }
         public bool PerTableTemplate { get; set; }
         public string Description { get; set; }
-        public List<string> Parameters;
+
 
         public Template()
         {
@@ -22,7 +22,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             this.FileExtension = string.Empty;
             this.PerTableTemplate = false;
             this.Description = String.Empty;
-            this.Parameters = new List<string>();
         }
     }
 }

@@ -1,0 +1,29 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ Assembly Name="TemplateGenerator" #>
+<#@ assembly name="System.Core" #>
+<#@ Assembly Name="System.Data" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Data" #>
+<#@ parameter type="Codenesium.TemplateGenerator.Interfaces.IDatabaseTable" Name="CNTable"#>
+<#@ parameter type="System.String" Name="Namespace"#>
+<#@ parameter type="System.String" Name="DatabaseTable"#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+<#
+string ObjectName =  Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertTableNameToRepositoryName(DatabaseTable);
+string BasicObjectName =  Codenesium.TemplateGenerator.Classes.Generation.Helpers.CommonHelper.ConvertTableNameToBasicObjectName(DatabaseTable);
+
+#>
+
+namespace <#= Namespace #>
+{
+    public interface I<#= BasicObjectName #>
+    {
+		    <#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.DotNetHelper.GenerateInterfacePropertyForList(CNTable.FieldList) #>
+     }
+}

@@ -1,0 +1,17 @@
+<#@ template language="C#"  hostspecific="true" #>
+<#@ parameter type="System.String" name="guidList"#>
+
+<#
+string [] guids = guidList.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+
+foreach(string guid in guids)
+{#>
+
+    <div class="label">
+	<div class="label-text">View Online PawnFrog.com</div>
+	<img class="qr-code" src="QRCodes/<#= guid #>.png" />
+</div>
+    
+    <#
+    }
+    #>

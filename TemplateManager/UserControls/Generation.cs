@@ -160,6 +160,10 @@ namespace Codenesium.TemplateGenerator.UserControls
             if(parameters.ContainsKey("OutputDirectory"))
             {
                 generator.OutputDirectory = parameters["OutputDirectory"];
+                if(!Directory.Exists(generator.OutputDirectory))
+                {
+                    Directory.CreateDirectory(generator.OutputDirectory);
+                }
             }
 
             if (parameters.ContainsKey("OutputFormat"))

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xml>
+  <project>
+    <id>7817c817-6f40-4b47-ac74-4c2c9af119b9</id>
+    <name>test</name>
+    <projectTemplates>
+      <projectTemplate>
+        <templateName>CDCEmailList</templateName>
+        <parameters>
+          <parameter>
+            <key>OutputFormat</key>
+            <value>DISK</value>
+          </parameter>
+          <parameter>
+            <key>DataInterface</key>
+            <value>NONE</value>
+          </parameter>
+          <parameter>
+            <key>ConnectionString</key>
+            <value>default</value>
+          </parameter>
+          <parameter>
+            <key>OutputDirectory</key>
+            <value>C:\Users\New Owner\Dropbox\Projects 2.0\Git\TemplateManager\TemplateManager\bin\Debug\projects\CDCEmailList\Output</value>
+          </parameter>
+        </parameters>
+      </projectTemplate>
+    </projectTemplates>
+  </project>
+</xml>

@@ -1,0 +1,9 @@
+<xml>
+	<template>
+		<name>TemplateBOObject</name>
+		<fileExtension>.cs</fileExtension>
+		<perTableTemplate>True</perTableTemplate>
+		<dataInterface>MSSQL</dataInterface>
+		<description>none</description>
+	</template>
+</xml>

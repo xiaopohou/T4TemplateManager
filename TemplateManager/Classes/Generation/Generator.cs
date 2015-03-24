@@ -41,7 +41,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                 Classes.Generation.CustomGenerationHost host = new Classes.Generation.CustomGenerationHost();
                 TextTemplatingSession session = new TextTemplatingSession();
 
-                string workingDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "WorkingDirectory");
+                string workingDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "projects",this.Template.Name,"WorkingDirectory");
 
                 if(!Directory.Exists(workingDirectory))
                 {

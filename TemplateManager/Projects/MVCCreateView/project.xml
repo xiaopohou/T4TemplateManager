@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xml>
+  <project>
+    <id>816b5220-2cce-47a0-88bd-bf7ff606f4e4</id>
+    <name>MVCCreateView</name>
+    <projectTemplates>
+      <projectTemplate>
+        <templateName>MVCCreateView</templateName>
+        <parameters>
+          <parameter>
+            <key>ViewName</key>
+            <value>Create Student</value>
+          </parameter>
+          <parameter>
+            <key>PostUrl</key>
+            <value>~/Teacher/Student/Create</value>
+          </parameter>
+          <parameter>
+            <key>DatabaseTable</key>
+            <value>user</value>
+          </parameter>
+          <parameter>
+            <key>OutputFormat</key>
+            <value>SCREEN</value>
+          </parameter>
+          <parameter>
+            <key>DataInterface</key>
+            <value>MSSQL</value>
+          </parameter>
+          <parameter>
+            <key>ConnectionString</key>
+            <value>default</value>
+          </parameter>
+          <parameter>
+            <key>OutputDirectory</key>
+            <value>c:\</value>
+          </parameter>
+        </parameters>
+      </projectTemplate>
+    </projectTemplates>
+  </project>
+</xml>

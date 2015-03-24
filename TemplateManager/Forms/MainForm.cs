@@ -31,8 +31,8 @@ namespace Codenesium.TemplateGenerator.Forms
             TemplateContainer.GetInstance();
             ProjectContainer.GetInstance();
 
-            TemplateContainer.GetInstance().Load(TemplateContainer.GetInstance().FileLocation); 
-            ProjectContainer.GetInstance().Load(ProjectContainer.GetInstance().FileLocation);
+            TemplateContainer.GetInstance().Load(TemplateContainer.GetInstance().TemplateRootDirectory); 
+            ProjectContainer.GetInstance().Load();
 
             FormMediator.GetInstance().BroadCastMessageEvent += BroadCastMessageEventHandler;
             FormMediator.GetInstance().BroadCastErrorEvent += BroadCastErrorEventHandler;
