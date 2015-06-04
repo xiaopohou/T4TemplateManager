@@ -21,7 +21,7 @@
           </parameter>
           <parameter>
             <key>OutputDirectory</key>
-            <value>C:\Users\New Owner\Dropbox\Projects 2.0\Git\TemplateManager\TemplateManager\bin\Debug\projects\CDCEmailList\Output</value>
+            <value>C:\Users\New Owner\Dropbox\Projects 2.0\Git\TemplateManager\TemplateManager\bin\Debug\projects\test\Output</value>
           </parameter>
         </parameters>
       </projectTemplate>

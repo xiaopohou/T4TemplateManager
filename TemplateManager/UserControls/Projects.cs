@@ -52,7 +52,7 @@ namespace Codenesium.TemplateGenerator.UserControls
             }
 
             int currentSelectedProject = comboBoxProjects.SelectedIndex;
-            comboBoxProjects.DataSource = new BindingList<Project>(ProjectContainer.GetInstance().ProjectList);
+            comboBoxProjects.DataSource = new BindingList<string>(ProjectContainer.GetInstance().ProjectList.Select(x => x.Name).ToList());
             comboBoxProjects.DisplayMember = "Name";
 
             if (currentSelectedProject == -1 && comboBoxProjects.Items.Count > 0)
@@ -92,10 +92,16 @@ namespace Codenesium.TemplateGenerator.UserControls
                 {
                     ProjectTemplate projectTemplate = new ProjectTemplate();
                     projectTemplate.TemplateName = item.ToString();
-                    projectTemplate.Parameters["OutputFormat"] = "SCREEN";
-                    projectTemplate.Parameters["DataInterface"] = "NONE";
-                    projectTemplate.Parameters["ConnectionString"] = "default";
-                    projectTemplate.Parameters["OutputDirectory"] = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), "projects", textBoxName.Text, "Output");
+                    projectTemplate.ScreenParameters["OutputFormat"] = "SCREEN";
+                    projectTemplate.ScreenParameters["DataInterface"] = "NONE";
+                    projectTemplate.ScreenParameters["ConnectionString"] = "default";
+                    projectTemplate.ScreenParameters["WorkingDirectory"] = "WorkingDirectory";
+                    projectTemplate.ScreenParameters["OutputDirectory"] = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), "projects", textBoxName.Text, "Output");
+                    projectTemplate.ParametersTree = new System.Xml.Linq.XElement("parameterTree", "");
+                    System.Xml.Linq.XElement root = new System.Xml.Linq.XElement("root");
+                    root.SetAttributeValue("name","root");
+                    root.Add(new System.Xml.Linq.XElement("children"));
+                    projectTemplate.ParametersTree.Add(root);
                     templateList.Add(projectTemplate);
                 }
                 Project project = new Project();
@@ -104,6 +110,7 @@ namespace Codenesium.TemplateGenerator.UserControls
                 project.ProjectTemplateList.AddRange(templateList);
                 ProjectContainer.GetInstance().UpdateProject(project);
                 ProjectContainer.GetInstance().Save();
+                ProjectContainer.GetInstance().Reload(this, EventArgs.Empty);
                 Classes.Mediation.FormMediator.GetInstance().SendMessage("Project Created");
                 SetCreateMode(false);
             }
@@ -111,14 +118,14 @@ namespace Codenesium.TemplateGenerator.UserControls
             {
                 if(comboBoxProjects.SelectedIndex > -1)
                 {
-                    Project project = (Project)comboBoxProjects.SelectedItem;
+                    Project project = ProjectContainer.GetInstance().ProjectList.FirstOrDefault(x => x.Name == comboBoxProjects.SelectedItem.ToString());
                    
                     List<string> checkedItems = new List<string>();
                     foreach (var item in checkedListBoxTemplates.CheckedItems)
                     {
                         checkedItems.Add(item.ToString());
                     }
-
+        
                     project.ProjectTemplateList.RemoveAll(x => !checkedItems.Contains(x.TemplateName)); //if we unchecked a template remove it                   
                     project.Name = textBoxName.Text;
 
@@ -127,6 +134,16 @@ namespace Codenesium.TemplateGenerator.UserControls
                         if(!project.ProjectTemplateList.Any(x => x.TemplateName == templateName)) //iterate the list of checked items. If we're missing a template add it.
                         {
                             ProjectTemplate projectTemplate = new ProjectTemplate();
+                            projectTemplate.ScreenParameters["OutputFormat"] = "SCREEN";
+                            projectTemplate.ScreenParameters["DataInterface"] = "NONE";
+                            projectTemplate.ScreenParameters["ConnectionString"] = "default";
+                            projectTemplate.ScreenParameters["WorkingDirectory"] = "WorkingDirectory";
+                            projectTemplate.ScreenParameters["OutputDirectory"] = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), "projects", textBoxName.Text, "Output");
+                            projectTemplate.ParametersTree = new System.Xml.Linq.XElement("parameterTree", "");
+                            System.Xml.Linq.XElement root = new System.Xml.Linq.XElement("root");
+                            root.SetAttributeValue("name", "root");
+                            root.Add(new System.Xml.Linq.XElement("children"));
+                            projectTemplate.ParametersTree.Add(root);
                             projectTemplate.TemplateName = templateName;
                             project.ProjectTemplateList.Add(projectTemplate);
                         }
@@ -134,6 +151,7 @@ namespace Codenesium.TemplateGenerator.UserControls
                     
                     ProjectContainer.GetInstance().UpdateProject(project);
                     ProjectContainer.GetInstance().Save();
+                    ProjectContainer.GetInstance().Reload(this, EventArgs.Empty);
                     Classes.Mediation.FormMediator.GetInstance().SendMessage("Project Updated");
                 }
             }
@@ -152,9 +170,10 @@ namespace Codenesium.TemplateGenerator.UserControls
             if (comboBoxProjects.SelectedIndex > -1)
             {
                 UncheckAll();
-                
-                Project project = (Project)comboBoxProjects.SelectedItem;
-                textBoxName.Text = project.Name;
+
+                textBoxName.Text = comboBoxProjects.SelectedItem.ToString();
+
+                Project project = ProjectContainer.GetInstance().ProjectList.FirstOrDefault(x => x.Name == comboBoxProjects.SelectedItem.ToString());
 
                 foreach(ProjectTemplate template in project.ProjectTemplateList.ToList())
                 {

@@ -11,6 +11,21 @@
     <AssemblyName>TemplateGenerator</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -93,27 +108,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Database\DataInterface.cs" />
-    <Compile Include="Classes\Database\MSSQL.cs" />
-    <Compile Include="Classes\DataType\MSSQLField.cs" />
-    <Compile Include="Classes\DataType\MSSQLTable.cs" />
-    <Compile Include="Classes\DataType\MYSQLField.cs" />
-    <Compile Include="Classes\Generation\CustomGenerationHost.cs" />
-    <Compile Include="Classes\Generation\GACInterface.cs" />
-    <Compile Include="Classes\Generation\Generator.cs" />
-    <Compile Include="Classes\Generation\Helpers\CommonHelper.cs" />
-    <Compile Include="Classes\Generation\Helpers\DotNetHelper.cs" />
-    <Compile Include="Classes\Generation\Helpers\MSSQLHelper.cs" />
-    <Compile Include="Classes\Generation\Parameter.cs" />
-    <Compile Include="Classes\Generation\Project.cs" />
-    <Compile Include="Classes\Generation\ProjectContainer.cs" />
-    <Compile Include="Classes\Generation\ProjectTemplate.cs" />
-    <Compile Include="Classes\Generation\Template.cs" />
-    <Compile Include="Classes\Generation\TemplateContainer.cs" />
-    <Compile Include="Classes\Generation\TemplateExecutionResult.cs" />
+    <Compile Include="Classes\Generation\Host\CustomGenerationHost.cs" />
+    <Compile Include="Classes\Generation\Host\GACInterface.cs" />
+    <Compile Include="Classes\Generation\Generator\GenerationManager.cs" />
+    <Compile Include="Classes\Generation\Generator\Generator.cs" />
+    <Compile Include="Classes\Generation\Parameters\GenerationParameterManager.cs" />
+    <Compile Include="Classes\Generation\Parameters\ParameterTreeParser.cs" />
+    <Compile Include="Classes\Generation\Project\Project.cs" />
+    <Compile Include="Classes\Generation\Project\ProjectContainer.cs" />
+    <Compile Include="Classes\Generation\Project\ProjectTemplate.cs" />
+    <Compile Include="Classes\Generation\Template\Template.cs" />
+    <Compile Include="Classes\Generation\Template\TemplateContainer.cs" />
+    <Compile Include="Classes\Generation\Template\TemplateExecutionResult.cs" />
     <Compile Include="Classes\Mediation\FormMediator.cs" />
     <Compile Include="Classes\Mediation\MessageEventArgs.cs" />
     <Compile Include="Classes\Utility\RandomNumber.cs" />
+    <Compile Include="Forms\FormLoadFromStoredProcedure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormLoadFromStoredProcedure.Designer.cs">
+      <DependentUpon>FormLoadFromStoredProcedure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormMapToDatabase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormMapToDatabase.Designer.cs">
+      <DependentUpon>FormMapToDatabase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormTextViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,9 +153,6 @@
     <Compile Include="Forms\ParameterPrompt.Designer.cs">
       <DependentUpon>ParameterPrompt.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IDatabaseField.cs" />
-    <Compile Include="Interfaces\IDatabaseInterface.cs" />
-    <Compile Include="Interfaces\IDatabaseTable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\Database.cs">
@@ -161,6 +179,12 @@
     <Compile Include="UserControls\Templates.Designer.cs">
       <DependentUpon>Templates.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\FormLoadFromStoredProcedure.resx">
+      <DependentUpon>FormLoadFromStoredProcedure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMapToDatabase.resx">
+      <DependentUpon>FormMapToDatabase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormTextViewer.resx">
       <DependentUpon>FormTextViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -280,6 +304,29 @@
     <Content Include="Templates\TemplateMSSQLBulkDatabaseBackup\template.xml" />
     <Content Include="Templates\TemplateMSSQLSelectAll\template.xml" />
     <Content Include="Templates\TemplateMVCModel\template.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GenerationLibrary\GenerationLibrary\GenerationLibrary.csproj">
+      <Project>{2906dbd8-ff3b-4cef-89a3-37d0d9963716}</Project>
+      <Name>GenerationLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

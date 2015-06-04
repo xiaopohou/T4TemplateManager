@@ -31,7 +31,7 @@ namespace Codenesium.TemplateGenerator.Forms
             TemplateContainer.GetInstance();
             ProjectContainer.GetInstance();
 
-            TemplateContainer.GetInstance().Load(TemplateContainer.GetInstance().TemplateRootDirectory); 
+            TemplateContainer.GetInstance().Load(); 
             ProjectContainer.GetInstance().Load();
 
             FormMediator.GetInstance().BroadCastMessageEvent += BroadCastMessageEventHandler;
@@ -116,6 +116,12 @@ namespace Codenesium.TemplateGenerator.Forms
                 this._database = new UserControls.Database();
             }
             panelMain.Controls.Add(this._database);
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            ProjectContainer.GetInstance().Load();
+            TemplateContainer.GetInstance().Load();
         }
     }
 }

@@ -103,6 +103,7 @@
             // 
             // checkedListBoxTemplates
             // 
+            this.checkedListBoxTemplates.CheckOnClick = true;
             this.checkedListBoxTemplates.FormattingEnabled = true;
             this.checkedListBoxTemplates.Location = new System.Drawing.Point(371, 51);
             this.checkedListBoxTemplates.Name = "checkedListBoxTemplates";

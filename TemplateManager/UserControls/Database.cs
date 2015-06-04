@@ -38,7 +38,7 @@ namespace Codenesium.TemplateGenerator.UserControls
         {
             ProjectContainer.GetInstance().ConnectionStrings.Clear();
             ProjectContainer.GetInstance().ConnectionStrings = ConvertGridToDictionary();
-            ProjectContainer.GetInstance().Save();
+            ProjectContainer.GetInstance().SaveConnectionStrings();
             Classes.Mediation.FormMediator.GetInstance().SendMessage("Database Settings Updated");
         }
 

@@ -34,6 +34,7 @@
             this.buttonDataInterfaces = new MetroFramework.Controls.MetroButton();
             this.buttonGeneration = new MetroFramework.Controls.MetroButton();
             this.labelStatus = new MetroFramework.Controls.MetroLabel();
+            this.buttonRefresh = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // panelMain
@@ -102,11 +103,22 @@
             this.labelStatus.Text = "Response";
             this.labelStatus.UseCustomForeColor = true;
             // 
+            // buttonRefresh
+            // 
+            this.buttonRefresh.Location = new System.Drawing.Point(742, 65);
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.Size = new System.Drawing.Size(100, 29);
+            this.buttonRefresh.TabIndex = 8;
+            this.buttonRefresh.Text = "Refresh";
+            this.buttonRefresh.UseSelectable = true;
+            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(865, 510);
+            this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.buttonGeneration);
             this.Controls.Add(this.buttonDataInterfaces);
@@ -131,6 +143,7 @@
         private MetroFramework.Controls.MetroButton buttonDataInterfaces;
         private MetroFramework.Controls.MetroButton buttonGeneration;
         private MetroFramework.Controls.MetroLabel labelStatus;
+        private MetroFramework.Controls.MetroButton buttonRefresh;
 
 
     }

@@ -5,7 +5,7 @@
     <name>MVCViewModel</name>
     <projectTemplates>
       <projectTemplate>
-        <templateName>TemplateMVCModel</templateName>
+        <templateName>TemplateBOObject</templateName>
         <parameters>
           <parameter>
             <key>Namespace</key>
