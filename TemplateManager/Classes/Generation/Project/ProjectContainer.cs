@@ -132,6 +132,12 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             try
             {
                 this.ProjectList = new List<Project>();
+
+                if(!Directory.Exists(ProjectsRootDirectory))
+                {
+                    Directory.CreateDirectory(ProjectsRootDirectory);
+                }
+
                 string [] directories = Directory.GetDirectories(ProjectsRootDirectory);
 
                 foreach(string directory in directories)

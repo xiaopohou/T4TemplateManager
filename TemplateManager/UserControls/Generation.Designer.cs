@@ -31,8 +31,8 @@
             this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
             this.comboBoxProjects = new MetroFramework.Controls.MetroComboBox();
             this.buttonGenerate = new MetroFramework.Controls.MetroButton();
-            this.textBoxResult = new MetroFramework.Controls.MetroTextBox();
             this.progressSpinnerGeneration = new MetroFramework.Controls.MetroProgressSpinner();
+            this.tabControlOutput = new System.Windows.Forms.TabControl();
             this.SuspendLayout();
             // 
             // metroLabel3
@@ -65,21 +65,6 @@
             this.buttonGenerate.UseSelectable = true;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
             // 
-            // textBoxResult
-            // 
-            this.textBoxResult.Lines = new string[0];
-            this.textBoxResult.Location = new System.Drawing.Point(244, 35);
-            this.textBoxResult.MaxLength = 32767;
-            this.textBoxResult.Multiline = true;
-            this.textBoxResult.Name = "textBoxResult";
-            this.textBoxResult.PasswordChar = '\0';
-            this.textBoxResult.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.textBoxResult.SelectedText = "";
-            this.textBoxResult.Size = new System.Drawing.Size(556, 289);
-            this.textBoxResult.TabIndex = 12;
-            this.textBoxResult.UseSelectable = true;
-            this.textBoxResult.WordWrap = false;
-            // 
             // progressSpinnerGeneration
             // 
             this.progressSpinnerGeneration.Location = new System.Drawing.Point(172, 133);
@@ -90,12 +75,20 @@
             this.progressSpinnerGeneration.UseSelectable = true;
             this.progressSpinnerGeneration.Visible = false;
             // 
+            // tabControlOutput
+            // 
+            this.tabControlOutput.Location = new System.Drawing.Point(244, 35);
+            this.tabControlOutput.Name = "tabControlOutput";
+            this.tabControlOutput.SelectedIndex = 0;
+            this.tabControlOutput.Size = new System.Drawing.Size(544, 308);
+            this.tabControlOutput.TabIndex = 15;
+            // 
             // Generation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.tabControlOutput);
             this.Controls.Add(this.progressSpinnerGeneration);
-            this.Controls.Add(this.textBoxResult);
             this.Controls.Add(this.buttonGenerate);
             this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.comboBoxProjects);
@@ -111,7 +104,7 @@
         private MetroFramework.Controls.MetroLabel metroLabel3;
         private MetroFramework.Controls.MetroComboBox comboBoxProjects;
         private MetroFramework.Controls.MetroButton buttonGenerate;
-        private MetroFramework.Controls.MetroTextBox textBoxResult;
         private MetroFramework.Controls.MetroProgressSpinner progressSpinnerGeneration;
+        private System.Windows.Forms.TabControl tabControlOutput;
     }
 }

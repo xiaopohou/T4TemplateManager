@@ -1,9 +1,0 @@
-<xml>
-	<template>
-		<name>TemplateBOInterface</name>
-		<fileExtension>.cs</fileExtension>
-		<perTableTemplate>True</perTableTemplate>
-		<dataInterface>NONE</dataInterface>
-		<description>none</description>
-	</template>
-</xml>

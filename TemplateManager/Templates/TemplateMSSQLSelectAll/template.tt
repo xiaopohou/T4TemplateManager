@@ -1,6 +1,0 @@
-<#@ template language="C#"  hostspecific="true" #>
-<#@ parameter type="System.String" Name="DatabaseTable"#>
-<#@ parameter type="Codenesium.TemplateGenerator.Interfaces.IDatabaseTable" Name="CNTable"#>
-
-
-<#= Codenesium.TemplateGenerator.Classes.Generation.Helpers.MSSQLHelper.GenerateSelectAllQuery(CNTable)  #>

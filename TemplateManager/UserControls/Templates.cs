@@ -416,5 +416,22 @@ namespace Codenesium.TemplateGenerator.UserControls
         {
 
         }
+
+        private void loadFromTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (comboBoxTemplates.SelectedIndex > -1)
+            {
+                ProjectTemplate projectTemplate = (ProjectTemplate)comboBoxTemplates.SelectedItem;
+                Forms.FormLoadFromTable loadFromTable = new Forms.FormLoadFromTable(projectTemplate);
+                loadFromTable.ShowDialog();
+                if (comboBoxProjects.SelectedIndex > -1)
+                {
+                    if (comboBoxTemplates.SelectedIndex > -1)
+                    {
+                        Save();
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,9 +1,0 @@
-<xml>
-	<template>
-		<name>TemplateMSSQLBulkDatabaseBackup</name>
-		<fileExtension>.sql</fileExtension>
-		<perTableTemplate>True</perTableTemplate>
-		<dataInterface>NONE</dataInterface>
-		<description>none</description>
-	</template>
-</xml>

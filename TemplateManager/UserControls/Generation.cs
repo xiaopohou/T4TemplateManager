@@ -16,14 +16,14 @@ namespace Codenesium.TemplateGenerator.UserControls
     public partial class Generation : UserControl
     {
         private Project _selectedProject;
-        delegate void SetStatusCallback(object sender, MessageEventArgs me);
+        delegate void GenerationCompleteCallBack();
+        private Dictionary<string, string> _generationResults;
         public Generation()
         {
             InitializeComponent();
             LoadForm();
             ProjectContainer.GetInstance().Reload += ProjectChanged;
-            FormMediator.GetInstance().GenerationScreenEvent += GenerationScreenEventHandler;
-            FormMediator.GetInstance().GenerationCompleteEvent += GenerationCompleteHandler;
+            this._generationResults = new Dictionary<string, string>();
         }
 
         private void ProjectChanged(object sender, EventArgs e)
@@ -31,33 +31,9 @@ namespace Codenesium.TemplateGenerator.UserControls
             LoadForm();
         }
 
-        private void GenerationScreenEventHandler(object sender, MessageEventArgs me)
-        {
-            if (textBoxResult.InvokeRequired)
-            {
-                SetStatusCallback callback = new SetStatusCallback(GenerationScreenEventHandler);
-                this.Invoke(callback, this, me);
-            }
-            else
-            {
-                textBoxResult.Text += me.Message + Environment.NewLine; ;
-            }
-        }
+       
 
-        private void GenerationCompleteHandler(object sender, MessageEventArgs me)
-        {
 
-            if (progressSpinnerGeneration.InvokeRequired)
-            {
-                SetStatusCallback callback = new SetStatusCallback(GenerationCompleteHandler);
-                this.Invoke(callback, this, me);
-            }
-            else
-            {
-                progressSpinnerGeneration.Visible = false;
-            }
-        }
-        
         private void LoadForm()
         {
             int currentSelectedProject = comboBoxProjects.SelectedIndex;
@@ -75,7 +51,7 @@ namespace Codenesium.TemplateGenerator.UserControls
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
-            textBoxResult.Clear();
+            this.tabControlOutput.Controls.Clear();
             if (comboBoxProjects.SelectedIndex > -1)
             {
                 ProjectContainer.GetInstance().Load();
@@ -83,16 +59,41 @@ namespace Codenesium.TemplateGenerator.UserControls
                 this._selectedProject = (Project)comboBoxProjects.SelectedItem;
                 progressSpinnerGeneration.Visible = true;
                 Action action = new Action(StartGeneration);
-                Task generate = new Task(action);
-                generate.Start();
+                Task generate = Task.Factory.StartNew(action).ContinueWith(x => GenerationComplete());
             }
         }
 
+        private void GenerationComplete()
+        {
+            if (tabControlOutput.InvokeRequired || progressSpinnerGeneration.InvokeRequired)
+            {
+                GenerationCompleteCallBack d = new GenerationCompleteCallBack(GenerationComplete);
+                this.Invoke(d);
+            }
+            else
+            {
+                foreach (string key in this._generationResults.Keys)
+                {
+                    TabPage newPage = new TabPage(key);
+                    TextBox output = new TextBox();
+                    output.ScrollBars = ScrollBars.Both;
+                    output.Text = this._generationResults[key];
+                    output.Multiline = true;
+                    output.Width = 650;
+                    output.Height = 350;
+                    newPage.Controls.Add(output);
+                    tabControlOutput.TabPages.Add(newPage);
+                }
+
+                progressSpinnerGeneration.Visible = false;
+            }
+        }
         private void StartGeneration()
         {
             Classes.Mediation.FormMediator.GetInstance().SendMessage("Starting Generation");
             try
             {
+                this._generationResults.Clear();
            
                Project project =ProjectContainer.GetInstance().ProjectList.ToList().Where(x => x == this._selectedProject).FirstOrDefault();
                Classes.Generation.GenerationParameterManager parameterManager = new GenerationParameterManager();
@@ -113,6 +114,7 @@ namespace Codenesium.TemplateGenerator.UserControls
                         resultDisplay += result.ErrorMessage + Environment.NewLine;
                         resultDisplay += "-------------------------------------------------------------";
                     }
+                    this._generationResults[template.Name] = resultDisplay;
                     FormMediator.GetInstance().AddGenerationScreenMessage(resultDisplay);
                 }
 
@@ -135,5 +137,7 @@ namespace Codenesium.TemplateGenerator.UserControls
         {
            
         }
+
+      
     }
 }

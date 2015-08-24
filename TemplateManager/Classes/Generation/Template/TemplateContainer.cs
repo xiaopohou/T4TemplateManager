@@ -33,6 +33,10 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             this.TemplateList = new List<Template>();
             try
             {
+                if(!Directory.Exists(TemplateRootDirectory))
+                {
+                    Directory.CreateDirectory(TemplateRootDirectory);
+                }
 
                 string[] directories = Directory.GetDirectories(TemplateRootDirectory);
 

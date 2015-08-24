@@ -51,6 +51,7 @@
             this.contextMenuStripParameterOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemLoadFromStoredProcedure = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCopyToAllTemplates = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadFromTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewParameters)).BeginInit();
             this.contextMenuStripNodeOptions.SuspendLayout();
             this.contextMenuStripParameterOptions.SuspendLayout();
@@ -234,9 +235,10 @@
             // 
             this.contextMenuStripParameterOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemLoadFromStoredProcedure,
+            this.loadFromTableToolStripMenuItem,
             this.toolStripMenuItemCopyToAllTemplates});
             this.contextMenuStripParameterOptions.Name = "contextMenuStripParameterOptions";
-            this.contextMenuStripParameterOptions.Size = new System.Drawing.Size(224, 70);
+            this.contextMenuStripParameterOptions.Size = new System.Drawing.Size(224, 92);
             this.contextMenuStripParameterOptions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripParameterOptions_Opening);
             // 
             // toolStripMenuItemLoadFromStoredProcedure
@@ -252,6 +254,13 @@
             this.toolStripMenuItemCopyToAllTemplates.Size = new System.Drawing.Size(223, 22);
             this.toolStripMenuItemCopyToAllTemplates.Text = "Copy to All Templates";
             this.toolStripMenuItemCopyToAllTemplates.Click += new System.EventHandler(this.toolStripMenuItemCopyToAllTemplates_Click);
+            // 
+            // loadFromTableToolStripMenuItem
+            // 
+            this.loadFromTableToolStripMenuItem.Name = "loadFromTableToolStripMenuItem";
+            this.loadFromTableToolStripMenuItem.Size = new System.Drawing.Size(223, 22);
+            this.loadFromTableToolStripMenuItem.Text = "Load from Table";
+            this.loadFromTableToolStripMenuItem.Click += new System.EventHandler(this.loadFromTableToolStripMenuItem_Click);
             // 
             // Templates
             // 
@@ -304,5 +313,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripParameterOptions;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemLoadFromStoredProcedure;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCopyToAllTemplates;
+        private System.Windows.Forms.ToolStripMenuItem loadFromTableToolStripMenuItem;
     }
 }

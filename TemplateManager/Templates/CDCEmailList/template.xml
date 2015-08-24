@@ -1,9 +1,0 @@
-<xml>
-	<template>
-		<name>CDCEmailList</name>
-		<fileExtension>.sql</fileExtension>
-		<perTableTemplate>False</perTableTemplate>
-		<dataInterface>NONE</dataInterface>
-		<description>none</description>
-	</template>
-</xml>

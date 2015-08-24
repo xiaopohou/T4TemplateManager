@@ -123,6 +123,12 @@
     <Compile Include="Classes\Mediation\FormMediator.cs" />
     <Compile Include="Classes\Mediation\MessageEventArgs.cs" />
     <Compile Include="Classes\Utility\RandomNumber.cs" />
+    <Compile Include="Forms\FormLoadFromTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormLoadFromTable.Designer.cs">
+      <DependentUpon>FormLoadFromTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormLoadFromStoredProcedure.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +140,12 @@
     </Compile>
     <Compile Include="Forms\FormMapToDatabase.Designer.cs">
       <DependentUpon>FormMapToDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormItemName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormItemName.Designer.cs">
+      <DependentUpon>FormItemName.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormTextViewer.cs">
       <SubType>Form</SubType>
@@ -179,11 +191,17 @@
     <Compile Include="UserControls\Templates.Designer.cs">
       <DependentUpon>Templates.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\FormLoadFromTable.resx">
+      <DependentUpon>FormLoadFromTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormLoadFromStoredProcedure.resx">
       <DependentUpon>FormLoadFromStoredProcedure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMapToDatabase.resx">
       <DependentUpon>FormMapToDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormItemName.resx">
+      <DependentUpon>FormItemName.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormTextViewer.resx">
       <DependentUpon>FormTextViewer.cs</DependentUpon>
@@ -226,40 +244,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Templates\CDCEmailList\template.tt" />
-    <None Include="Templates\MoveFiles\template.tt">
-      <LastGenOutput>template.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\MVCCreateView\template.tt">
-      <LastGenOutput>template.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\PawnFrogGuidUrlList\template.tt">
-      <LastGenOutput>template.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\PawnFrogQRCodeWebListing\template.tt">
-      <LastGenOutput>template.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TemplateBOInterface\template.tt">
-      <LastGenOutput>template.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TemplateBOObject\template.tt">
-      <LastGenOutput>template.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TemplateBORepositoryInterface\template.tt">
-      <LastGenOutput>template.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TemplateBORepository\template.tt">
-      <LastGenOutput>template.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TemplateMSSQLBulkDatabaseBackup\template.tt">
-      <LastGenOutput>template.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TemplateMSSQLSelectAll\template.tt">
-      <LastGenOutput>template.cs</LastGenOutput>
-    </None>
-    <None Include="Templates\TemplateMVCModel\template.tt">
-      <LastGenOutput>template.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -267,43 +251,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Projects\CDCEmailList\Assets\" />
-    <Folder Include="Projects\FermataFish\Assets\" />
-    <Folder Include="Projects\Foundation\Assets\" />
-    <Folder Include="Projects\MSSQLBulkDatabaseBackup\Assets\" />
-    <Folder Include="Projects\MVCCreateView\Assets\" />
-    <Folder Include="Projects\MVCViewModel\Assets\" />
-    <Folder Include="Projects\PawnFrog\Assets\" />
-    <Folder Include="Projects\TemplateBOObject\WorkingDirectory\" />
-    <Folder Include="Projects\test\Assets\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Projects\CDCEmailList\project.xml" />
-    <Content Include="Projects\FermataFish\project.xml" />
-    <Content Include="Projects\Foundation\project.xml" />
-    <Content Include="Projects\MSSQLBulkDatabaseBackup\project.xml" />
-    <Content Include="Projects\MVCCreateView\project.xml" />
-    <Content Include="Projects\MVCViewModel\project.xml" />
-    <Content Include="Projects\PawnFrog\project.xml" />
-    <Content Include="Projects\test\project.xml" />
     <Content Include="README.txt" />
-    <Content Include="templates.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Templates\CDCEmailList\template.xml" />
-    <Content Include="Templates\MoveFiles\template.xml" />
-    <Content Include="Templates\MVCCreateView\template.xml" />
-    <Content Include="Templates\PawnFrogGuidUrlList\template.xml" />
-    <Content Include="Templates\PawnFrogQRCodeWebListing\template.xml" />
-    <Content Include="Templates\TemplateBOInterface\template.xml" />
-    <Content Include="Templates\TemplateBOObject\template.xml" />
-    <Content Include="Templates\TemplateBORepositoryInterface\template.xml" />
-    <Content Include="Templates\TemplateBORepository\template.xml" />
-    <Content Include="Templates\TemplateMSSQLBulkDatabaseBackup\template.xml" />
-    <Content Include="Templates\TemplateMSSQLSelectAll\template.xml" />
-    <Content Include="Templates\TemplateMVCModel\template.xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -329,6 +279,9 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)Templates" "$(ProjectDir)$(OutDir)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

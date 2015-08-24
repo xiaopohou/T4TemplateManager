@@ -1,9 +1,0 @@
-<xml>
-	<template>
-		<name>TemplateMSSQLSelectAll</name>
-		<fileExtension>.sql</fileExtension>
-		<perTableTemplate>True</perTableTemplate>
-		<dataInterface>NONE</dataInterface>
-		<description>none</description>
-	</template>
-</xml>

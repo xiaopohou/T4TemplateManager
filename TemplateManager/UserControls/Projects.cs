@@ -12,7 +12,6 @@ namespace Codenesium.TemplateGenerator.UserControls
 {
     public partial class Projects : UserControl
     {
-        private bool _createMode;
         public Projects()
         {
             InitializeComponent();
@@ -27,13 +26,13 @@ namespace Codenesium.TemplateGenerator.UserControls
 
         private void buttonCreate_Click(object sender, EventArgs e)
         {
-            SetCreateMode(true);
             ClearFields();
-        }
-
-        public void SetCreateMode(bool value)
-        {
-            this._createMode = value;
+            Forms.FormItemName projectName = new Forms.FormItemName("Project Name");
+            projectName.ShowDialog();
+            if(projectName.Saved)
+            {
+                Create(projectName.Value);
+            }
         }
 
         public void ClearFields()
@@ -83,39 +82,36 @@ namespace Codenesium.TemplateGenerator.UserControls
             return true;
         }
 
+        private void Create(string projectName)
+        {
+            List<ProjectTemplate> templateList = new List<ProjectTemplate>();
+            foreach (var item in checkedListBoxTemplates.CheckedItems)
+            {
+                ProjectTemplate projectTemplate = new ProjectTemplate();
+                projectTemplate.TemplateName = item.ToString();
+                projectTemplate.ScreenParameters["OutputFormat"] = "SCREEN";
+                projectTemplate.ScreenParameters["DataInterface"] = "NONE";
+                projectTemplate.ScreenParameters["ConnectionString"] = "default";
+                projectTemplate.ScreenParameters["WorkingDirectory"] = "WorkingDirectory";
+                projectTemplate.ScreenParameters["OutputDirectory"] = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), "projects", textBoxName.Text, "Output");
+                projectTemplate.ParametersTree = new System.Xml.Linq.XElement("parameterTree", "");
+                System.Xml.Linq.XElement root = new System.Xml.Linq.XElement("root");
+                root.SetAttributeValue("name", "root");
+                root.Add(new System.Xml.Linq.XElement("children"));
+                projectTemplate.ParametersTree.Add(root);
+                templateList.Add(projectTemplate);
+            }
+            Project project = new Project();
+            project.Name = projectName;
+            project.ProjectTemplateList.Clear();
+            project.ProjectTemplateList.AddRange(templateList);
+            ProjectContainer.GetInstance().UpdateProject(project);
+            ProjectContainer.GetInstance().Save();
+            ProjectContainer.GetInstance().Reload(this, EventArgs.Empty);
+            Classes.Mediation.FormMediator.GetInstance().SendMessage("Project Created");
+        }
         private void Save()
         {
-            if (this._createMode)
-            {
-                List<ProjectTemplate> templateList = new List<ProjectTemplate>();
-                foreach (var item in checkedListBoxTemplates.CheckedItems)
-                {
-                    ProjectTemplate projectTemplate = new ProjectTemplate();
-                    projectTemplate.TemplateName = item.ToString();
-                    projectTemplate.ScreenParameters["OutputFormat"] = "SCREEN";
-                    projectTemplate.ScreenParameters["DataInterface"] = "NONE";
-                    projectTemplate.ScreenParameters["ConnectionString"] = "default";
-                    projectTemplate.ScreenParameters["WorkingDirectory"] = "WorkingDirectory";
-                    projectTemplate.ScreenParameters["OutputDirectory"] = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), "projects", textBoxName.Text, "Output");
-                    projectTemplate.ParametersTree = new System.Xml.Linq.XElement("parameterTree", "");
-                    System.Xml.Linq.XElement root = new System.Xml.Linq.XElement("root");
-                    root.SetAttributeValue("name","root");
-                    root.Add(new System.Xml.Linq.XElement("children"));
-                    projectTemplate.ParametersTree.Add(root);
-                    templateList.Add(projectTemplate);
-                }
-                Project project = new Project();
-                project.Name = textBoxName.Text;
-                project.ProjectTemplateList.Clear();
-                project.ProjectTemplateList.AddRange(templateList);
-                ProjectContainer.GetInstance().UpdateProject(project);
-                ProjectContainer.GetInstance().Save();
-                ProjectContainer.GetInstance().Reload(this, EventArgs.Empty);
-                Classes.Mediation.FormMediator.GetInstance().SendMessage("Project Created");
-                SetCreateMode(false);
-            }
-            else
-            {
                 if(comboBoxProjects.SelectedIndex > -1)
                 {
                     Project project = ProjectContainer.GetInstance().ProjectList.FirstOrDefault(x => x.Name == comboBoxProjects.SelectedItem.ToString());
@@ -154,7 +150,7 @@ namespace Codenesium.TemplateGenerator.UserControls
                     ProjectContainer.GetInstance().Reload(this, EventArgs.Empty);
                     Classes.Mediation.FormMediator.GetInstance().SendMessage("Project Updated");
                 }
-            }
+            
         }
 
         private void UncheckAll()

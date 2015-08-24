@@ -1,9 +1,0 @@
-<xml>
-	<template>
-		<name>MoveFiles</name>
-		<fileExtension>.cs</fileExtension>
-		<perTableTemplate>False</perTableTemplate>
-		<dataInterface>NONE</dataInterface>
-		<description>none</description>
-	</template>
-</xml>

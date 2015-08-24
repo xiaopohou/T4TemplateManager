@@ -66,6 +66,7 @@
             this.textBoxName.MaxLength = 32767;
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.PasswordChar = '\0';
+            this.textBoxName.ReadOnly = true;
             this.textBoxName.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBoxName.SelectedText = "";
             this.textBoxName.Size = new System.Drawing.Size(198, 23);
