@@ -1,0 +1,213 @@
+<#@ template language="C#v3.5"  hostspecific="True" debug="True"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Codenesium.GenerationLibrary.Generation" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.String" Name="treeParameter"#>
+<#@ parameter type="System.String" Name="className"#>
+<#@ parameter type="System.String" Name="basicObjectName"#>
+<#@ parameter type="System.String" Name="basicObjectInterfaceName"#>
+<#@ parameter type="System.String" Name="insertProcedureName"#>
+<#@ parameter type="System.String" Name="updateProcedureName"#>
+<#@ parameter type="System.String" Name="selectProcedureName"#>
+<#@ parameter type="System.String" Name="namespace"#>
+
+
+<#
+XElement xml = XElement.Parse(treeParameter);
+
+
+            var fields = from fi in xml.Descendants("fields")
+                         select fi;
+
+            var storedProcFieldList = (from fi in fields.Elements("children").Elements("field")
+                             select new
+                             {
+                                 name = (from f in fi.Elements("children").Elements("attribute")
+                                        where f.Attribute("name").Value == "name"
+                                        select f.Attribute("value").Value).FirstOrDefault(),
+                                 dataType = (from f in fi.Elements("children").Elements("attribute")
+                                            where f.Attribute("name").Value == "dataType"
+                                             select f.Attribute("value").Value).FirstOrDefault(),
+                                 numericPrecision = (from f in fi.Elements("children").Elements("attribute")
+                                                    where f.Attribute("name").Value == "numericPrecision"
+                                                     select f.Attribute("value").Value).FirstOrDefault(),
+                                 mode = (from f in fi.Elements("children").Elements("attribute")
+                                        where f.Attribute("name").Value == "mode"
+                                         select f.Attribute("value").Value).FirstOrDefault(),
+                                 maxLength = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "maxLength"
+                                            select f.Attribute("value").Value).FirstOrDefault(),
+										
+                                 mappedDatabaseFieldName = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "mappedDatabaseFieldName"
+                                                        select f.Attribute("value").Value).FirstOrDefault(),
+								 mappedDatabaseFieldType = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "mappedDatabaseFieldType"
+                                                        select f.Attribute("value").Value).FirstOrDefault(),
+								 BOObjectType = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "BOObjectType"
+                                                        select f.Attribute("value").Value).FirstOrDefault(),
+								 isBoolean = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "isBoolean"
+                                                        select f.Attribute("value").Value).FirstOrDefault()
+                             }).ToList();
+#>
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Xml.Linq;
+using System.Data.Entity.Core.Objects;
+using CADToMultiRMSUtility;
+using CADToMultiRMSInterfaces.Interfaces;
+using CADToMultiRMSBasicObjects;
+
+
+namespace <#= namespace #>
+{
+    public partial class <#= className #>
+    {
+         PSDataCADMultiRMSEntities _objCtx;
+
+         public <#= basicObjectName#>Repository()
+         {
+           this._objCtx = new PSDataCADMultiRMSEntities();
+         }
+
+        public <#= basicObjectInterfaceName#> FindByID(int id)
+        {
+            <#= selectProcedureName#>_Result result = this._objCtx.<#= selectProcedureName#>(id).FirstOrDefault();
+            if (result == null)
+            {
+                return null;
+            }
+            else
+            {
+                return ConvertDBEntityToBOEntity(result);
+            }
+        }
+
+     private <#= basicObjectInterfaceName #>  ConvertDBEntityToBOEntity(<#= selectProcedureName #>_Result item)
+        {
+       
+            <#= basicObjectName #> result = new <#= basicObjectName #> ();     
+			<#
+			string convertDBEntityToBOEntityitem = String.Empty;	
+			
+			List<string> boObjectTypes = new List<string>();
+			for( int i =0;i < storedProcFieldList.Count; i++)
+			{
+			
+				if(storedProcFieldList[i].BOObjectType != String.Empty && !boObjectTypes.Contains( storedProcFieldList[i].BOObjectType.ToString()) )
+				{
+					convertDBEntityToBOEntityitem +=  storedProcFieldList[i].BOObjectType + "Repository "+storedProcFieldList[i].BOObjectType[0].ToString().ToLower() + storedProcFieldList[i].BOObjectType.Substring(1) + "Repository = new " + storedProcFieldList[i].BOObjectType + "Repository();" + Environment.NewLine;
+					boObjectTypes.Add(storedProcFieldList[i].BOObjectType.ToString());
+				}
+			}
+
+			for( int i =0;i < storedProcFieldList.Count; i++)
+			{
+				if(String.IsNullOrEmpty(storedProcFieldList[i].BOObjectType))
+				{ 	
+					
+					switch(storedProcFieldList[i].dataType)
+						{
+							
+							case "int":
+							{
+								convertDBEntityToBOEntityitem += "result." +  storedProcFieldList[i].name  + " = item." + storedProcFieldList[i].name + ".ToInt();" + Environment.NewLine;
+								break;
+							}
+							case "bit":
+							{
+							  convertDBEntityToBOEntityitem += "result." +  storedProcFieldList[i].name  + " = item." + storedProcFieldList[i].name + ".ToBool();" + Environment.NewLine;
+								break;
+							}
+							default:
+							{
+								convertDBEntityToBOEntityitem += "result." +  storedProcFieldList[i].name  + " = item." + storedProcFieldList[i].name + ";" + Environment.NewLine;
+								break;
+							}
+						}
+					
+				}
+				else
+				{
+					convertDBEntityToBOEntityitem += "result." +  storedProcFieldList[i].name  + " = " +  storedProcFieldList[i].BOObjectType[0].ToString().ToLower() + storedProcFieldList[i].BOObjectType.Substring(1) + "Repository.FindByID(item." + storedProcFieldList[i].name+ ".ToInt());" + Environment.NewLine;
+				}
+				
+					
+				
+			}
+			#>
+			<#= convertDBEntityToBOEntityitem #>
+            return result;
+        }
+
+
+        public int Insert(<#= basicObjectInterfaceName #>  item)
+        {
+            ObjectParameter recNo = new ObjectParameter("RecNo", item.RecNo);
+            this._objCtx.<#= insertProcedureName #>(recNo,
+			
+			<#
+			string insertList = String.Empty;
+			for( int i =0;i < storedProcFieldList.Count; i++)
+			{
+				if(storedProcFieldList[i].name.ToUpper() == "RECNO")
+				{
+					continue;
+				}
+					if(!String.IsNullOrEmpty(storedProcFieldList[i].BOObjectType))
+					{
+						insertList += "item." + storedProcFieldList[i].name + ".GetNullableKey()";
+					}
+					else
+					{
+						switch(storedProcFieldList[i].dataType)
+						{
+							
+							case "int":
+							{
+								insertList += "item." + storedProcFieldList[i].name + ".ToInt()";
+								break;
+							}
+							case "datetime":
+							{
+								insertList += "item." + storedProcFieldList[i].name + " == null ?  DateTime.MinValue  : item." + storedProcFieldList[i].name;
+								break;
+							}
+							case "bit":
+							{
+							insertList += "item." +  storedProcFieldList[i].name + ".ToBool()";
+								break;
+							}
+							default:
+							{
+								insertList +=  "item." +  storedProcFieldList[i].name;
+								break;
+							}
+						}
+					}
+					
+				if(i < storedProcFieldList.Count - 1)
+				{
+					insertList += "," + Environment.NewLine;
+				}
+			}
+			#>
+			<#= insertList #>
+			);
+            return recNo.Value.ToInt();
+        }
+
+    }
+}

@@ -1,0 +1,189 @@
+<#@ template language="C#v3.5"  hostspecific="True" debug="True"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Codenesium.GenerationLibrary.Generation" #>
+<#@ output extension=".sql" #>
+<#@ parameter type="System.String" Name="treeParameter"#>
+<#@ parameter type="System.String" Name="className"#>
+<#@ parameter type="System.String" Name="basicObjectName"#>
+<#@ parameter type="System.String" Name="basicObjectInterfaceName"#>
+<#@ parameter type="System.String" Name="namespace"#>
+
+<#
+XElement xml = XElement.Parse(treeParameter);
+
+
+            var fields = from fi in xml.Descendants("fields")
+                         select fi;
+
+            var storedProcFieldList = (from fi in fields.Elements("children").Elements("field")
+                             select new
+                             {
+                                 name = (from f in fi.Elements("children").Elements("attribute")
+                                        where f.Attribute("name").Value == "name"
+                                        select f.Attribute("value").Value).FirstOrDefault(),
+                                 dataType = (from f in fi.Elements("children").Elements("attribute")
+                                            where f.Attribute("name").Value == "dataType"
+                                             select f.Attribute("value").Value).FirstOrDefault(),
+                                 numericPrecision = (from f in fi.Elements("children").Elements("attribute")
+                                                    where f.Attribute("name").Value == "numericPrecision"
+                                                     select f.Attribute("value").Value).FirstOrDefault(),
+                                 mode = (from f in fi.Elements("children").Elements("attribute")
+                                        where f.Attribute("name").Value == "mode"
+                                         select f.Attribute("value").Value).FirstOrDefault(),
+                                 maxLength = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "maxLength"
+                                            select f.Attribute("value").Value).FirstOrDefault(),
+										
+                                 mappedDatabaseFieldName = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "mappedDatabaseFieldName"
+                                                        select f.Attribute("value").Value).FirstOrDefault(),
+								 mappedDatabaseFieldType = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "mappedDatabaseFieldType"
+                                                        select f.Attribute("value").Value).FirstOrDefault(),
+								 BOObjectType = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "BOObjectType"
+                                                        select f.Attribute("value").Value).FirstOrDefault(),
+								 isBoolean = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "isBoolean"
+                                                        select f.Attribute("value").Value).FirstOrDefault()
+                             }).ToList();
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Xml.Linq;
+using CADToMultiRMSUtility.Events;
+using CADToMultiRMSInterfaces.Interfaces;
+using CADToMultiRMSUtility.Exceptions;
+using CADToMultiRMSBasicObjects;
+using CADToMultiRMSDB;
+using CADToMultiRMSUtility;
+
+namespace <#= namespace #>
+{
+    public partial class <#= className #>
+    {
+       
+        Mediator _mediator;
+
+        public <#= className #>( Mediator mediator) 
+        {
+            
+            this._mediator = mediator;
+        }
+
+        public  <#= basicObjectInterfaceName#>  FindByID(int id)
+        {
+            if (!this._mediator.StatusEvent().ContinueExecution)
+            {
+                throw new ExecutionHaultedException("Execution haulted in  <#= className#>.FindByID");
+            }
+            CADToMultiRMSDB.<#= basicObjectName#>Repository repository = new CADToMultiRMSDB.<#= basicObjectName#>Repository();
+            return repository.FindByID(id);
+        }
+
+        public int Insert(<#= basicObjectInterfaceName#> item)
+        {
+            if (!this._mediator.StatusEvent().ContinueExecution)
+            {
+                throw new ExecutionHaultedException("Execution haulted in  <#= className#>.Insert");
+            }
+            CADToMultiRMSDB.<#= basicObjectName#>Repository repository = new CADToMultiRMSDB.<#= basicObjectName#>Repository();
+            return repository.Insert(item);
+        }
+		
+        public List<<#= basicObjectInterfaceName#>> LoadListFromXML(XElement xml)
+        {
+            List<<#= basicObjectInterfaceName#>> response = new List<<#= basicObjectInterfaceName#>>();
+            foreach (var item in xml.Elements(CADToMultiRMSBO.Constants.TPSNamespace+"fill in xml node"))
+            {
+                response.Add((<#= basicObjectInterfaceName#>)LoadFromXML(item));
+				
+            }
+            return response;
+        }
+
+
+      
+	  
+	   public <#= basicObjectInterfaceName#> LoadFromXML(XElement xml)
+        {
+            if (!this._mediator.StatusEvent().ContinueExecution)
+            {
+                throw new ExecutionHaultedException("Execution haulted in <#= className #>.LoadFromXML");
+            }
+              <#= basicObjectName #> result = new <#= basicObjectName #> ();
+			  
+			    if (xml ==null || !xml.Elements(Constants.TPSNamespace + "replace with an element that's required").Any())
+				{
+					return null;
+				}
+			  <#
+			  
+			 string loadFromXML = String.Empty;
+			 
+		    List<string> boObjectTypes = new List<string>();
+			for( int i =0;i < storedProcFieldList.Count; i++)
+			{
+			
+				if(storedProcFieldList[i].BOObjectType != String.Empty && !boObjectTypes.Contains( storedProcFieldList[i].BOObjectType.ToString()) )
+				{
+					loadFromXML +=  storedProcFieldList[i].BOObjectType + "Manager "+storedProcFieldList[i].BOObjectType[0].ToString().ToLower() + storedProcFieldList[i].BOObjectType.Substring(1) + "Manager = new " + storedProcFieldList[i].BOObjectType + "Manager(this._mediator);" + Environment.NewLine;
+					boObjectTypes.Add(storedProcFieldList[i].BOObjectType.ToString());
+				}
+			}
+			
+			for( int i =0;i < storedProcFieldList.Count; i++)
+			{
+					if(storedProcFieldList[i].name.ToUpper() == "RECNO" || storedProcFieldList[i].name.ToUpper() == "CALLRECNO")
+					{
+						continue;
+					}
+
+					if(!String.IsNullOrEmpty(storedProcFieldList[i].BOObjectType))
+					{
+						loadFromXML += 	"result." + storedProcFieldList[i].name + @" = " +  storedProcFieldList[i].BOObjectType[0].ToString().ToLower() + storedProcFieldList[i].BOObjectType.Substring(1) + @"Manager.LoadFromXML(xml.Element(""" +  storedProcFieldList[i].name + @"""));" + Environment.NewLine;
+					}
+					else
+					{
+						switch(storedProcFieldList[i].dataType)
+						{
+							
+							case "int":
+							{
+								loadFromXML += 	"result." + storedProcFieldList[i].name + @" =  xml.Element(Constants.TPSNamespace + """ +  storedProcFieldList[i].name + @""").Value.ToInt();" + Environment.NewLine;
+								break;
+							}
+							case "bit":
+							{
+								loadFromXML += 	"result." + storedProcFieldList[i].name + @" =  xml.Element(Constants.TPSNamespace + """   + storedProcFieldList[i].name + @""").Value.ToBool();" + Environment.NewLine;
+								break;
+							}
+							case "datetime":
+							{
+								loadFromXML += 	"result." + storedProcFieldList[i].name + @" =  xml.Element(Constants.TPSNamespace + """   + storedProcFieldList[i].name + @""").Value.ToDateTime();" + Environment.NewLine;
+								break;
+							}
+							default:
+							{
+								loadFromXML += 	"result." + storedProcFieldList[i].name + @" =  xml.Element(Constants.TPSNamespace + """    + storedProcFieldList[i].name + @""").Value;" + Environment.NewLine;
+								break;
+							}
+						}
+					}
+					
+
+			}#>
+			<#= loadFromXML #>
+			return result;
+			}
+	  
+    }
+}
