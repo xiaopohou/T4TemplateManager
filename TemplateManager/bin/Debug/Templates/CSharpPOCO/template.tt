@@ -1,0 +1,63 @@
+<#@ template language="C#v3.5"  hostspecific="True" debug="True"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Codenesium.GenerationLibrary.Generation" #>
+<#@ output extension=".sql" #>
+<#@ parameter type="System.String" Name="treeParameter"#>
+<#@ parameter type="System.String" Name="className"#>
+<#@ parameter type="System.String" Name="namespace"#>
+
+<#
+XElement xml = XElement.Parse(treeParameter);
+var storedProcFieldList  = Codenesium.GenerationLibrary.Generation.ParseParameters(xml.Element("fields"));
+
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.ComponentModel.DataAnnotations;
+namespace <#= namespace #>
+{
+    public partial class <#= className #> :I<#= className #> 
+    {
+    
+		<#
+		string properties = String.Empty;
+		for( int i =0;i < storedProcFieldList.Count; i++)
+		{
+			DbType fieldType = Codenesium.GenerationLibrary.Database.MSSQL.ParseType(storedProcFieldList[i].dataType);
+			if(String.IsNullOrEmpty(storedProcFieldList[i].BOObjectType))
+			{
+				if(storedProcFieldList[i].name.ToUpper() == "RECNO")
+				{
+					properties +=  "[Key]" + Environment.NewLine;
+				}
+				properties +=  Codenesium.GenerationLibrary.Generation.Helpers.DotNetHelper.GenerateFieldProperty(storedProcFieldList[i].name,fieldType) + Environment.NewLine;
+			}
+			else
+			{
+			   properties +=  "public I" + storedProcFieldList[i].BOObjectType + " " + storedProcFieldList[i].name + "{get;set;}" + Environment.NewLine;
+			}
+		}
+		#>
+		<#= properties #>
+        public <#= className #>()
+        {
+        }
+     }
+}
+
+
+
+
+
+
+
+
+

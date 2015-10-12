@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xml>
+  <project>
+    <id>73c1be75-16fb-4749-8b03-56b44fad7f44</id>
+    <name>Email test</name>
+    <projectTemplates>
+      <projectTemplate>
+        <templateName>EmailTest</templateName>
+        <parameterTree>
+          <root name="root">
+            <children />
+          </root>
+        </parameterTree>
+        <parameters>
+          <parameter>
+            <key>toAddress</key>
+            <value>user@gmail.com</value>
+          </parameter>
+          <parameter>
+            <key>OutputDirectory</key>
+            <value>\\vmware-host\Shared Folders\Dropbox\Projects 2.0\Git\TemplateManager\TemplateManager\bin\Debug\projects\Email test\Output</value>
+          </parameter>
+        </parameters>
+      </projectTemplate>
+    </projectTemplates>
+  </project>
+</xml>

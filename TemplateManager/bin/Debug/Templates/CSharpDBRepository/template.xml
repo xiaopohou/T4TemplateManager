@@ -1,0 +1,7 @@
+<xml>
+	<template>
+		<name>CSharpDBRepository</name>
+		<fileExtension>.cs</fileExtension>
+		<description>none</description>
+	</template>
+</xml>

@@ -1,0 +1,84 @@
+<#@ template language="C#v3.5"  hostspecific="True" debug="True"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Codenesium.GenerationLibrary.Generation" #>
+<#@ output extension=".sql" #>
+<#@ parameter type="System.String" Name="treeParameter"#>
+<#@ parameter type="System.String" Name="className"#>
+<#@ parameter type="System.String" Name="namespace"#>
+
+<#
+XElement xml = XElement.Parse(treeParameter);
+
+
+            var fields = from fi in xml.Descendants("fields")
+                         select fi;
+
+            var storedProcFieldList = (from fi in fields.Elements("children").Elements("field")
+                             select new
+                             {
+                                 name = (from f in fi.Elements("children").Elements("attribute")
+                                        where f.Attribute("name").Value == "name"
+                                        select f.Attribute("value").Value).FirstOrDefault(),
+                                 dataType = (from f in fi.Elements("children").Elements("attribute")
+                                            where f.Attribute("name").Value == "dataType"
+                                             select f.Attribute("value").Value).FirstOrDefault(),
+                                 numericPrecision = (from f in fi.Elements("children").Elements("attribute")
+                                                    where f.Attribute("name").Value == "numericPrecision"
+                                                     select f.Attribute("value").Value).FirstOrDefault(),
+                                 mode = (from f in fi.Elements("children").Elements("attribute")
+                                        where f.Attribute("name").Value == "mode"
+                                         select f.Attribute("value").Value).FirstOrDefault(),
+                                 maxLength = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "maxLength"
+                                        select f.Attribute("value").Value).FirstOrDefault(),
+                                 mappedDatabaseFieldName = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "mappedDatabaseFieldName"
+                                                        select f.Attribute("value").Value).FirstOrDefault(),
+								mappedDatabaseFieldType = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "mappedDatabaseFieldType"
+                                                        select f.Attribute("value").Value).FirstOrDefault(),
+								 BOObjectType = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "BOObjectType"
+                                                        select f.Attribute("value").Value).FirstOrDefault(),
+								 isBoolean = (from f in fi.Elements("children").Elements("attribute")
+                                             where f.Attribute("name").Value == "isBoolean"
+                                                        select f.Attribute("value").Value).FirstOrDefault()
+
+                             }).ToList();
+
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+namespace <#= namespace #>
+{
+    public interface I<#= className #> 
+    {
+    
+		<#
+		string intefaceProperties = String.Empty;
+		for( int i =0;i < storedProcFieldList.Count; i++)
+		{
+			DbType interfaceFieldType = Codenesium.GenerationLibrary.Database.MSSQL.ParseType(storedProcFieldList[i].dataType);
+			if(String.IsNullOrEmpty(storedProcFieldList[i].BOObjectType))
+			{
+				intefaceProperties +=  Codenesium.GenerationLibrary.Generation.Helpers.DotNetHelper.GenerateFieldPropertyType(interfaceFieldType) + " " + storedProcFieldList[i].name +"{get;set;}" + Environment.NewLine;
+			}
+			else
+			{
+			   intefaceProperties +=  "I" + storedProcFieldList[i].BOObjectType + " " +storedProcFieldList[i].name + "{get;set;}" + Environment.NewLine;
+			}
+			
+			
+		}
+		#>
+		<#= intefaceProperties #>
+     }
+}
