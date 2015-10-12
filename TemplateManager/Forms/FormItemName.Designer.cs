@@ -54,7 +54,6 @@
             this.textBoxValue.Size = new System.Drawing.Size(300, 20);
             this.textBoxValue.TabIndex = 3;
             this.textBoxValue.UseSelectable = true;
-            this.textBoxValue.WordWrap = false;
             // 
             // FormItemName
             // 
