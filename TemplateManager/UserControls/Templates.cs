@@ -261,9 +261,9 @@ namespace Codenesium.TemplateGenerator.UserControls
             if (treeViewParameters.SelectedNode != null)
             {
                 XElement currentNode = (XElement)this._currentlySelectNode.Tag;
-                if (currentNode.Attribute("key") != null)
+                if (currentNode.Attribute("name") != null)
                 {
-                    currentNode.Attribute("key").Value = textBoxParameterKey.Text;
+                    currentNode.Attribute("name").Value = textBoxParameterKey.Text;
                 }
                 this._currentlySelectNode.Text = textBoxParameterKey.Text;
             }

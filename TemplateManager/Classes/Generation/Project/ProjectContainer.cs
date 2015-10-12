@@ -77,12 +77,6 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                     {
                         Directory.CreateDirectory(Path.Combine(ProjectsRootDirectory, project.Name,"Assets"));
                     }
-
-                    if (!Directory.Exists(Path.Combine(ProjectsRootDirectory, project.Name, "WorkingDirectory")))
-                    {
-                        Directory.CreateDirectory(Path.Combine(ProjectsRootDirectory, project.Name, "WorkingDirectory"));
-                    }
-
                     xDoc.Save(Path.Combine(ProjectsRootDirectory, project.Name, "project.xml"));
                 }
 

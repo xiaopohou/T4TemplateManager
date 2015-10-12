@@ -116,7 +116,6 @@ namespace Codenesium.GenerationLibrary.Generation
                                 if(firstQuote > -1 && secondQuote > -1)
                                 {
                                     string nameValue = attribute.Substring(firstQuote+1,secondQuote-firstQuote-1);
-
                                     parameters[nameValue] = "";
                                 }
 

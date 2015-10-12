@@ -31,12 +31,13 @@
             this.labelKey = new System.Windows.Forms.Label();
             this.textBoxValue = new MetroFramework.Controls.MetroTextBox();
             this.buttonSave = new MetroFramework.Controls.MetroButton();
+            this.labelTemplateName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelKey
             // 
             this.labelKey.AutoSize = true;
-            this.labelKey.Location = new System.Drawing.Point(24, 61);
+            this.labelKey.Location = new System.Drawing.Point(23, 96);
             this.labelKey.Name = "labelKey";
             this.labelKey.Size = new System.Drawing.Size(35, 13);
             this.labelKey.TabIndex = 0;
@@ -45,14 +46,14 @@
             // textBoxValue
             // 
             this.textBoxValue.Lines = new string[0];
-            this.textBoxValue.Location = new System.Drawing.Point(23, 77);
+            this.textBoxValue.Location = new System.Drawing.Point(23, 112);
             this.textBoxValue.MaxLength = 2000000;
             this.textBoxValue.Multiline = true;
             this.textBoxValue.Name = "textBoxValue";
             this.textBoxValue.PasswordChar = '\0';
             this.textBoxValue.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxValue.SelectedText = "";
-            this.textBoxValue.Size = new System.Drawing.Size(395, 203);
+            this.textBoxValue.Size = new System.Drawing.Size(395, 168);
             this.textBoxValue.TabIndex = 1;
             this.textBoxValue.UseSelectable = true;
             this.textBoxValue.WordWrap = false;
@@ -67,11 +68,21 @@
             this.buttonSave.UseSelectable = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
+            // labelTemplateName
+            // 
+            this.labelTemplateName.AutoSize = true;
+            this.labelTemplateName.Location = new System.Drawing.Point(23, 72);
+            this.labelTemplateName.Name = "labelTemplateName";
+            this.labelTemplateName.Size = new System.Drawing.Size(75, 13);
+            this.labelTemplateName.TabIndex = 3;
+            this.labelTemplateName.Text = "templateName";
+            // 
             // ParameterPrompt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(441, 347);
+            this.Controls.Add(this.labelTemplateName);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxValue);
             this.Controls.Add(this.labelKey);
@@ -90,5 +101,6 @@
         private System.Windows.Forms.Label labelKey;
         private MetroFramework.Controls.MetroTextBox textBoxValue;
         private MetroFramework.Controls.MetroButton buttonSave;
+        private System.Windows.Forms.Label labelTemplateName;
     }
 }

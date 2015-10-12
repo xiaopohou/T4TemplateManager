@@ -31,9 +31,6 @@ namespace Codenesium.TemplateGenerator.UserControls
             LoadForm();
         }
 
-       
-
-
         private void LoadForm()
         {
             int currentSelectedProject = comboBoxProjects.SelectedIndex;
@@ -79,8 +76,7 @@ namespace Codenesium.TemplateGenerator.UserControls
                     output.ScrollBars = ScrollBars.Both;
                     output.Text = this._generationResults[key];
                     output.Multiline = true;
-                    output.Width = 650;
-                    output.Height = 350;
+                    output.Dock = DockStyle.Fill;
                     newPage.Controls.Add(output);
                     tabControlOutput.TabPages.Add(newPage);
                 }
@@ -93,36 +89,29 @@ namespace Codenesium.TemplateGenerator.UserControls
             Classes.Mediation.FormMediator.GetInstance().SendMessage("Starting Generation");
             try
             {
-                this._generationResults.Clear();
-           
+               this._generationResults.Clear();
                Project project =ProjectContainer.GetInstance().ProjectList.ToList().Where(x => x == this._selectedProject).FirstOrDefault();
                Classes.Generation.GenerationParameterManager parameterManager = new GenerationParameterManager();
                parameterManager.TransformParameters(project);
-
-                Classes.Generation.GenerationManager generationManager = new GenerationManager();
+               string workingDirectory = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "WorkingDirectory");
+               Classes.Generation.GenerationManager generationManager = new GenerationManager();
 
                 foreach (ProjectTemplate projectTemplate in project.ProjectTemplateList)
                 {
                     Template template = TemplateContainer.GetInstance().TemplateList.Where(x => x.Name == projectTemplate.TemplateName).FirstOrDefault();
-                    List<TemplateExecutionResult> results = generationManager.ExecuteForEachTemplate(template, projectTemplate.TransformedParameters, projectTemplate.ParametersTree);
-
+                    List<TemplateExecutionResult> results = generationManager.ExecuteForEachTemplate(workingDirectory, template, projectTemplate.TransformedParameters, projectTemplate.ParametersTree);
 
                     string resultDisplay = String.Empty;
                     foreach (TemplateExecutionResult result in results)
                     {
                         resultDisplay += result.TransformedText;
                         resultDisplay += result.ErrorMessage + Environment.NewLine;
-                        resultDisplay += "-------------------------------------------------------------";
                     }
                     this._generationResults[template.Name] = resultDisplay;
                     FormMediator.GetInstance().AddGenerationScreenMessage(resultDisplay);
                 }
 
-                   
-
-
-                Classes.Mediation.FormMediator.GetInstance().SendMessage("Generation Complete");
-                
+                Classes.Mediation.FormMediator.GetInstance().SendMessage("Generation Complete");          
             }
             catch(Exception ex)
             {
@@ -137,7 +126,5 @@ namespace Codenesium.TemplateGenerator.UserControls
         {
            
         }
-
-      
     }
 }

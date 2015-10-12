@@ -68,8 +68,7 @@ namespace Codenesium.TemplateGenerator.Forms
         }
 
         private void Save()
-        {
-           
+        {          
             string table = comboBoxTable.SelectedItem.ToString();
             string connectionString = ProjectContainer.GetInstance().ConnectionStrings[comboBoxDataInterface.SelectedItem.ToString()];
             XElement fields = Codenesium.GenerationLibrary.Database.MSSQL.GetFieldListFromTable(table,connectionString);

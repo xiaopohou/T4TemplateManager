@@ -14,10 +14,11 @@ namespace Codenesium.TemplateGenerator.Forms
     {
         public string Value { get; set; }
         public bool Saved { get; set; }
-        public ParameterPrompt(string key)
+        public ParameterPrompt(string key,string templateName)
         {
             InitializeComponent();
             this.labelKey.Text = key;
+            this.labelTemplateName.Text = templateName;
             this.Value = string.Empty;
         }
 

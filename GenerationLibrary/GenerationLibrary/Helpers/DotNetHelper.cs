@@ -9,16 +9,6 @@ namespace Codenesium.GenerationLibrary.Generation.Helpers
 {
     public class DotNetHelper
     {
-        //public static string GenerateFieldPropertyForList(List<Interfaces.IDatabaseField> fields)
-        //{
-        //    string response = String.Empty;
-        //    foreach (Interfaces.IDatabaseField field in fields)
-        //    {
-        //        response += GenerateFieldProperty(field) + Environment.NewLine;
-        //    }
-        //    return response;
-        //}
-
         public static string GenerateInterfacePropertyForList(List<Interfaces.IDatabaseField> fields)
         {
             string response = String.Empty;

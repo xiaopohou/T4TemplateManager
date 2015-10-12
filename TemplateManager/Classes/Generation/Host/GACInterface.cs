@@ -11,7 +11,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
     {
         /// <summary>
         /// This is a massive hack to resolve assembly references. We look in diffent places in the GAC and then
-        /// we return the exectubale as a last resort. 
+        /// we return the executable as a last resort. 
         /// TODO:Refactor this code to not suck.
         /// </summary>
         /// <param name="name"></param>
