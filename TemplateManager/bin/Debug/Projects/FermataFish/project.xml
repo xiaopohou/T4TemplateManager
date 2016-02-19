@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xml>
+  <project>
+    <id>f269add5-3a6e-49ed-bff8-32c4c9347d15</id>
+    <name>FermataFish</name>
+    <projectTemplates>
+      <projectTemplate>
+        <templateName>CSHARPPoco</templateName>
+        <parameterTree>
+          <root name="root">
+            <children>
+              <fields name="fields">
+                <children>
+                  <field name="email" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="email" />
+                      <attribute name="DataType" value="nvarchar" />
+                      <attribute name="NumericPrecision" value="" />
+                      <attribute name="MaxLength" value="90" />
+                      <attribute name="MappedDatabaseFieldName" value="email" />
+                      <attribute name="MappedDatabaseFieldType" value="nvarchar" />
+                      <attribute name="MappedDatabaseFieldLength" value="90" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                  <field name="firstName" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="firstName" />
+                      <attribute name="DataType" value="nvarchar" />
+                      <attribute name="NumericPrecision" value="" />
+                      <attribute name="MaxLength" value="90" />
+                      <attribute name="MappedDatabaseFieldName" value="firstName" />
+                      <attribute name="MappedDatabaseFieldType" value="nvarchar" />
+                      <attribute name="MappedDatabaseFieldLength" value="90" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                  <field name="id" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="id" />
+                      <attribute name="DataType" value="int" />
+                      <attribute name="NumericPrecision" value="10" />
+                      <attribute name="MaxLength" value="" />
+                      <attribute name="MappedDatabaseFieldName" value="id" />
+                      <attribute name="MappedDatabaseFieldType" value="int" />
+                      <attribute name="MappedDatabaseFieldLength" value="" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                  <field name="lastName" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="lastName" />
+                      <attribute name="DataType" value="nvarchar" />
+                      <attribute name="NumericPrecision" value="" />
+                      <attribute name="MaxLength" value="90" />
+                      <attribute name="MappedDatabaseFieldName" value="lastName" />
+                      <attribute name="MappedDatabaseFieldType" value="nvarchar" />
+                      <attribute name="MappedDatabaseFieldLength" value="90" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                  <field name="phone" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="phone" />
+                      <attribute name="DataType" value="nvarchar" />
+                      <attribute name="NumericPrecision" value="" />
+                      <attribute name="MaxLength" value="20" />
+                      <attribute name="MappedDatabaseFieldName" value="phone" />
+                      <attribute name="MappedDatabaseFieldType" value="nvarchar" />
+                      <attribute name="MappedDatabaseFieldLength" value="20" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                  <field name="statusId" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="statusId" />
+                      <attribute name="DataType" value="int" />
+                      <attribute name="NumericPrecision" value="10" />
+                      <attribute name="MaxLength" value="" />
+                      <attribute name="MappedDatabaseFieldName" value="statusId" />
+                      <attribute name="MappedDatabaseFieldType" value="int" />
+                      <attribute name="MappedDatabaseFieldLength" value="" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                </children>
+              </fields>
+            </children>
+          </root>
+        </parameterTree>
+        <parameters>
+          <parameter>
+            <key>treeParameter</key>
+            <value></value>
+          </parameter>
+          <parameter>
+            <key>className</key>
+            <value>Person</value>
+          </parameter>
+          <parameter>
+            <key>namespace</key>
+            <value>FermataFish</value>
+          </parameter>
+          <parameter>
+            <key>OutputDirectory</key>
+            <value>c:\tmp\FermataFish</value>
+          </parameter>
+        </parameters>
+      </projectTemplate>
+      <projectTemplate>
+        <templateName>CSHARPPocoInterface</templateName>
+        <parameterTree>
+          <root name="root">
+            <children>
+              <fields name="fields">
+                <children>
+                  <field name="email" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="email" />
+                      <attribute name="DataType" value="nvarchar" />
+                      <attribute name="NumericPrecision" value="" />
+                      <attribute name="MaxLength" value="90" />
+                      <attribute name="MappedDatabaseFieldName" value="email" />
+                      <attribute name="MappedDatabaseFieldType" value="nvarchar" />
+                      <attribute name="MappedDatabaseFieldLength" value="90" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                  <field name="firstName" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="firstName" />
+                      <attribute name="DataType" value="nvarchar" />
+                      <attribute name="NumericPrecision" value="" />
+                      <attribute name="MaxLength" value="90" />
+                      <attribute name="MappedDatabaseFieldName" value="firstName" />
+                      <attribute name="MappedDatabaseFieldType" value="nvarchar" />
+                      <attribute name="MappedDatabaseFieldLength" value="90" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                  <field name="id" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="id" />
+                      <attribute name="DataType" value="int" />
+                      <attribute name="NumericPrecision" value="10" />
+                      <attribute name="MaxLength" value="" />
+                      <attribute name="MappedDatabaseFieldName" value="id" />
+                      <attribute name="MappedDatabaseFieldType" value="int" />
+                      <attribute name="MappedDatabaseFieldLength" value="" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                  <field name="lastName" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="lastName" />
+                      <attribute name="DataType" value="nvarchar" />
+                      <attribute name="NumericPrecision" value="" />
+                      <attribute name="MaxLength" value="90" />
+                      <attribute name="MappedDatabaseFieldName" value="lastName" />
+                      <attribute name="MappedDatabaseFieldType" value="nvarchar" />
+                      <attribute name="MappedDatabaseFieldLength" value="90" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                  <field name="phone" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="phone" />
+                      <attribute name="DataType" value="nvarchar" />
+                      <attribute name="NumericPrecision" value="" />
+                      <attribute name="MaxLength" value="20" />
+                      <attribute name="MappedDatabaseFieldName" value="phone" />
+                      <attribute name="MappedDatabaseFieldType" value="nvarchar" />
+                      <attribute name="MappedDatabaseFieldLength" value="20" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                  <field name="statusId" type="databaseField" value="">
+                    <children>
+                      <attribute name="Name" value="statusId" />
+                      <attribute name="DataType" value="int" />
+                      <attribute name="NumericPrecision" value="10" />
+                      <attribute name="MaxLength" value="" />
+                      <attribute name="MappedDatabaseFieldName" value="statusId" />
+                      <attribute name="MappedDatabaseFieldType" value="int" />
+                      <attribute name="MappedDatabaseFieldLength" value="" />
+                      <attribute name="BOObjectType" value="" />
+                      <attribute name="IsBoolean" value="false" />
+                    </children>
+                  </field>
+                </children>
+              </fields>
+            </children>
+          </root>
+        </parameterTree>
+        <parameters>
+          <parameter>
+            <key>treeParameter</key>
+            <value></value>
+          </parameter>
+          <parameter>
+            <key>interfaceName</key>
+            <value>IPerson</value>
+          </parameter>
+          <parameter>
+            <key>namespace</key>
+            <value>FermataFish</value>
+          </parameter>
+          <parameter>
+            <key>className</key>
+            <value></value>
+          </parameter>
+          <parameter>
+            <key>OutputDirectory</key>
+            <value>C:\Users\Administrator\Documents\Mercurial\T4TemplateManager\TemplateManager\bin\Debug\projects\FermataFish\Output</value>
+          </parameter>
+        </parameters>
+      </projectTemplate>
+    </projectTemplates>
+  </project>
+</xml>

@@ -7,14 +7,14 @@
 <#@ import namespace="System.Xml.Linq" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Codenesium.GenerationLibrary.Generation" #>
-<#@ output extension=".sql" #>
+<#@ output extension=".cs" #>
 <#@ parameter type="System.String" Name="treeParameter"#>
 <#@ parameter type="System.String" Name="className"#>
 <#@ parameter type="System.String" Name="namespace"#>
 
 <#
 XElement xml = XElement.Parse(treeParameter);
-var storedProcFieldList  = Codenesium.GenerationLibrary.Generation.ParseParameters(xml.Element("fields"));
+var storedProcFieldList  = Codenesium.GenerationLibrary.Generation.GenerationParameter.ParseParameters(xml);
 
 #>
 using System;
@@ -26,31 +26,27 @@ namespace <#= namespace #>
 {
     public partial class <#= className #> :I<#= className #> 
     {
-    
-		<#
-		string properties = String.Empty;
+<#string properties = String.Empty;
 		for( int i =0;i < storedProcFieldList.Count; i++)
 		{
-			DbType fieldType = Codenesium.GenerationLibrary.Database.MSSQL.ParseType(storedProcFieldList[i].dataType);
+			DbType fieldType = Codenesium.GenerationLibrary.Database.MSSQL.ParseType(storedProcFieldList[i].DataType);
 			if(String.IsNullOrEmpty(storedProcFieldList[i].BOObjectType))
 			{
-				if(storedProcFieldList[i].name.ToUpper() == "RECNO")
+				if(storedProcFieldList[i].Name.ToUpper() == "ID")
 				{
-					properties +=  "[Key]" + Environment.NewLine;
+					properties += "        [Key]" + Environment.NewLine;
 				}
-				properties +=  Codenesium.GenerationLibrary.Generation.Helpers.DotNetHelper.GenerateFieldProperty(storedProcFieldList[i].name,fieldType) + Environment.NewLine;
+				properties += "        " +  Codenesium.GenerationLibrary.Generation.Helpers.DotNetHelper.GenerateFieldProperty(storedProcFieldList[i].Name,fieldType) + Environment.NewLine;
 			}
 			else
 			{
-			   properties +=  "public I" + storedProcFieldList[i].BOObjectType + " " + storedProcFieldList[i].name + "{get;set;}" + Environment.NewLine;
+			   properties +=  "        public I" + storedProcFieldList[i].BOObjectType + " " + storedProcFieldList[i].Name + "{get;set;}" + Environment.NewLine;
 			}
-		}
-		#>
-		<#= properties #>
+		}#><#= properties.TrimEnd() #>
         public <#= className #>()
         {
         }
-     }
+    }
 }
 
 
