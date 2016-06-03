@@ -77,7 +77,7 @@
             // 
             // tabControlOutput
             // 
-            this.tabControlOutput.Location = new System.Drawing.Point(244, 35);
+            this.tabControlOutput.Location = new System.Drawing.Point(244, 34);
             this.tabControlOutput.Name = "tabControlOutput";
             this.tabControlOutput.SelectedIndex = 0;
             this.tabControlOutput.Size = new System.Drawing.Size(544, 308);

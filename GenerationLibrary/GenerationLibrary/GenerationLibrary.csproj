@@ -45,7 +45,6 @@
     <Compile Include="DataType\MYSQLField.cs" />
     <Compile Include="Generation\GenerationParameter.cs" />
     <Compile Include="Generation\Parameter.cs" />
-    <Compile Include="Helpers\AngularHelper.cs" />
     <Compile Include="Helpers\CommonHelper.cs" />
     <Compile Include="Helpers\DotNetHelper.cs" />
     <Compile Include="Helpers\MSSQLHelper.cs" />

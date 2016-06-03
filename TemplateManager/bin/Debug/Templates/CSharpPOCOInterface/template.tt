@@ -8,12 +8,28 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Codenesium.GenerationLibrary.Generation" #>
 <#@ output extension=".sql" #>
-<#@ parameter type="System.String" Name="treeParameter"#>
-<#@ parameter type="System.String" Name="interfaceName"#>
-<#@ parameter type="System.String" Name="namespace"#>
+<#@ parameter type="System.String" Name="TREEPARAMETER"#>
+<#@ parameter type="System.String" Name="INTERFACENAME"#>
+<#@ parameter type="System.String" Name="CLASSNAMESPACE"#>
 
 <#
-XElement xml = XElement.Parse(treeParameter);
+
+if(String.IsNullOrEmpty(TREEPARAMETER))
+{
+throw new ArgumentException("parameter TREEPARAMETER cannot be null");
+}
+if(String.IsNullOrEmpty(INTERFACENAME))
+{
+throw new ArgumentException("parameter INTERFACENAME cannot be null");
+}
+if(String.IsNullOrEmpty(CLASSNAMESPACE))
+{
+throw new ArgumentException("parameter CLASSNAMESPACE cannot be null");
+}
+
+
+
+XElement xml = XElement.Parse(TREEPARAMETER);
 var storedProcFieldList  = Codenesium.GenerationLibrary.Generation.GenerationParameter.ParseParameters(xml);
 
 #>
@@ -21,17 +37,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-namespace <#= namespace #>
+namespace <#= CLASSNAMESPACE #>
 {
-    public interface <#= interfaceName #>
+    public interface <#= INTERFACENAME #>
     {
 <#string intefaceProperties = String.Empty;
+		intefaceProperties += "        public Guid InternalId{get;set;}" + Environment.NewLine;
 		for( int i =0;i < storedProcFieldList.Count; i++)
 		{
 			DbType interfaceFieldType = Codenesium.GenerationLibrary.Database.MSSQL.ParseType(storedProcFieldList[i].DataType);
 			if(String.IsNullOrEmpty(storedProcFieldList[i].BOObjectType))
 			{
-				intefaceProperties += "        " + Codenesium.GenerationLibrary.Generation.Helpers.DotNetHelper.GenerateFieldPropertyType(interfaceFieldType) + " " + storedProcFieldList[i].Name +"{get;set;}" + Environment.NewLine;
+				intefaceProperties += "        " +  Codenesium.GenerationLibrary.Generation.Helpers.DotNetHelper.GenerateFieldProperty(storedProcFieldList[i].Name,interfaceFieldType) + Environment.NewLine;
 			}
 			else
 			{

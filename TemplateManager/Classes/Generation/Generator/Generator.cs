@@ -75,7 +75,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
 
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

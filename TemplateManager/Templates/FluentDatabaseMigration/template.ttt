@@ -1,0 +1,66 @@
+<#@ template language="C#v3.5"  hostspecific="True" debug="True"  #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Codenesium.GenerationLibrary.Generation" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.String" Name="TREEPARAMETER"#>
+<#@ parameter type="System.String" Name="CLASSNAMESPACE"#>
+
+<#
+
+if(String.IsNullOrEmpty(TREEPARAMETER))
+{
+throw new ArgumentException("parameter TREEPARAMETER cannot be null");
+}
+if(String.IsNullOrEmpty(CLASSNAMESPACE))
+{
+throw new ArgumentException("parameter CLASSNAMESPACE cannot be null");
+}
+
+
+
+XElement xml = XElement.Parse(TREEPARAMETER);
+var storedProcFieldList  = Codenesium.GenerationLibrary.Generation.GenerationParameter.ParseParameters(xml);
+
+var classDecorator =  DateTime.Now.ToString("yyyyMMddHHmm") ;
+var className = "Mig" + classDecorator;
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using FluentMigrator;
+using FluentMigrator.Runner.Extensions;
+
+
+namespace <#= CLASSNAMESPACE #>
+{
+	[Migration(<#= classDecorator #>, "")]
+    public class <#= className  #>: Migration
+    {
+		 public override void Up()
+         {
+
+         }
+
+         public override void Down()
+         {
+
+         }
+	}
+}
+
+
+
+
+
+
+
+
+

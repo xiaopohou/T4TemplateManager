@@ -122,30 +122,36 @@ namespace Codenesium.TemplateGenerator.UserControls
                 ProjectTemplate projectTemplate = (ProjectTemplate)comboBoxTemplates.SelectedItem;
                 Template template = TemplateContainer.GetInstance().TemplateList.Where(x => x.Name.ToUpper() == projectTemplate.TemplateName.ToUpper()).FirstOrDefault();
 
-                Dictionary<string, string> parameters = Parameter.ParseParametersFromTemplate(template.TemplateText);
-                foreach (string key in parameters.Keys)
+                if (template != null)
                 {
-                    
-                    int index = -1;
-                    if (projectTemplate.ScreenParameters.ContainsKey(key))
+                    Dictionary<string, string> parameters = Parameter.ParseParametersFromTemplate(template.TemplateText);
+                    foreach (string key in parameters.Keys)
                     {
-                        index = dataGridViewParameters.Rows.Add(key, projectTemplate.ScreenParameters[key]);
+                        if (key.ToUpper() == "TREEPARAMETER") //hide the parameter tree parameter from the user. 
+                        {
+                            continue;
+                        }
+                        int index = -1;
+                        if (projectTemplate.ScreenParameters.ContainsKey(key))
+                        {
+                            index = dataGridViewParameters.Rows.Add(key, projectTemplate.ScreenParameters[key]);
+                        }
+                        else
+                        {
+                            index = dataGridViewParameters.Rows.Add(key, "");
+                        }
+                        dataGridViewParameters.Rows[index].Cells["key"].Style.ForeColor = Color.Green;
                     }
-                    else
-                    {
-                        index = dataGridViewParameters.Rows.Add(key, "");
-                    }
-                    dataGridViewParameters.Rows[index].Cells["key"].Style.ForeColor = Color.Green;
-                }
 
 
-                //if we have extra parameters that are not used by the template but are generation specific we add those here
-                foreach (string key in projectTemplate.ScreenParameters.Keys)
-                {
-                    if (!parameters.ContainsKey(key))
+                    //if we have extra parameters that are not used by the template but are generation specific we add those here
+                    foreach (string key in projectTemplate.ScreenParameters.Keys)
                     {
-                        int index = dataGridViewParameters.Rows.Add(key, projectTemplate.ScreenParameters[key]);
-                        dataGridViewParameters.Rows[index].Cells["key"].Style.ForeColor = Color.Blue;
+                        if (!parameters.ContainsKey(key))
+                        {
+                            int index = dataGridViewParameters.Rows.Add(key, projectTemplate.ScreenParameters[key]);
+                            dataGridViewParameters.Rows[index].Cells["key"].Style.ForeColor = Color.Blue;
+                        }
                     }
                 }
                 PopulateParameterTree();
@@ -228,7 +234,7 @@ namespace Codenesium.TemplateGenerator.UserControls
 
                 if(textViewer.Saved)
                 {
-                    template.TemplateText = textViewer.Text;
+                    template.TemplateText = textViewer.TextValue;
                     // TODO: Add template saving functionality
                 }
             }        
@@ -334,21 +340,36 @@ namespace Codenesium.TemplateGenerator.UserControls
         private void toolStripMenuItemMapToDatabaseField_Click(object sender, EventArgs e)
         {
 
+           
 
             XElement nodeXML = (XElement)this._currentlySelectNode.Tag;
 
             if (nodeXML.Attribute("type") != null && nodeXML.Attribute("type").Value.ToString() == "databaseField")
             {
                 ProjectTemplate template = (ProjectTemplate)comboBoxTemplates.SelectedItem;
-                string connectionString = ProjectContainer.GetInstance().ConnectionStrings[template.ScreenParameters["ConnectionString"].ToString()].ToString();
-                Forms.FormMapToDatabase mapperForm = new Forms.FormMapToDatabase(template.ScreenParameters["table"].ToString(), connectionString);
+
+
+                if (!template.ScreenParameters.ContainsKey("DataInterfaceKey"))
+                {
+                    MessageBox.Show("To use database field mapping you must add a 'DataInterfaceKey' parameter to the template and set the value to a key on the Data Interfaces tab","Error");
+                    return;
+                }
+
+                if (!template.ScreenParameters.ContainsKey("Table"))
+                {
+                    MessageBox.Show("To use database field mapping you must add a 'Table' parameter to the template and set a table from the database as the value","Error");
+                    return;
+                }
+
+                string connectionString = ProjectContainer.GetInstance().ConnectionStrings[template.ScreenParameters["DataInterfaceKey"].ToString()].ToString();
+                Forms.FormMapToDatabase mapperForm = new Forms.FormMapToDatabase(template.ScreenParameters["Table"].ToString(), connectionString);
                 mapperForm.ShowDialog();
 
                 XElement mappedDatabaseField = (from f in nodeXML.Element("children").Elements()
                                                 where f.Attribute("name") != null && f.Attribute("name").Value == "mappedDatabaseFieldName"
                                                 select f).FirstOrDefault();
 
-                mappedDatabaseField.SetAttributeValue("value", mapperForm.Name);
+                mappedDatabaseField.SetAttributeValue("value", mapperForm.ColumnName);
 
                 XElement mappedDatabaseFieldType = (from f in nodeXML.Element("children").Elements()
                                                     where f.Attribute("name") != null && f.Attribute("name").Value == "mappedDatabaseFieldType"
@@ -380,7 +401,7 @@ namespace Codenesium.TemplateGenerator.UserControls
             }
             else
             {
-                MessageBox.Show("Are you sure you want to copy a blank parameter tree to your other templates in this project?", "Confirm", MessageBoxButtons.OKCancel);
+                MessageBox.Show("Are you sure you want to copy a blank parameter tree to the other templates in this project?", "Confirm", MessageBoxButtons.OKCancel);
             }
         }
 
@@ -399,8 +420,6 @@ namespace Codenesium.TemplateGenerator.UserControls
                     }
                 }
             }
-           
-
         }
 
         private void buttonMenu_Click(object sender, EventArgs e)
@@ -409,7 +428,6 @@ namespace Codenesium.TemplateGenerator.UserControls
             Point ptLowerLeft = new Point(0, btnSender.Height);
             ptLowerLeft = btnSender.PointToScreen(ptLowerLeft);
             contextMenuStripParameterOptions.Show(ptLowerLeft);
-
         }
 
         private void contextMenuStripParameterOptions_Opening(object sender, CancelEventArgs e)
@@ -433,5 +451,18 @@ namespace Codenesium.TemplateGenerator.UserControls
                 }
             }
         }
+
+        private void dataGridViewParameters_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0) //this is the key column. We don't want to uppercase the value column
+            {
+                if (e.RowIndex > -1)
+                {
+                    dataGridViewParameters.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = dataGridViewParameters.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString().ToUpper();
+                }
+            }
+        }
+
+       
     }
 }

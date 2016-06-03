@@ -10,35 +10,6 @@ namespace Codenesium.GenerationLibrary.Generation
     [Serializable]
     public class Parameter
     {
-        //public string Key { get; set; }
-        //public string Value { get; set; }
-        //public List<Parameter> Children { get; set; }
-        //public Parameter()
-        //{
-        //    this.Key = String.Empty;
-        //    this.Value = String.Empty;
-        //    this.Children = new List<Parameter>();         
-        //}
-
-        //public Parameter(string key,string value)
-        //{
-        //    this.Key = key;
-        //    this.Value = value;
-        //    this.Children = new List<Parameter>();
-        //}
-
-        //public XElement Export(Parameter parameter)
-        //{
-        //    XElement xResponse = new XElement("parameter");
-        //    xResponse.Add(new XElement("key", parameter.Key));
-        //    xResponse.Add(new XElement("value", parameter.Value));
-        //    XElement xParameters = new XElement("parameters");
-        //    xParameters.Add(this.)
-        //    xResponse.Add(xParameters);
-        //    return xResponse;
-        //}
-
-
         /// <summary>
         /// This function takes a new line delimeted set of = sign delimeted paramaters and returns a key,value dictionary
         /// It tries to ignore bad data so if you fail to pass a correct string you will get unusual results.

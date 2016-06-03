@@ -40,7 +40,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation.Parameters
                 }
                 return newParameter;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 throw;
             }

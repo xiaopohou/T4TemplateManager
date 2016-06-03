@@ -20,6 +20,7 @@ namespace Codenesium.TemplateGenerator.Forms
         private UserControls.Templates _templates;
         private UserControls.Generation _generation;
         private UserControls.Database _database;
+
         public MainForm()
         {
             InitializeComponent();
@@ -36,7 +37,6 @@ namespace Codenesium.TemplateGenerator.Forms
 
             FormMediator.GetInstance().BroadCastMessageEvent += BroadCastMessageEventHandler;
             FormMediator.GetInstance().BroadCastErrorEvent += BroadCastErrorEventHandler;
-            FormMediator.GetInstance().SendMessage(String.Empty);
         }
 
         private void BroadCastMessageEventHandler(object sender, MessageEventArgs me)

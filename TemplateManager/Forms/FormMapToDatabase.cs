@@ -16,16 +16,16 @@ namespace Codenesium.TemplateGenerator.Forms
     {
         public string SqlType{get;set;}
         public string MaxLength{get;set;}
-        public string Name { get; set; }
+        public string ColumnName { get; set; }
         XElement _fields;
         public FormMapToDatabase(string table,string connectionString)
         {
             InitializeComponent();
-            Load(table,connectionString);
+            LoadForm(table,connectionString);
            
         }
 
-        public void Load(string table,string connectionString)
+        public void LoadForm(string table,string connectionString)
         {
            this._fields = Codenesium.GenerationLibrary.Database.MSSQL.GetFieldListForTable(table, connectionString);
            List<string> fieldNames = (from f in this._fields.Descendants("field")
@@ -41,7 +41,7 @@ namespace Codenesium.TemplateGenerator.Forms
 
         private void comboBoxFields_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            this.Name = (from f in this._fields.Elements("field")
+            this.ColumnName = (from f in this._fields.Elements("field")
                          where f.Element("COLUMN_NAME").Value == comboBoxFields.Text
                          select f.Element("COLUMN_NAME").Value).FirstOrDefault();
             this.SqlType = (from f in this._fields.Elements("field")

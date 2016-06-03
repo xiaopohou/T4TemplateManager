@@ -75,7 +75,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
 
         /// <summary>
         /// Save the contents to a file. Create the first parent directory if it doesn't exists.
-        /// There will be an exception if your directory contains many missing sub-directories. 
+        /// There will be an exception if your directory contains any missing sub-directories. 
         /// </summary>
         /// <param name="transformedText"></param>
         /// <param name="destinationFilename"></param>

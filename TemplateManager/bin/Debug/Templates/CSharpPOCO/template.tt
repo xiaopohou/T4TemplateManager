@@ -8,12 +8,28 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Codenesium.GenerationLibrary.Generation" #>
 <#@ output extension=".cs" #>
-<#@ parameter type="System.String" Name="treeParameter"#>
-<#@ parameter type="System.String" Name="className"#>
-<#@ parameter type="System.String" Name="namespace"#>
+<#@ parameter type="System.String" Name="TREEPARAMETER"#>
+<#@ parameter type="System.String" Name="CLASSNAME"#>
+<#@ parameter type="System.String" Name="CLASSNAMESPACE"#>
 
 <#
-XElement xml = XElement.Parse(treeParameter);
+
+if(String.IsNullOrEmpty(TREEPARAMETER))
+{
+throw new ArgumentException("parameter TREEPARAMETER cannot be null");
+}
+if(String.IsNullOrEmpty(CLASSNAME))
+{
+throw new ArgumentException("parameter CLASSNAME cannot be null");
+}
+if(String.IsNullOrEmpty(CLASSNAMESPACE))
+{
+throw new ArgumentException("parameter CLASSNAMESPACE cannot be null");
+}
+
+
+
+XElement xml = XElement.Parse(TREEPARAMETER);
 var storedProcFieldList  = Codenesium.GenerationLibrary.Generation.GenerationParameter.ParseParameters(xml);
 
 #>
@@ -22,11 +38,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-namespace <#= namespace #>
+namespace <#= CLASSNAMESPACE #>
 {
-    public partial class <#= className #> :I<#= className #> 
+    public partial class <#= CLASSNAME #> :I<#= CLASSNAME #> 
     {
 <#string properties = String.Empty;
+		properties += "        public Guid InternalId{get;set;}" + Environment.NewLine;
 		for( int i =0;i < storedProcFieldList.Count; i++)
 		{
 			DbType fieldType = Codenesium.GenerationLibrary.Database.MSSQL.ParseType(storedProcFieldList[i].DataType);
@@ -43,7 +60,7 @@ namespace <#= namespace #>
 			   properties +=  "        public I" + storedProcFieldList[i].BOObjectType + " " + storedProcFieldList[i].Name + "{get;set;}" + Environment.NewLine;
 			}
 		}#><#= properties.TrimEnd() #>
-        public <#= className #>()
+        public <#= CLASSNAME #>()
         {
         }
     }

@@ -10,7 +10,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
 {
     public class TemplateContainer
     {
-        public string TemplateRootDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "templates");
+        public string TemplateRootDirectory { get; set; }
         public List<Template> TemplateList{get;set;}
         private static TemplateContainer _templateContainer;
 
@@ -26,13 +26,17 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         private TemplateContainer()
         {
             this.TemplateList = new List<Template>();
+            this.TemplateRootDirectory = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "templates");
         }
 
-        public bool Load()
+        public void Load()
         {
             this.TemplateList = new List<Template>();
             try
             {
+                TemplateFixer templateFixer = new TemplateFixer();
+                templateFixer.FixTemplates(Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "templates")); //copy and rename ttt templates
+
                 if(!Directory.Exists(TemplateRootDirectory))
                 {
                     Directory.CreateDirectory(TemplateRootDirectory);
@@ -57,9 +61,8 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                     this.TemplateList.Add(template);
                   
                 }
-                return true;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 throw;
             }

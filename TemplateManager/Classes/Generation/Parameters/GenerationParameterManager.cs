@@ -49,7 +49,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         {
             foreach (ProjectTemplate projectTemplate in project.ProjectTemplateList)
             {
-                projectTemplate.TransformedParameters["treeParameter"] = projectTemplate.ParametersTree.ToString();
+                projectTemplate.TransformedParameters["TREEPARAMETER"] = projectTemplate.ParametersTree.ToString();
             }
         }
 
@@ -59,11 +59,11 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
             {
                 foreach (string key in projectTemplate.ScreenParameters.Keys)
                 {
-                    if (key == "AssetsFile")
+                    if (key == "ASSETSFILE")
                     {
                         projectTemplate.TransformedParameters[key] = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().Location, "assets", project.Name, projectTemplate.ScreenParameters[key].ToString());
                     }
-                    if (key == "OutputDirectory")
+                    if (key == "OUTPUTDIRECTORY")
                     {
                         projectTemplate.TransformedParameters[key] = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().Location, "output", project.Name, projectTemplate.ScreenParameters[key].ToString());
                     }

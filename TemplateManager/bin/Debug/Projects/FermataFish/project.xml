@@ -96,20 +96,16 @@
         </parameterTree>
         <parameters>
           <parameter>
-            <key>treeParameter</key>
-            <value></value>
+            <key>CLASSNAME</key>
+            <value>Zip</value>
           </parameter>
           <parameter>
-            <key>className</key>
-            <value>Person</value>
+            <key>CLASSNAMESPACE</key>
+            <value>TestNS</value>
           </parameter>
           <parameter>
-            <key>namespace</key>
-            <value>FermataFish</value>
-          </parameter>
-          <parameter>
-            <key>OutputDirectory</key>
-            <value>c:\tmp\FermataFish</value>
+            <key>DUMMY</key>
+            <value>x</value>
           </parameter>
         </parameters>
       </projectTemplate>
@@ -205,24 +201,12 @@
         </parameterTree>
         <parameters>
           <parameter>
-            <key>treeParameter</key>
-            <value></value>
+            <key>INTERFACENAME</key>
+            <value>IZip</value>
           </parameter>
           <parameter>
-            <key>interfaceName</key>
-            <value>IPerson</value>
-          </parameter>
-          <parameter>
-            <key>namespace</key>
-            <value>FermataFish</value>
-          </parameter>
-          <parameter>
-            <key>className</key>
-            <value></value>
-          </parameter>
-          <parameter>
-            <key>OutputDirectory</key>
-            <value>C:\Users\Administrator\Documents\Mercurial\T4TemplateManager\TemplateManager\bin\Debug\projects\FermataFish\Output</value>
+            <key>CLASSNAMESPACE</key>
+            <value>TestNS</value>
           </parameter>
         </parameters>
       </projectTemplate>

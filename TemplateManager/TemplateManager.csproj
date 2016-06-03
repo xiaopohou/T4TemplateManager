@@ -120,6 +120,7 @@
     <Compile Include="Classes\Generation\Project\Project.cs" />
     <Compile Include="Classes\Generation\Project\ProjectContainer.cs" />
     <Compile Include="Classes\Generation\Project\ProjectTemplate.cs" />
+    <Compile Include="Classes\Generation\Template\TemplateFixer.cs" />
     <Compile Include="Classes\Generation\Template\Template.cs" />
     <Compile Include="Classes\Generation\Template\TemplateContainer.cs" />
     <Compile Include="Classes\Generation\Template\TemplateExecutionResult.cs" />
@@ -247,6 +248,21 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Templates\CSharpBOManager\template.ttt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\CSharpDBRepository\template.ttt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\CSharpPOCOInterface\template.ttt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\CSharpPOCO\template.ttt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\FluentDatabaseMigration\template.ttt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -257,6 +273,21 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="README.txt" />
+    <Content Include="Templates\CSharpBOManager\template.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\CSharpDBRepository\template.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\CSharpPOCOInterface\template.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\CSharpPOCO\template.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\FluentDatabaseMigration\template.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

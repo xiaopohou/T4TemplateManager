@@ -33,6 +33,7 @@ namespace Codenesium.TemplateGenerator.UserControls
             {
                 Create(projectName.Value);
             }
+            this.comboBoxProjects.SelectedIndex = this.comboBoxProjects.Items.Count - 1;
         }
 
         public void ClearFields()
@@ -65,13 +66,13 @@ namespace Codenesium.TemplateGenerator.UserControls
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (Validate())
+            if (ValidateProject())
             {
                 Save();
             }
         }
 
-        private bool Validate()
+        private bool ValidateProject()
         {
             if(String.IsNullOrEmpty(textBoxName.Text))
             {

@@ -93,7 +93,7 @@
             this.buttonSave.UseSelectable = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // FormLoadFromStoredProcedure
+            // FormLoadFromTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -104,7 +104,7 @@
             this.Controls.Add(this.comboBoxDataInterface);
             this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.comboBoxTable);
-            this.Name = "FormLoadFromStoredProcedure";
+            this.Name = "FormLoadFromTable";
             this.Text = "Load Fields from Table";
             this.ResumeLayout(false);
             this.PerformLayout();

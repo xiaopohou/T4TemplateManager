@@ -50,8 +50,10 @@
             this.buttonMenu = new MetroFramework.Controls.MetroButton();
             this.contextMenuStripParameterOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemLoadFromStoredProcedure = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemCopyToAllTemplates = new System.Windows.Forms.ToolStripMenuItem();
             this.loadFromTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemCopyToAllTemplates = new System.Windows.Forms.ToolStripMenuItem();
+            this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewParameters)).BeginInit();
             this.contextMenuStripNodeOptions.SuspendLayout();
             this.contextMenuStripParameterOptions.SuspendLayout();
@@ -108,7 +110,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(729, 343);
+            this.buttonSave.Location = new System.Drawing.Point(724, 336);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 29);
             this.buttonSave.TabIndex = 12;
@@ -122,10 +124,11 @@
             this.dataGridViewParameters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Key,
             this.Value});
-            this.dataGridViewParameters.Location = new System.Drawing.Point(3, 175);
+            this.dataGridViewParameters.Location = new System.Drawing.Point(12, 175);
             this.dataGridViewParameters.Name = "dataGridViewParameters";
-            this.dataGridViewParameters.Size = new System.Drawing.Size(431, 135);
+            this.dataGridViewParameters.Size = new System.Drawing.Size(422, 135);
             this.dataGridViewParameters.TabIndex = 15;
+            this.dataGridViewParameters.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewParameters_CellValueChanged);
             // 
             // Key
             // 
@@ -156,37 +159,69 @@
             // 
             this.treeViewParameters.Location = new System.Drawing.Point(463, 36);
             this.treeViewParameters.Name = "treeViewParameters";
-            this.treeViewParameters.Size = new System.Drawing.Size(341, 241);
+            this.treeViewParameters.Size = new System.Drawing.Size(341, 222);
             this.treeViewParameters.TabIndex = 17;
             this.treeViewParameters.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewParameters_AfterSelect);
             this.treeViewParameters.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeViewParameters_MouseUp);
             // 
             // textBoxParameterValue
             // 
+            // 
+            // 
+            // 
+            this.textBoxParameterValue.CustomButton.Image = null;
+            this.textBoxParameterValue.CustomButton.Location = new System.Drawing.Point(273, 1);
+            this.textBoxParameterValue.CustomButton.Name = "";
+            this.textBoxParameterValue.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.textBoxParameterValue.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.textBoxParameterValue.CustomButton.TabIndex = 1;
+            this.textBoxParameterValue.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.textBoxParameterValue.CustomButton.UseSelectable = true;
+            this.textBoxParameterValue.CustomButton.Visible = false;
             this.textBoxParameterValue.Lines = new string[0];
-            this.textBoxParameterValue.Location = new System.Drawing.Point(463, 314);
+            this.textBoxParameterValue.Location = new System.Drawing.Point(509, 297);
             this.textBoxParameterValue.MaxLength = 32767;
             this.textBoxParameterValue.Name = "textBoxParameterValue";
             this.textBoxParameterValue.PasswordChar = '\0';
             this.textBoxParameterValue.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBoxParameterValue.SelectedText = "";
-            this.textBoxParameterValue.Size = new System.Drawing.Size(341, 23);
+            this.textBoxParameterValue.SelectionLength = 0;
+            this.textBoxParameterValue.SelectionStart = 0;
+            this.textBoxParameterValue.Size = new System.Drawing.Size(295, 23);
             this.textBoxParameterValue.TabIndex = 18;
             this.textBoxParameterValue.UseSelectable = true;
+            this.textBoxParameterValue.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.textBoxParameterValue.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.textBoxParameterValue.TextChanged += new System.EventHandler(this.textBoxParameterValue_TextChanged);
             // 
             // textBoxParameterKey
             // 
+            // 
+            // 
+            // 
+            this.textBoxParameterKey.CustomButton.Image = null;
+            this.textBoxParameterKey.CustomButton.Location = new System.Drawing.Point(273, 1);
+            this.textBoxParameterKey.CustomButton.Name = "";
+            this.textBoxParameterKey.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.textBoxParameterKey.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.textBoxParameterKey.CustomButton.TabIndex = 1;
+            this.textBoxParameterKey.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.textBoxParameterKey.CustomButton.UseSelectable = true;
+            this.textBoxParameterKey.CustomButton.Visible = false;
             this.textBoxParameterKey.Lines = new string[0];
-            this.textBoxParameterKey.Location = new System.Drawing.Point(463, 287);
+            this.textBoxParameterKey.Location = new System.Drawing.Point(509, 270);
             this.textBoxParameterKey.MaxLength = 32767;
             this.textBoxParameterKey.Name = "textBoxParameterKey";
             this.textBoxParameterKey.PasswordChar = '\0';
             this.textBoxParameterKey.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBoxParameterKey.SelectedText = "";
-            this.textBoxParameterKey.Size = new System.Drawing.Size(341, 23);
+            this.textBoxParameterKey.SelectionLength = 0;
+            this.textBoxParameterKey.SelectionStart = 0;
+            this.textBoxParameterKey.Size = new System.Drawing.Size(295, 23);
             this.textBoxParameterKey.TabIndex = 19;
             this.textBoxParameterKey.UseSelectable = true;
+            this.textBoxParameterKey.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.textBoxParameterKey.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.textBoxParameterKey.TextChanged += new System.EventHandler(this.textBoxParameterKey_TextChanged);
             // 
             // contextMenuStripNodeOptions
@@ -238,7 +273,7 @@
             this.loadFromTableToolStripMenuItem,
             this.toolStripMenuItemCopyToAllTemplates});
             this.contextMenuStripParameterOptions.Name = "contextMenuStripParameterOptions";
-            this.contextMenuStripParameterOptions.Size = new System.Drawing.Size(224, 92);
+            this.contextMenuStripParameterOptions.Size = new System.Drawing.Size(224, 70);
             this.contextMenuStripParameterOptions.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripParameterOptions_Opening);
             // 
             // toolStripMenuItemLoadFromStoredProcedure
@@ -248,13 +283,6 @@
             this.toolStripMenuItemLoadFromStoredProcedure.Text = "Load from Stored Procedure";
             this.toolStripMenuItemLoadFromStoredProcedure.Click += new System.EventHandler(this.toolStripMenuItemLoadFromStoredProcedure_Click);
             // 
-            // toolStripMenuItemCopyToAllTemplates
-            // 
-            this.toolStripMenuItemCopyToAllTemplates.Name = "toolStripMenuItemCopyToAllTemplates";
-            this.toolStripMenuItemCopyToAllTemplates.Size = new System.Drawing.Size(223, 22);
-            this.toolStripMenuItemCopyToAllTemplates.Text = "Copy to All Templates";
-            this.toolStripMenuItemCopyToAllTemplates.Click += new System.EventHandler(this.toolStripMenuItemCopyToAllTemplates_Click);
-            // 
             // loadFromTableToolStripMenuItem
             // 
             this.loadFromTableToolStripMenuItem.Name = "loadFromTableToolStripMenuItem";
@@ -262,10 +290,37 @@
             this.loadFromTableToolStripMenuItem.Text = "Load from Table";
             this.loadFromTableToolStripMenuItem.Click += new System.EventHandler(this.loadFromTableToolStripMenuItem_Click);
             // 
+            // toolStripMenuItemCopyToAllTemplates
+            // 
+            this.toolStripMenuItemCopyToAllTemplates.Name = "toolStripMenuItemCopyToAllTemplates";
+            this.toolStripMenuItemCopyToAllTemplates.Size = new System.Drawing.Size(223, 22);
+            this.toolStripMenuItemCopyToAllTemplates.Text = "Copy to All Templates";
+            this.toolStripMenuItemCopyToAllTemplates.Click += new System.EventHandler(this.toolStripMenuItemCopyToAllTemplates_Click);
+            // 
+            // metroLabel4
+            // 
+            this.metroLabel4.AutoSize = true;
+            this.metroLabel4.Location = new System.Drawing.Point(460, 273);
+            this.metroLabel4.Name = "metroLabel4";
+            this.metroLabel4.Size = new System.Drawing.Size(29, 19);
+            this.metroLabel4.TabIndex = 22;
+            this.metroLabel4.Text = "Key";
+            // 
+            // metroLabel5
+            // 
+            this.metroLabel5.AutoSize = true;
+            this.metroLabel5.Location = new System.Drawing.Point(460, 298);
+            this.metroLabel5.Name = "metroLabel5";
+            this.metroLabel5.Size = new System.Drawing.Size(41, 19);
+            this.metroLabel5.TabIndex = 23;
+            this.metroLabel5.Text = "Value";
+            // 
             // Templates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.metroLabel5);
+            this.Controls.Add(this.metroLabel4);
             this.Controls.Add(this.buttonMenu);
             this.Controls.Add(this.textBoxParameterKey);
             this.Controls.Add(this.textBoxParameterValue);
@@ -314,5 +369,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemLoadFromStoredProcedure;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCopyToAllTemplates;
         private System.Windows.Forms.ToolStripMenuItem loadFromTableToolStripMenuItem;
+        private MetroFramework.Controls.MetroLabel metroLabel4;
+        private MetroFramework.Controls.MetroLabel metroLabel5;
     }
 }

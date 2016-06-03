@@ -10,15 +10,15 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
 {
     public class ProjectContainer
     {
-        public  string ProjectsRootDirectory = (Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Projects"));
-        public List<Project> ProjectList;
+        public string ProjectsRootDirectory { get; set; }
+        public List<Project> ProjectList { get; set; }
         public EventHandler Reload; //notify listeners that we have saved and they need to reload data
         private static ProjectContainer _projectContainer;
-        public Dictionary<string, string> ConnectionStrings;
+        public Dictionary<string, string> ConnectionStrings { get; set; }
 
         public static ProjectContainer GetInstance()
         {
-            if(_projectContainer == null)
+            if (_projectContainer == null)
             {
                 _projectContainer = new ProjectContainer();
             }
@@ -29,6 +29,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         {
             this.ProjectList = new List<Project>();
             this.ConnectionStrings = new Dictionary<string, string>();
+            this.ProjectsRootDirectory = (Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Projects"));
         }
 
         public bool UpdateProject(Project project)
@@ -45,7 +46,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                 if (index > -1)
                 {
                     this.ProjectList[index] = project;
-                }          
+                }
             }
             return true;
         }
@@ -73,25 +74,25 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                         Directory.CreateDirectory(Path.Combine(ProjectsRootDirectory, project.Name));
                     }
 
-                    if (!Directory.Exists(Path.Combine(ProjectsRootDirectory, project.Name,"Assets")))
+                    if (!Directory.Exists(Path.Combine(ProjectsRootDirectory, project.Name, "Assets")))
                     {
-                        Directory.CreateDirectory(Path.Combine(ProjectsRootDirectory, project.Name,"Assets"));
+                        Directory.CreateDirectory(Path.Combine(ProjectsRootDirectory, project.Name, "Assets"));
                     }
                     xDoc.Save(Path.Combine(ProjectsRootDirectory, project.Name, "project.xml"));
                 }
 
-             
+
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
         }
 
-        public bool LoadConnectionStrings()
+        public void LoadConnectionStrings()
         {
-            this.ConnectionStrings = new Dictionary<string,string>();
+            this.ConnectionStrings = new Dictionary<string, string>();
             System.Configuration.Configuration configuration = System.Configuration.ConfigurationManager.OpenExeConfiguration(
              System.Configuration.ConfigurationUserLevel.None);
             foreach (System.Configuration.ConnectionStringSettings connectionString in configuration.ConnectionStrings.ConnectionStrings)
@@ -101,42 +102,39 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                     this.ConnectionStrings[connectionString.Name] = connectionString.ConnectionString;
                 }
             }
-            return true;
         }
 
-        
-        public bool SaveConnectionStrings()
+        public void SaveConnectionStrings()
         {
             System.Configuration.Configuration configuration = System.Configuration.ConfigurationManager.OpenExeConfiguration(
-             System.Configuration.ConfigurationUserLevel.None);
+            System.Configuration.ConfigurationUserLevel.None);
             configuration.ConnectionStrings.ConnectionStrings.Clear();
-            foreach(string key in this.ConnectionStrings.Keys)
+            foreach (string key in this.ConnectionStrings.Keys)
             {
-             System.Configuration.ConnectionStringSettings connSettings = new System.Configuration.ConnectionStringSettings();
+                System.Configuration.ConnectionStringSettings connSettings = new System.Configuration.ConnectionStringSettings();
                 connSettings.Name = key;
                 connSettings.ConnectionString = this.ConnectionStrings[key];
                 configuration.ConnectionStrings.ConnectionStrings.Add(connSettings);
             }
             configuration.Save();
-            return true;
         }
 
-        public bool Load()
+        public void Load()
         {
             try
             {
                 this.ProjectList = new List<Project>();
 
-                if(!Directory.Exists(ProjectsRootDirectory))
+                if (!Directory.Exists(ProjectsRootDirectory))
                 {
                     Directory.CreateDirectory(ProjectsRootDirectory);
                 }
 
-                string [] directories = Directory.GetDirectories(ProjectsRootDirectory);
+                string[] directories = Directory.GetDirectories(ProjectsRootDirectory);
 
-                foreach(string directory in directories)
+                foreach (string directory in directories)
                 {
-                    XDocument xDoc = XDocument.Load(Path.Combine(directory,"project.xml"));
+                    XDocument xDoc = XDocument.Load(Path.Combine(directory, "project.xml"));
                     Project project = (from p in xDoc.Root.Descendants("project")
                                        select new Project
                                        {
@@ -163,29 +161,22 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
                     foreach (ProjectTemplate template in project.ProjectTemplateList)
                     {
                         XElement parameters = xDoc.Root.Descendants("project").Descendants("projectTemplates").Elements("projectTemplate").Where(x => x.Element("templateName").Value == template.TemplateName).Elements("parameterTree").FirstOrDefault();
-                        
-                        
-                        template.ParametersTree= parameters;
+                        template.ParametersTree = parameters;
                     }
 
                     this.ProjectList.Add(project);
-                 
                 }
 
                 this.LoadConnectionStrings();
-                if(this.Reload != null)
+                if (this.Reload != null)
                 {
-                    this.Reload(this,EventArgs.Empty);
+                    this.Reload(this, EventArgs.Empty);
                 }
-                return true;
-
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
-            }  
+            }
         }
-
-     
     }
 }

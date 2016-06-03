@@ -18,7 +18,7 @@ namespace Codenesium.TemplateGenerator.Classes.Generation
         {
             this.Name = String.Empty;
             this.TemplateText = String.Empty;
-            this.FileExtension = string.Empty;
+            this.FileExtension = String.Empty;
             this.Description = String.Empty;
         }
     }
