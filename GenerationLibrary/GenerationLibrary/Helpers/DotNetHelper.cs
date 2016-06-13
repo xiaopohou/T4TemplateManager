@@ -142,42 +142,42 @@ namespace Codenesium.GenerationLibrary.Generation.Helpers
                 case DbType.AnsiStringFixedLength:
                 case DbType.String:
                     {
-                        response = "public string " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;set;}";
+                        response = "public string " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
                         break;
                     }
                 case DbType.DateTime:
                     {
-                        response = "public DateTime? " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;set;}";
+                        response = "public DateTime? " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
                         break;
                     }
                 case DbType.Binary:
                     {
-                        response = "public TimeSpan? " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;set;}";
+                        response = "public TimeSpan? " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
                         break;
                     }
                 case DbType.Int32:
                     {
-                        response = "public int " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;set;}";
+                        response = "public int " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
                         break;
                     }
                 case DbType.Int64:
                     {
-                        response = "public long " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;set;}";
+                        response = "public long " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
                         break;
                     }
                 case DbType.Boolean:
                     {
-                        response = "public bool " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;set;}";
+                        response = "public bool " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
                         break;
                     }
                 case DbType.Decimal:
                     {
-                        response = "public decimal " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;set;}";
+                        response = "public decimal " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
                         break;
                     }
                 case DbType.Double:
                     {
-                        response = "public double " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;set;}";
+                        response = "public double " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
                         break;
                     }
                 default:

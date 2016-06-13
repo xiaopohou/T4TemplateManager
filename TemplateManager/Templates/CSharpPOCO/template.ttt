@@ -43,7 +43,6 @@ namespace <#= CLASSNAMESPACE #>
     public partial class <#= CLASSNAME #> :I<#= CLASSNAME #> 
     {
 <#string properties = String.Empty;
-		properties += "        public Guid InternalId{get;set;}" + Environment.NewLine;
 		for( int i =0;i < storedProcFieldList.Count; i++)
 		{
 			DbType fieldType = Codenesium.GenerationLibrary.Database.MSSQL.ParseType(storedProcFieldList[i].DataType);
@@ -57,7 +56,7 @@ namespace <#= CLASSNAMESPACE #>
 			}
 			else
 			{
-			   properties +=  "        public I" + storedProcFieldList[i].BOObjectType + " " + storedProcFieldList[i].Name + "{get;set;}" + Environment.NewLine;
+			   properties +=  "        public I" + storedProcFieldList[i].BOObjectType + " " + storedProcFieldList[i].Name + "{get;private set;}" + Environment.NewLine;
 			}
 		}#><#= properties.TrimEnd() #>
         public <#= CLASSNAME #>()
