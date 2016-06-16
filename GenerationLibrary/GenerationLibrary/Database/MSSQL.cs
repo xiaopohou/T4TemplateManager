@@ -50,7 +50,7 @@ namespace Codenesium.GenerationLibrary.Database
         /// <param name="connectionString"></param>
         /// <param name="table"></param>
         /// <returns></returns>
-        public static XElement GetFieldListForTable(string table, string connectionString)
+        public static XElement GetFieldListForTable(string table, string schema, string connectionString)
         {
             XElement fieldList = new XElement("fields");
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -65,9 +65,11 @@ namespace Codenesium.GenerationLibrary.Database
 	                                                   END  AS IS_NULLABLE
                                                 from INFORMATION_SCHEMA.COLUMNS
                                                 where TABLE_NAME=@table
+                                                AND TABLE_SCHEMA=@schema
                                                 ORDER BY COLUMN_NAME", conn);
 
                 command.Parameters.AddWithValue("table",table);
+                command.Parameters.AddWithValue("schema", schema);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -104,7 +106,7 @@ namespace Codenesium.GenerationLibrary.Database
             return fieldList;
         }
 
-        public static List<String> GetStoredProcedureList(string connectionString)
+        public static List<String> GetStoredProcedureList(string connectionString,string schema)
         {
             List<string> response = new List<string>();
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -113,9 +115,11 @@ namespace Codenesium.GenerationLibrary.Database
                 SqlCommand command = new SqlCommand(@"SELECT [ROUTINE_NAME] 
 FROM [INFORMATION_SCHEMA].[ROUTINES]
 WHERE [ROUTINE_TYPE] = 'PROCEDURE'
- and Left(Routine_Name, 3) NOT IN ('sp_','dt_',  'xp_', 'ms_') ORDER BY ROUTINE_NAME", conn);
+ and Left(Routine_Name, 3) NOT IN ('sp_','dt_',  'xp_', 'ms_') 
+AND SPECIFIC_SCHEMA=@schema
+ORDER BY ROUTINE_NAME", conn);
 
-
+                command.Parameters.AddWithValue("schema", schema);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -126,8 +130,29 @@ WHERE [ROUTINE_TYPE] = 'PROCEDURE'
             return response;
         }
 
+        public static List<String> GetSchemaList(string connectionString)
+        {
+            List<string> response = new List<string>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand command = new SqlCommand(@"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA", conn);
 
-        public static XElement GetFieldListFromTable(string tableName, string connectionString)
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    response.Add(reader["SCHEMA_NAME"].ToString());
+                }
+            }
+            return response;
+        }
+
+
+
+
+        public static XElement GetFieldListFromTable(string tableName,string schema ,string connectionString)
         {
             XElement fieldList = new XElement("fields");
             fieldList.SetAttributeValue("name", "fields");
@@ -139,8 +164,10 @@ WHERE [ROUTINE_TYPE] = 'PROCEDURE'
                 SqlCommand command = new SqlCommand(@"SELECT  *
                                                     FROM INFORMATION_SCHEMA.COLUMNS
                                                     where table_name =@tableName
+                                                    and table_schema=@schema
                                                     ORDER BY COLUMN_NAME", conn);
                 command.Parameters.AddWithValue("tableName", tableName);
+                command.Parameters.AddWithValue("schema", schema);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -207,7 +234,7 @@ WHERE [ROUTINE_TYPE] = 'PROCEDURE'
             
         }
 
-        public static XElement GetFieldListFromStoredProcedure(string storedProcedureName, string connectionString)
+        public static XElement GetFieldListFromStoredProcedure(string storedProcedureName, string schema ,string connectionString)
         {
             XElement fieldList = new XElement("fields");
             fieldList.SetAttributeValue("name", "fields");
@@ -219,9 +246,11 @@ WHERE [ROUTINE_TYPE] = 'PROCEDURE'
                 conn.Open();
                 SqlCommand command = new SqlCommand(@"SELECT  *
                                                     FROM INFORMATION_SCHEMA.PARAMETERS 
-                                                    where specific_name = @storedProcedureName", conn);
+                                                    where specific_name = @storedProcedureName
+                                                    and specific_schema=@schema", conn);
 
                 command.Parameters.AddWithValue("storedProcedureName", storedProcedureName);
+                command.Parameters.AddWithValue("schema", schema);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -297,12 +326,13 @@ WHERE [ROUTINE_TYPE] = 'PROCEDURE'
         /// </summary>
         /// <param name="connectionString"></param>
         /// <returns></returns>
-        public static XElement GetTableList(string connectionString)
+        public static XElement GetTableList(string connectionString,string schema)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlCommand command = new SqlCommand(@"SELECT TABLE_NAME FROM information_schema.tables", conn);
+                SqlCommand command = new SqlCommand(@"SELECT TABLE_NAME FROM information_schema.tables where table_Schema=@schema ", conn);
+                command.Parameters.AddWithValue("schema", schema);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
@@ -314,13 +344,15 @@ WHERE [ROUTINE_TYPE] = 'PROCEDURE'
             return null;
         }
 
-        public static List<string> GetTableListAsStrings(string connectionString)
+        public static List<string> GetTableListAsStrings(string connectionString,string schema)
         {
             List<string> tables = new List<string>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlCommand command = new SqlCommand(@"SELECT TABLE_NAME FROM information_schema.tables ORDER BY TABLE_NAME", conn);
+                SqlCommand command = new SqlCommand(@"SELECT TABLE_NAME FROM information_schema.tables 
+                WHERE TABLE_SCHEMA=@schema ORDER BY TABLE_NAME", conn);
+                command.Parameters.AddWithValue("schema", schema);
                 SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())

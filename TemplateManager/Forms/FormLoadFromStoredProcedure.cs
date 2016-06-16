@@ -40,7 +40,7 @@ namespace Codenesium.TemplateGenerator.Forms
 
         private void LoadStoredProcedures()
         {
-            if (comboBoxDataInterface.SelectedIndex > -1)
+            if (comboBoxDataInterface.SelectedIndex > -1 && comboBoxSchemas.SelectedIndex > -1)
             {
                 comboBoxStoredProcedure.Items.Clear();
                 string connectionString = ProjectContainer.GetInstance().ConnectionStrings[comboBoxDataInterface.SelectedItem.ToString()];
@@ -48,10 +48,34 @@ namespace Codenesium.TemplateGenerator.Forms
                 mssqlInterface.TestConnection();
                 if (mssqlInterface.ConnectionTestResult)
                 {
-                    List<string> storedProcedureList = MSSQL.GetStoredProcedureList(connectionString);
+                    List<string> storedProcedureList = MSSQL.GetStoredProcedureList(comboBoxSchemas.SelectedText, connectionString);
                     foreach(string item in storedProcedureList)
                     {
                         comboBoxStoredProcedure.Items.Add(item);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unable to connect to SQL Server", "Error");
+                }
+            }
+        }
+
+        private void LoadSchemas()
+        {
+          
+            if(comboBoxDataInterface.SelectedIndex > -1)
+            {
+                comboBoxSchemas.Items.Clear();
+                string connectionString = ProjectContainer.GetInstance().ConnectionStrings[comboBoxDataInterface.SelectedItem.ToString()];
+                MSSQL mssqlInterface = new MSSQL(connectionString);
+                mssqlInterface.TestConnection();
+                if (mssqlInterface.ConnectionTestResult)
+                {
+                    List<string> schemaList = MSSQL.GetSchemaList(connectionString);
+                    foreach (string item in schemaList)
+                    {
+                        comboBoxSchemas.Items.Add(item);
                     }
                 }
                 else
@@ -75,10 +99,17 @@ namespace Codenesium.TemplateGenerator.Forms
         {
 
             string storedProcedure = comboBoxStoredProcedure.SelectedItem.ToString();
+            string schema = comboBoxSchemas.SelectedItem.ToString();
             string connectionString = ProjectContainer.GetInstance().ConnectionStrings[comboBoxDataInterface.SelectedItem.ToString()];
-            XElement fields = Codenesium.GenerationLibrary.Database.MSSQL.GetFieldListFromStoredProcedure(storedProcedure,connectionString);
+            XElement fields = Codenesium.GenerationLibrary.Database.MSSQL.GetFieldListFromStoredProcedure(storedProcedure, schema,connectionString);
+            this._projectTemplate.ParametersTree.Elements("root").Elements("children").FirstOrDefault().RemoveAll();
             this._projectTemplate.ParametersTree.Elements("root").Elements("children").FirstOrDefault().Add(fields);
             this.Close();
+        }
+
+        private void comboBoxSchemas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadStoredProcedures();
         }
     }
 }

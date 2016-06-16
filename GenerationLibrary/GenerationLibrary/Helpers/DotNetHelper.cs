@@ -353,7 +353,7 @@ namespace Codenesium.GenerationLibrary.Generation.Helpers
             {
                 default:
                     {
-                        response = recordName + "." + field.Name + " = " + queryName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name);
+                        response = recordName + "." +   field.Name + " = " + queryName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name);
                         break;
                     }
             }

@@ -361,8 +361,16 @@ namespace Codenesium.TemplateGenerator.UserControls
                     return;
                 }
 
+                if (!template.ScreenParameters.ContainsKey("Schema"))
+                {
+                    MessageBox.Show("To use database field mapping you must add a 'Schema' parameter to the template and set a table from the database as the value", "Error");
+                    return;
+                }
+
+
                 string connectionString = ProjectContainer.GetInstance().ConnectionStrings[template.ScreenParameters["DataInterfaceKey"].ToString()].ToString();
-                Forms.FormMapToDatabase mapperForm = new Forms.FormMapToDatabase(template.ScreenParameters["Table"].ToString(), connectionString);
+                string schema = ProjectContainer.GetInstance().ConnectionStrings[template.ScreenParameters["Schema"].ToString()].ToString();
+                Forms.FormMapToDatabase mapperForm = new Forms.FormMapToDatabase(template.ScreenParameters["Table"].ToString(),schema, connectionString);
                 mapperForm.ShowDialog();
 
                 XElement mappedDatabaseField = (from f in nodeXML.Element("children").Elements()

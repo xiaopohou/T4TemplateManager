@@ -43,12 +43,37 @@ namespace Codenesium.TemplateGenerator.Forms
             if (comboBoxDataInterface.SelectedIndex > -1)
             {
                 comboBoxTable.Items.Clear();
+                string schema = comboBoxSchemas.SelectedItem.ToString();
                 string connectionString = ProjectContainer.GetInstance().ConnectionStrings[comboBoxDataInterface.SelectedItem.ToString()];
                 MSSQL mssqlInterface = new MSSQL(connectionString);
                 mssqlInterface.TestConnection();
                 if (mssqlInterface.ConnectionTestResult)
                 {
-                    comboBoxTable.Items.AddRange(MSSQL.GetTableListAsStrings(connectionString).ToArray()); 
+                    comboBoxTable.Items.AddRange(MSSQL.GetTableListAsStrings(connectionString,schema).ToArray()); 
+                }
+                else
+                {
+                    MessageBox.Show("Unable to connect to SQL Server", "Error");
+                }
+            }
+        }
+
+        private void LoadSchemas()
+        {
+
+            if (comboBoxDataInterface.SelectedIndex > -1)
+            {
+                comboBoxSchemas.Items.Clear();
+                string connectionString = ProjectContainer.GetInstance().ConnectionStrings[comboBoxDataInterface.SelectedItem.ToString()];
+                MSSQL mssqlInterface = new MSSQL(connectionString);
+                mssqlInterface.TestConnection();
+                if (mssqlInterface.ConnectionTestResult)
+                {
+                    List<string> schemaList = MSSQL.GetSchemaList(connectionString);
+                    foreach (string item in schemaList)
+                    {
+                        comboBoxSchemas.Items.Add(item);
+                    }
                 }
                 else
                 {
@@ -59,7 +84,7 @@ namespace Codenesium.TemplateGenerator.Forms
 
         private void comboBoxDataInterface_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadTables();
+            LoadSchemas();
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
@@ -70,10 +95,17 @@ namespace Codenesium.TemplateGenerator.Forms
         private void Save()
         {          
             string table = comboBoxTable.SelectedItem.ToString();
+            string schema = comboBoxSchemas.SelectedItem.ToString();
             string connectionString = ProjectContainer.GetInstance().ConnectionStrings[comboBoxDataInterface.SelectedItem.ToString()];
-            XElement fields = Codenesium.GenerationLibrary.Database.MSSQL.GetFieldListFromTable(table,connectionString);
+            XElement fields = Codenesium.GenerationLibrary.Database.MSSQL.GetFieldListFromTable(table,schema,connectionString);
+            this._projectTemplate.ParametersTree.Elements("root").Elements("children").FirstOrDefault().RemoveAll();
             this._projectTemplate.ParametersTree.Elements("root").Elements("children").FirstOrDefault().Add(fields);
             this.Close();
+        }
+
+        private void comboBoxSchemas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadTables();
         }
     }
 }

@@ -35,7 +35,7 @@
             // 
             this.comboBoxFields.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxFields.FormattingEnabled = true;
-            this.comboBoxFields.Location = new System.Drawing.Point(23, 79);
+            this.comboBoxFields.Location = new System.Drawing.Point(23, 88);
             this.comboBoxFields.Name = "comboBoxFields";
             this.comboBoxFields.Size = new System.Drawing.Size(254, 21);
             this.comboBoxFields.TabIndex = 0;
@@ -46,7 +46,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 148);
+            this.ClientSize = new System.Drawing.Size(327, 156);
             this.Controls.Add(this.comboBoxFields);
             this.Name = "FormMapToDatabase";
             this.Text = "Database Mapping";

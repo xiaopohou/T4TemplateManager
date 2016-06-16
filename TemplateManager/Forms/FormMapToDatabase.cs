@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Xml.Linq;
+using Codenesium.GenerationLibrary.Database;
+
 namespace Codenesium.TemplateGenerator.Forms
 {
     public partial class FormMapToDatabase : MetroFramework.Forms.MetroForm
@@ -18,20 +20,21 @@ namespace Codenesium.TemplateGenerator.Forms
         public string MaxLength{get;set;}
         public string ColumnName { get; set; }
         XElement _fields;
-        public FormMapToDatabase(string table,string connectionString)
+        public FormMapToDatabase(string table,string schema,string connectionString)
         {
             InitializeComponent();
-            LoadForm(table,connectionString);
+            LoadForm(table,schema,connectionString);
            
         }
 
-        public void LoadForm(string table,string connectionString)
+        public void LoadForm(string table,string schema,string connectionString)
         {
-           this._fields = Codenesium.GenerationLibrary.Database.MSSQL.GetFieldListForTable(table, connectionString);
+           this._fields = MSSQL.GetFieldListForTable(table,schema ,connectionString);
            List<string> fieldNames = (from f in this._fields.Descendants("field")
                                           select f.Element("COLUMN_NAME").Value).ToList();
            comboBoxFields.DataSource = fieldNames;
         }
+
 
         private void comboBoxFields_SelectedIndexChanged(object sender, EventArgs e)
         {
