@@ -1,5 +1,3 @@
-GenerationLibrary/obj/
-GenerationLibrary/bin/
-TemplateManager/obj/
-TemplateManager/bin/
-packages/
+**/bin
+**/obj
+**/packages

@@ -273,7 +273,13 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Templates\ReactCreateForm\" />
+    <Folder Include="Templates\ReactUpdateForm\" />
+    <Folder Include="Templates\ReduxModel\" />
+    <Folder Include="Templates\ReduxReducer\" />
+    <Folder Include="Templates\ReuxConstants\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="README.txt" />
     <Content Include="Templates\CSharpBOManager\template.xml">

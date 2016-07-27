@@ -1,5 +1,0 @@
-C:\Users\Administrator\Documents\Mercurial\T4TemplateManager\GenerationLibrary\GenerationLibrary\bin\Debug\GenerationLibrary.dll
-C:\Users\Administrator\Documents\Mercurial\T4TemplateManager\GenerationLibrary\GenerationLibrary\bin\Debug\GenerationLibrary.pdb
-C:\Users\Administrator\Documents\Mercurial\T4TemplateManager\GenerationLibrary\GenerationLibrary\obj\Debug\GenerationLibrary.csprojResolveAssemblyReference.cache
-C:\Users\Administrator\Documents\Mercurial\T4TemplateManager\GenerationLibrary\GenerationLibrary\obj\Debug\GenerationLibrary.dll
-C:\Users\Administrator\Documents\Mercurial\T4TemplateManager\GenerationLibrary\GenerationLibrary\obj\Debug\GenerationLibrary.pdb

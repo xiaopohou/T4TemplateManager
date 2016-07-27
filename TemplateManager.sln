@@ -5,9 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemplateManager", "TemplateManager\TemplateManager.csproj", "{3FBD2863-9B98-47BF-BB33-48D7AA3078B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerationLibrary", "GenerationLibrary\GenerationLibrary\GenerationLibrary.csproj", "{2906DBD8-FF3B-4CEF-89A3-37D0D9963716}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLScratchPad", "XMLScratchPad\XMLScratchPad\XMLScratchPad.csproj", "{03D699D4-B147-4BC2-B3E5-0EBED53AB449}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerationLibrary", "GenerationLibrary\GenerationLibrary.csproj", "{2906DBD8-FF3B-4CEF-89A3-37D0D9963716}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
