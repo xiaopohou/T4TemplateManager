@@ -85,42 +85,42 @@ namespace Codenesium.GenerationLibrary.Generation.Helpers
             {
                 case DbType.String:
                     {
-                        response = "string " + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
+                        response = "string " + field.Name + "{get;set;}";
                         break;
                     }
                 case DbType.DateTime:
                     {
-                        response = "DateTime? " + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
+                        response = "DateTime? " + field.Name+ "{get;set;}";
                         break;
                     }
                 case DbType.Binary:
                     {
-                        response = "TimeSpan? " + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
+                        response = "TimeSpan? " + field.Name + "{get;set;}";
                         break;
                     }
                 case DbType.Int32:
                     {
-                        response = "int " + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
+                        response = "int " + field.Name + "{get;set;}";
                         break;
                     }
                 case DbType.Int64:
                     {
-                        response = "long " + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
+                        response = "long " + field.Name + "{get;set;}";
                         break;
                     }
                 case DbType.Boolean:
                     {
-                        response = "bool " + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
+                        response = "bool " + field.Name + "{get;set;}";
                         break;
                     }
                 case DbType.Decimal:
                     {
-                        response = "decimal " + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
+                        response = "decimal " + field.Name + "{get;set;}";
                         break;
                     }
                 case DbType.Double:
                     {
-                        response = "double " + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + "{get;set;}";
+                        response = "double " + field.Name + "{get;set;}";
                         break;
                     }
             }
@@ -142,42 +142,42 @@ namespace Codenesium.GenerationLibrary.Generation.Helpers
                 case DbType.AnsiStringFixedLength:
                 case DbType.String:
                     {
-                        response = "public string " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
+                        response = "public string " +name+ "{get; set;}";
                         break;
                     }
                 case DbType.DateTime:
                     {
-                        response = "public DateTime? " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
+                        response = "public DateTime? " +name+ "{get; set;}";
                         break;
                     }
                 case DbType.Binary:
                     {
-                        response = "public TimeSpan? " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
+                        response = "public TimeSpan? " +name+ "{get; set;}";
                         break;
                     }
                 case DbType.Int32:
                     {
-                        response = "public int " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
+                        response = "public int " +name+ "{get; set;}";
                         break;
                     }
                 case DbType.Int64:
                     {
-                        response = "public long " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
+                        response = "public long " +name+ "{get; set;}";
                         break;
                     }
                 case DbType.Boolean:
                     {
-                        response = "public bool " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
+                        response = "public bool " +name+ "{get; set;}";
                         break;
                     }
                 case DbType.Decimal:
                     {
-                        response = "public decimal " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
+                        response = "public decimal " +name+ "{get; set;}";
                         break;
                     }
                 case DbType.Double:
                     {
-                        response = "public double " + CommonHelper.ConvertUnderscoreToCamelCase(name) + "{get;private set;}";
+                        response = "public double " +name+ "{get; set;}";
                         break;
                     }
                 default:
@@ -303,32 +303,58 @@ namespace Codenesium.GenerationLibrary.Generation.Helpers
         }
 
 
-        public static string GenerateFieldAssignments(List<Interfaces.IDatabaseField> fields, string recordName, string queryName)
+        public static string GenerateFieldAssignments(List<GenerationParameter> fields, string leftObject, string rightObject,bool uppercaseLeftField,bool upperCaseRightField)
         {
             string response = String.Empty;
-            foreach (Interfaces.IDatabaseField field in fields)
+            foreach (GenerationParameter field in fields)
             {
-                if (field.Name.ToUpper() == "RECORDSTATUS")
+
+                string leftField = String.Empty;
+                string rightField = String.Empty;
+
+                leftField  = field.Name;
+                rightField = field.Name;
+
+                if(uppercaseLeftField)
                 {
-                    continue;
+                    leftField = leftField.ToUpperCaseFirstLeter();
                 }
-                response += GenerateFieldAssignment(field, recordName, queryName) + ";" + Environment.NewLine;
+                if(upperCaseRightField)
+                {
+                   rightField = rightField.ToUpperCaseFirstLeter();
+                }
+
+                response += GenerateFieldAssignment(leftField, rightField, leftObject, rightObject) + ";" + Environment.NewLine;
             }
             return response;
         }
 
-        public static string GenerateFieldAssignment(Interfaces.IDatabaseField field, string recordName, string queryName)
+        public static string GenerateFieldAssignment(string leftFieldName,string rightFieldName, string leftObject, string rightObject)
         {
-            string response = String.Empty;
-            switch (field.FieldType)
+
+            string processedLeftSide = String.Empty;
+
+            string processedRightSide = String.Empty;
+            if(String.IsNullOrEmpty(leftObject))
             {
-                default:
-                    {
-                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = " + queryName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name);
-                        break;
-                    }
+                processedLeftSide = leftFieldName;
             }
-            return response;
+            else
+            {
+                processedLeftSide = leftObject + "." + leftFieldName;
+            }
+
+            if (String.IsNullOrEmpty(rightObject))
+            {
+                processedRightSide = rightFieldName;
+            }
+            else
+            {
+                processedRightSide = rightObject + "." + rightFieldName;
+            }
+
+            return processedLeftSide + " = " + processedRightSide;
+
 
         }
 
@@ -353,7 +379,7 @@ namespace Codenesium.GenerationLibrary.Generation.Helpers
             {
                 default:
                     {
-                        response = recordName + "." +   field.Name + " = " + queryName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name);
+                        response = recordName + "." +   field.Name + " = " + queryName + "." + field.Name;
                         break;
                     }
             }
@@ -382,52 +408,52 @@ namespace Codenesium.GenerationLibrary.Generation.Helpers
             {
                 case DbType.String:
                     {
-                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (string)" + queryName + "." + field.Name;
+                        response = recordName + "." + field.Name + " = (string)" + queryName + "." + field.Name;
                         break;
                     }
                 case DbType.DateTime:
                     {
-                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = " + queryName + "." + field.Name;
+                        response = recordName + "." + field.Name + " = " + queryName + "." + field.Name;
                         break;
                     }
                 case DbType.Binary:
                     {
-                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (TimeSpan)" + queryName + "." + field.Name;
+                        response = recordName + "." + field.Name + " = (TimeSpan)" + queryName + "." + field.Name;
                         break;
                     }
                 case DbType.Int32:
                     {
-                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (int)" + queryName + "." + field.Name;
+                        response = recordName + "." + field.Name + " = (int)" + queryName + "." + field.Name;
                         break;
                     }
                 case DbType.Int64:
                     {
-                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (long)" + queryName + "." + field.Name;
+                        response = recordName + "." + field.Name + " = (long)" + queryName + "." + field.Name;
                         break;
                     }
                 case DbType.Boolean:
                     {
-                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = Convert.ToBoolean(" + queryName + "." + field.Name;
+                        response = recordName + "." + field.Name + " = Convert.ToBoolean(" + queryName + "." + field.Name;
                         break;
                     }
                 case DbType.Decimal:
                     {
-                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (decimal)" + queryName + "." + field.Name;
+                        response = recordName + "." + field.Name + " = (decimal)" + queryName + "." + field.Name;
                         break;
                     }
                 case DbType.Double:
                     {
-                        response = recordName + "." + CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (double)" + queryName + "." + field.Name;
+                        response = recordName + "." + field.Name + " = (double)" + queryName + "." + field.Name;
                         break;
                     }
             }
             return response;
         }
 
-        public static string GenerateFieldAssignmentsSimple(List<Interfaces.IDatabaseField> fields, string recordName)
+        public static string GenerateFieldAssignmentsSimple(List<GenerationParameter> fields, string recordName)
         {
             string response = String.Empty;
-            foreach (Interfaces.IDatabaseField field in fields)
+            foreach (GenerationParameter field in fields)
             {
                 if (field.Name.ToUpper() == "RECORDSTATUS")
                 {
@@ -438,9 +464,10 @@ namespace Codenesium.GenerationLibrary.Generation.Helpers
             return response;
         }
 
-        public static string GenerateFieldAssignmentSimple(Interfaces.IDatabaseField field, string recordName)
+
+        public static string GenerateFieldAssignmentSimple(GenerationParameter field, string recordName)
         {
-            return recordName + "." + field.Name + " = " + CommonHelper.ConvertUnderscoreToCamelCase(field.Name);
+            return recordName + "." + field.Name + " = " + field.Name;
         }
 
         public static string GenerateSQLinqFields(List<Interfaces.IDatabaseField> fields, string tableName)
@@ -470,42 +497,42 @@ namespace Codenesium.GenerationLibrary.Generation.Helpers
             {
                 case DbType.String:
                     {
-                        response = CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (string)" + LinqAbbreviation(tableName) + "." + field.Name + @" ?? """"";
+                        response = field.Name + " = (string)" + LinqAbbreviation(tableName) + "." + field.Name + @" ?? """"";
                         break;
                     }
                 case DbType.DateTime:
                     {
-                        response = CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (DateTime)" + LinqAbbreviation(tableName) + "." + field.Name;
+                        response = field.Name + " = (DateTime)" + LinqAbbreviation(tableName) + "." + field.Name;
                         break;
                     }
                 case DbType.Binary:
                     {
-                        response = CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (TimeSpan)" + LinqAbbreviation(tableName) + "." + field.Name;
+                        response = field.Name + " = (TimeSpan)" + LinqAbbreviation(tableName) + "." + field.Name;
                         break;
                     }
                 case DbType.Int32:
                     {
-                        response = CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (int)" + LinqAbbreviation(tableName) + "." + field.Name;
+                        response = field.Name + " = (int)" + LinqAbbreviation(tableName) + "." + field.Name;
                         break;
                     }
                 case DbType.Int64:
                     {
-                        response = CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (long)" + LinqAbbreviation(tableName) + "." + field.Name;
+                        response = field.Name + " = (long)" + LinqAbbreviation(tableName) + "." + field.Name;
                         break;
                     }
                 case DbType.Boolean:
                     {
-                        response = CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = Convert.ToBoolean(" + LinqAbbreviation(tableName) + "." + field.Name + @")";
+                        response = field.Name + " = Convert.ToBoolean(" + LinqAbbreviation(tableName) + "." + field.Name + @")";
                         break;
                     }
                 case DbType.Decimal:
                     {
-                        response = CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (decimal)" + LinqAbbreviation(tableName) + "." + field.Name;
+                        response = field.Name + " = (decimal)" + LinqAbbreviation(tableName) + "." + field.Name;
                         break;
                     }
                 case DbType.Double:
                     {
-                        response = CommonHelper.ConvertUnderscoreToCamelCase(field.Name) + " = (double)" + LinqAbbreviation(tableName) + "." + field.Name;
+                        response = field.Name + " = (double)" + LinqAbbreviation(tableName) + "." + field.Name;
                         break;
                     }
             }

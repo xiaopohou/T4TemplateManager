@@ -11,16 +11,7 @@
             <children />
           </root>
         </parameterTree>
-        <parameters>
-          <parameter>
-            <key>toAddress</key>
-            <value>user@gmail.com</value>
-          </parameter>
-          <parameter>
-            <key>OutputDirectory</key>
-            <value>\\vmware-host\Shared Folders\Dropbox\Projects 2.0\Git\TemplateManager\TemplateManager\bin\Debug\projects\Email test\Output</value>
-          </parameter>
-        </parameters>
+        <parameters />
       </projectTemplate>
     </projectTemplates>
   </project>

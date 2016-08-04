@@ -42,7 +42,6 @@ namespace <#= CLASSNAMESPACE #>
     public interface <#= INTERFACENAME #>
     {
 <#string intefaceProperties = String.Empty;
-		intefaceProperties += "        public Guid InternalId{get;set;}" + Environment.NewLine;
 		for( int i =0;i < storedProcFieldList.Count; i++)
 		{
 			DbType interfaceFieldType = Codenesium.GenerationLibrary.Database.MSSQL.ParseType(storedProcFieldList[i].DataType);

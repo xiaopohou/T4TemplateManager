@@ -319,7 +319,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GenerationLibrary\GenerationLibrary\GenerationLibrary.csproj">
+    <ProjectReference Include="..\GenerationLibrary\GenerationLibrary.csproj">
       <Project>{2906dbd8-ff3b-4cef-89a3-37d0d9963716}</Project>
       <Name>GenerationLibrary</Name>
     </ProjectReference>

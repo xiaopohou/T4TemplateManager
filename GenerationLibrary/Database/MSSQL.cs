@@ -37,7 +37,7 @@ namespace Codenesium.GenerationLibrary.Database
                     this.ConnectionTestResult = true;
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 this.ConnectionTestResult = false;
             }
